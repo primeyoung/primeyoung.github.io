@@ -1,0 +1,2718 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head >
+    <title>Leafage 诞生记（五、nuxt.js 页面初始化加载优化）</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width, initial-scale=1"><meta data-n-head="ssr" name="google-site-verification" content="_2Z6I2Wl5xuTKIGRrCD3meIZDgfn_XFVrTv1tKeJ6v8"><meta data-n-head="ssr" name="msvalidate.01" content="E02DDF417CA7C7D33A55805B3E9A81C7"><meta data-n-head="ssr" name="baidu-site-verification" content="code-7cRwEMlHAr"><meta data-n-head="ssr" data-hid="description" name="description" content="近日，对于leafage 网站进行了一些测验和优化，主要内容包括首页加载耗时，seo的一些主要的优化"><meta data-n-head="ssr" data-hid="keywords" name="keywords" content="leafage,nuxt.js,async,promise,axios,优化"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="favicon.ico" tppabs="https://www.leafage.top/favicon.ico"><link data-n-head="ssr" rel="preconnect" href="https://www.google-analytics.com"><link data-n-head="ssr" rel="canonical" href="https://www.leafage.top/posts/detail/21328R4IT"><script data-n-head="ssr" src="hm.js-afb964e86bcad4267c09806a48c3ccbd.js" tppabs="https://hm.baidu.com/hm.js?afb964e86bcad4267c09806a48c3ccbd"></script><link rel="preload" href="/_nuxt/2dcea8e.js" as="script"><link rel="preload" href="/_nuxt/6a18bf6.js" as="script"><link rel="preload" href="/_nuxt/b1b6c93.js" as="script"><link rel="preload" href="/_nuxt/5f999ff.js" as="script"><link rel="preload" href="/_nuxt/6c4e3a2.js" as="script"><link rel="preload" href="/_nuxt/1318273.js" as="script"><style data-vue-ssr-id="54b08540:0 53f61d5f:0">/*! tailwindcss v2.1.2 | MIT License | https://tailwindcss.com*/
+
+/*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+
+/*
+Document
+========
+*/
+
+/**
+Use a better box model (opinionated).
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/**
+Use a more readable tab size (opinionated).
+*/
+
+:root {
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+     tab-size: 4;
+}
+
+/**
+1. Correct the line height in all browsers.
+2. Prevent adjustments of font size after orientation changes in iOS.
+*/
+
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/*
+Sections
+========
+*/
+
+/**
+Remove the margin in all browsers.
+*/
+
+body {
+  margin: 0;
+}
+
+/**
+Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
+*/
+
+body {
+  font-family:
+		system-ui,
+		-apple-system, /* Firefox supports this but not yet `system-ui` */
+		'Segoe UI',
+		Roboto,
+		Helvetica,
+		Arial,
+		sans-serif,
+		'Apple Color Emoji',
+		'Segoe UI Emoji';
+}
+
+/*
+Grouping content
+================
+*/
+
+/**
+1. Add the correct height in Firefox.
+2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+*/
+
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+}
+
+/*
+Text-level semantics
+====================
+*/
+
+/**
+Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+abbr[title] {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+
+/**
+Add the correct font weight in Edge and Safari.
+*/
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+1. Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
+2. Correct the odd 'em' font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+  font-family:
+		ui-monospace,
+		SFMono-Regular,
+		Consolas,
+		'Liberation Mono',
+		Menlo,
+		monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+Add the correct font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+
+/**
+Prevent 'sub' and 'sup' elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+Tabular data
+============
+*/
+
+/**
+1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+*/
+
+table {
+  text-indent: 0; /* 1 */
+  border-color: inherit; /* 2 */
+}
+
+/*
+Forms
+=====
+*/
+
+/**
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+Remove the inheritance of text transform in Edge and Firefox.
+1. Remove the inheritance of text transform in Firefox.
+*/
+
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+/**
+Correct the inability to style clickable types in iOS and Safari.
+*/
+
+button,
+[type='button'],
+[type='submit'] {
+  -webkit-appearance: button;
+}
+
+/**
+Remove the inner border and padding in Firefox.
+*/
+
+/**
+Restore the focus styles unset by the previous rule.
+*/
+
+/**
+Remove the additional ':invalid' styles in Firefox.
+See: https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737
+*/
+
+/**
+Remove the padding so developers are not caught out when they zero out 'fieldset' elements in all browsers.
+*/
+
+legend {
+  padding: 0;
+}
+
+/**
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+/**
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+[type='search'] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+/**
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to 'inherit' in Safari.
+*/
+
+/*
+Interactive
+===========
+*/
+
+/*
+Add the correct display in Chrome and Safari.
+*/
+
+summary {
+  display: list-item;
+}
+
+/**
+ * Manually forked from SUIT CSS Base: https://github.com/suitcss/base
+ * A thin layer on top of normalize.css that provides a starting point more
+ * suitable for web applications.
+ */
+
+/**
+ * Removes the default spacing and border for appropriate elements.
+ */
+
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+button {
+  background-color: transparent;
+  background-image: none;
+}
+
+/**
+ * Work around a Firefox/IE bug where the transparent `button` background
+ * results in a loss of the default `button` focus styles.
+ */
+
+button:focus {
+  outline: 1px dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Tailwind custom reset styles
+ */
+
+/**
+ * 1. Use the user's configured `sans` font-family (with Tailwind's default
+ *    sans-serif font stack as a fallback) as a sane default.
+ * 2. Use Tailwind's default "normal" line-height so the user isn't forced
+ *    to override it to ensure consistency even when using the default theme.
+ */
+
+html {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 1 */
+  line-height: 1.5; /* 2 */
+}
+
+/**
+ * Inherit font-family and line-height from `html` so users can set them as
+ * a class directly on the `html` element.
+ */
+
+body {
+  font-family: inherit;
+  line-height: inherit;
+}
+
+/**
+ * 1. Prevent padding and border from affecting element width.
+ *
+ *    We used to set this in the html element and inherit from
+ *    the parent element for everything else. This caused issues
+ *    in shadow-dom-enhanced elements like <details> where the content
+ *    is wrapped by a div with box-sizing set to `content-box`.
+ *
+ *    https://github.com/mozdevs/cssremedy/issues/4
+ *
+ *
+ * 2. Allow adding a border to an element by just adding a border-width.
+ *
+ *    By default, the way the browser specifies that an element should have no
+ *    border is by setting it's border-style to `none` in the user-agent
+ *    stylesheet.
+ *
+ *    In order to easily add borders to elements by just setting the `border-width`
+ *    property, we change the default border-style for all elements to `solid`, and
+ *    use border-width to hide them instead. This way our `border` utilities only
+ *    need to set the `border-width` property instead of the entire `border`
+ *    shorthand, making our border utilities much more straightforward to compose.
+ *
+ *    https://github.com/tailwindcss/tailwindcss/pull/116
+ */
+
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: #e5e7eb; /* 2 */
+}
+
+/*
+ * Ensure horizontal rules are visible by default
+ */
+
+hr {
+  border-top-width: 1px;
+}
+
+/**
+ * Undo the `border-style: none` reset that Normalize applies to images so that
+ * our `border-{width}` utilities have the expected effect.
+ *
+ * The Normalize reset is unnecessary for us since we default the border-width
+ * to 0 on all elements.
+ *
+ * https://github.com/tailwindcss/tailwindcss/issues/362
+ */
+
+img {
+  border-style: solid;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/**
+ * Reset links to optimize for opt-in styling instead of
+ * opt-out.
+ */
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/**
+ * Reset form element properties that are easy to forget to
+ * style explicitly so you don't inadvertently introduce
+ * styles that deviate from your design system. These styles
+ * supplement a partial reset that is already applied by
+ * normalize.css.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  padding: 0;
+  line-height: inherit;
+  color: inherit;
+}
+
+/**
+ * Use the configured 'mono' font family for elements that
+ * are expected to be rendered with a monospace font, falling
+ * back to the system monospace stack if there is no configured
+ * 'mono' font family.
+ */
+
+pre,
+code,
+kbd,
+samp {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/**
+ * Make replaced elements `display: block` by default as that's
+ * the behavior you want almost all of the time. Inspired by
+ * CSS Remedy, with `svg` added as well.
+ *
+ * https://github.com/mozdevs/cssremedy/issues/14
+ */
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+/**
+ * Constrain images and videos to the parent width and preserve
+ * their intrinsic aspect ratio.
+ *
+ * https://github.com/mozdevs/cssremedy/issues/14
+ */
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.container{
+  width:100%;
+}
+
+@media (min-width: 640px){
+  .container{
+    max-width:640px;
+  }
+}
+
+@media (min-width: 768px){
+  .container{
+    max-width:768px;
+  }
+}
+
+@media (min-width: 1024px){
+  .container{
+    max-width:1024px;
+  }
+}
+
+@media (min-width: 1280px){
+  .container{
+    max-width:1280px;
+  }
+}
+
+@media (min-width: 1536px){
+  .container{
+    max-width:1536px;
+  }
+}
+
+.prose{
+  color:#374151;
+  max-width:65ch;
+}
+
+.prose [class~="lead"]{
+  color:#4b5563;
+  font-size:1.25em;
+  line-height:1.6;
+  margin-top:1.2em;
+  margin-bottom:1.2em;
+}
+
+.prose a{
+  color:#111827;
+  text-decoration:underline;
+  font-weight:500;
+}
+
+.prose strong{
+  color:#111827;
+  font-weight:600;
+}
+
+.prose ol[type="a"]{
+  --list-counter-style:lower-alpha;
+}
+
+.prose ol[type="a" s]{
+  --list-counter-style:lower-alpha;
+}
+
+.prose ol[type="i"]{
+  --list-counter-style:lower-roman;
+}
+
+.prose ol[type="i" s]{
+  --list-counter-style:lower-roman;
+}
+
+.prose ol[type="1"]{
+  --list-counter-style:decimal;
+}
+
+.prose ol > li{
+  position:relative;
+  padding-left:1.75em;
+}
+
+.prose ol > li::before{
+  content:counter(list-item, var(--list-counter-style, decimal)) ".";
+  position:absolute;
+  font-weight:400;
+  color:#6b7280;
+  left:0;
+}
+
+.prose ul > li{
+  position:relative;
+  padding-left:1.75em;
+}
+
+.prose ul > li::before{
+  content:"";
+  position:absolute;
+  background-color:#d1d5db;
+  border-radius:50%;
+  width:0.375em;
+  height:0.375em;
+  top:calc(0.875em - 0.1875em);
+  left:0.25em;
+}
+
+.prose hr{
+  border-color:#e5e7eb;
+  border-top-width:1px;
+  margin-top:3em;
+  margin-bottom:3em;
+}
+
+.prose blockquote{
+  font-weight:500;
+  font-style:italic;
+  color:#111827;
+  border-left-width:0.25rem;
+  border-left-color:#e5e7eb;
+  quotes:"\201C""\201D""\2018""\2019";
+  margin-top:1.6em;
+  margin-bottom:1.6em;
+  padding-left:1em;
+}
+
+.prose blockquote p:first-of-type::before{
+  content:open-quote;
+}
+
+.prose blockquote p:last-of-type::after{
+  content:close-quote;
+}
+
+.prose h1{
+  color:#111827;
+  font-weight:800;
+  font-size:2.25em;
+  margin-top:0;
+  margin-bottom:0.8888889em;
+  line-height:1.1111111;
+}
+
+.prose h2{
+  color:#111827;
+  font-weight:700;
+  font-size:1.5em;
+  margin-top:2em;
+  margin-bottom:1em;
+  line-height:1.3333333;
+}
+
+.prose h3{
+  color:#111827;
+  font-weight:600;
+  font-size:1.25em;
+  margin-top:1.6em;
+  margin-bottom:0.6em;
+  line-height:1.6;
+}
+
+.prose h4{
+  color:#111827;
+  font-weight:600;
+  margin-top:1.5em;
+  margin-bottom:0.5em;
+  line-height:1.5;
+}
+
+.prose figure figcaption{
+  color:#6b7280;
+  font-size:0.875em;
+  line-height:1.4285714;
+  margin-top:0.8571429em;
+}
+
+.prose code{
+  color:#111827;
+  font-weight:600;
+  font-size:0.875em;
+}
+
+.prose code::before{
+  content:"`";
+}
+
+.prose code::after{
+  content:"`";
+}
+
+.prose a code{
+  color:#111827;
+}
+
+.prose pre{
+  color:#e5e7eb;
+  background-color:#1f2937;
+  overflow-x:auto;
+  font-size:0.875em;
+  line-height:1.7142857;
+  margin-top:1.7142857em;
+  margin-bottom:1.7142857em;
+  border-radius:0.375rem;
+  padding-top:0.8571429em;
+  padding-right:1.1428571em;
+  padding-bottom:0.8571429em;
+  padding-left:1.1428571em;
+}
+
+.prose pre code{
+  background-color:transparent;
+  border-width:0;
+  border-radius:0;
+  padding:0;
+  font-weight:400;
+  color:inherit;
+  font-size:inherit;
+  font-family:inherit;
+  line-height:inherit;
+}
+
+.prose pre code::before{
+  content:none;
+}
+
+.prose pre code::after{
+  content:none;
+}
+
+.prose table{
+  width:100%;
+  table-layout:auto;
+  text-align:left;
+  margin-top:2em;
+  margin-bottom:2em;
+  font-size:0.875em;
+  line-height:1.7142857;
+}
+
+.prose thead{
+  color:#111827;
+  font-weight:600;
+  border-bottom-width:1px;
+  border-bottom-color:#d1d5db;
+}
+
+.prose thead th{
+  vertical-align:bottom;
+  padding-right:0.5714286em;
+  padding-bottom:0.5714286em;
+  padding-left:0.5714286em;
+}
+
+.prose tbody tr{
+  border-bottom-width:1px;
+  border-bottom-color:#e5e7eb;
+}
+
+.prose tbody tr:last-child{
+  border-bottom-width:0;
+}
+
+.prose tbody td{
+  vertical-align:top;
+  padding-top:0.5714286em;
+  padding-right:0.5714286em;
+  padding-bottom:0.5714286em;
+  padding-left:0.5714286em;
+}
+
+.prose{
+  font-size:1rem;
+  line-height:1.75;
+}
+
+.prose p{
+  margin-top:1.25em;
+  margin-bottom:1.25em;
+}
+
+.prose img{
+  margin-top:2em;
+  margin-bottom:2em;
+}
+
+.prose video{
+  margin-top:2em;
+  margin-bottom:2em;
+}
+
+.prose figure{
+  margin-top:2em;
+  margin-bottom:2em;
+}
+
+.prose figure > *{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+.prose h2 code{
+  font-size:0.875em;
+}
+
+.prose h3 code{
+  font-size:0.9em;
+}
+
+.prose ol{
+  margin-top:1.25em;
+  margin-bottom:1.25em;
+}
+
+.prose ul{
+  margin-top:1.25em;
+  margin-bottom:1.25em;
+}
+
+.prose li{
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+}
+
+.prose > ul > li p{
+  margin-top:0.75em;
+  margin-bottom:0.75em;
+}
+
+.prose > ul > li > *:first-child{
+  margin-top:1.25em;
+}
+
+.prose > ul > li > *:last-child{
+  margin-bottom:1.25em;
+}
+
+.prose > ol > li > *:first-child{
+  margin-top:1.25em;
+}
+
+.prose > ol > li > *:last-child{
+  margin-bottom:1.25em;
+}
+
+.prose ul ul, .prose ul ol, .prose ol ul, .prose ol ol{
+  margin-top:0.75em;
+  margin-bottom:0.75em;
+}
+
+.prose hr + *{
+  margin-top:0;
+}
+
+.prose h2 + *{
+  margin-top:0;
+}
+
+.prose h3 + *{
+  margin-top:0;
+}
+
+.prose h4 + *{
+  margin-top:0;
+}
+
+.prose thead th:first-child{
+  padding-left:0;
+}
+
+.prose thead th:last-child{
+  padding-right:0;
+}
+
+.prose tbody td:first-child{
+  padding-left:0;
+}
+
+.prose tbody td:last-child{
+  padding-right:0;
+}
+
+.prose > :first-child{
+  margin-top:0;
+}
+
+.prose > :last-child{
+  margin-bottom:0;
+}
+
+.prose-sm{
+  font-size:0.875rem;
+  line-height:1.7142857;
+}
+
+.prose-sm p{
+  margin-top:1.1428571em;
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm [class~="lead"]{
+  font-size:1.2857143em;
+  line-height:1.5555556;
+  margin-top:0.8888889em;
+  margin-bottom:0.8888889em;
+}
+
+.prose-sm blockquote{
+  margin-top:1.3333333em;
+  margin-bottom:1.3333333em;
+  padding-left:1.1111111em;
+}
+
+.prose-sm h1{
+  font-size:2.1428571em;
+  margin-top:0;
+  margin-bottom:0.8em;
+  line-height:1.2;
+}
+
+.prose-sm h2{
+  font-size:1.4285714em;
+  margin-top:1.6em;
+  margin-bottom:0.8em;
+  line-height:1.4;
+}
+
+.prose-sm h3{
+  font-size:1.2857143em;
+  margin-top:1.5555556em;
+  margin-bottom:0.4444444em;
+  line-height:1.5555556;
+}
+
+.prose-sm h4{
+  margin-top:1.4285714em;
+  margin-bottom:0.5714286em;
+  line-height:1.4285714;
+}
+
+.prose-sm img{
+  margin-top:1.7142857em;
+  margin-bottom:1.7142857em;
+}
+
+.prose-sm video{
+  margin-top:1.7142857em;
+  margin-bottom:1.7142857em;
+}
+
+.prose-sm figure{
+  margin-top:1.7142857em;
+  margin-bottom:1.7142857em;
+}
+
+.prose-sm figure > *{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+.prose-sm figure figcaption{
+  font-size:0.8571429em;
+  line-height:1.3333333;
+  margin-top:0.6666667em;
+}
+
+.prose-sm code{
+  font-size:0.8571429em;
+}
+
+.prose-sm h2 code{
+  font-size:0.9em;
+}
+
+.prose-sm h3 code{
+  font-size:0.8888889em;
+}
+
+.prose-sm pre{
+  font-size:0.8571429em;
+  line-height:1.6666667;
+  margin-top:1.6666667em;
+  margin-bottom:1.6666667em;
+  border-radius:0.25rem;
+  padding-top:0.6666667em;
+  padding-right:1em;
+  padding-bottom:0.6666667em;
+  padding-left:1em;
+}
+
+.prose-sm ol{
+  margin-top:1.1428571em;
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm ul{
+  margin-top:1.1428571em;
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm li{
+  margin-top:0.2857143em;
+  margin-bottom:0.2857143em;
+}
+
+.prose-sm ol > li{
+  padding-left:1.5714286em;
+}
+
+.prose-sm ol > li::before{
+  left:0;
+}
+
+.prose-sm ul > li{
+  padding-left:1.5714286em;
+}
+
+.prose-sm ul > li::before{
+  height:0.3571429em;
+  width:0.3571429em;
+  top:calc(0.8571429em - 0.1785714em);
+  left:0.2142857em;
+}
+
+.prose-sm > ul > li p{
+  margin-top:0.5714286em;
+  margin-bottom:0.5714286em;
+}
+
+.prose-sm > ul > li > *:first-child{
+  margin-top:1.1428571em;
+}
+
+.prose-sm > ul > li > *:last-child{
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm > ol > li > *:first-child{
+  margin-top:1.1428571em;
+}
+
+.prose-sm > ol > li > *:last-child{
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm ul ul, .prose-sm ul ol, .prose-sm ol ul, .prose-sm ol ol{
+  margin-top:0.5714286em;
+  margin-bottom:0.5714286em;
+}
+
+.prose-sm hr{
+  margin-top:2.8571429em;
+  margin-bottom:2.8571429em;
+}
+
+.prose-sm hr + *{
+  margin-top:0;
+}
+
+.prose-sm h2 + *{
+  margin-top:0;
+}
+
+.prose-sm h3 + *{
+  margin-top:0;
+}
+
+.prose-sm h4 + *{
+  margin-top:0;
+}
+
+.prose-sm table{
+  font-size:0.8571429em;
+  line-height:1.5;
+}
+
+.prose-sm thead th{
+  padding-right:1em;
+  padding-bottom:0.6666667em;
+  padding-left:1em;
+}
+
+.prose-sm thead th:first-child{
+  padding-left:0;
+}
+
+.prose-sm thead th:last-child{
+  padding-right:0;
+}
+
+.prose-sm tbody td{
+  padding-top:0.6666667em;
+  padding-right:1em;
+  padding-bottom:0.6666667em;
+  padding-left:1em;
+}
+
+.prose-sm tbody td:first-child{
+  padding-left:0;
+}
+
+.prose-sm tbody td:last-child{
+  padding-right:0;
+}
+
+.prose-sm > :first-child{
+  margin-top:0;
+}
+
+.prose-sm > :last-child{
+  margin-bottom:0;
+}
+
+.space-x-2 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse:0;
+  margin-right:calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-6 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse:0;
+  margin-right:calc(1.5rem * var(--tw-space-x-reverse));
+  margin-left:calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-10 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse:0;
+  margin-right:calc(2.5rem * var(--tw-space-x-reverse));
+  margin-left:calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.divide-y-2 > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-y-reverse:0;
+  border-top-width:calc(2px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width:calc(2px * var(--tw-divide-y-reverse));
+}
+
+.divide-y > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-y-reverse:0;
+  border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width:calc(1px * var(--tw-divide-y-reverse));
+}
+
+.divide-black > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-opacity:1;
+  border-color:rgba(0, 0, 0, var(--tw-divide-opacity));
+}
+
+.divide-gray-300 > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-opacity:1;
+  border-color:rgba(209, 213, 219, var(--tw-divide-opacity));
+}
+
+.divide-gray-400 > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-opacity:1;
+  border-color:rgba(156, 163, 175, var(--tw-divide-opacity));
+}
+
+.divide-dotted > :not([hidden]) ~ :not([hidden]){
+  border-style:dotted;
+}
+
+.bg-black{
+  --tw-bg-opacity:1;
+  background-color:rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+
+.bg-white{
+  --tw-bg-opacity:1;
+  background-color:rgba(255, 255, 255, var(--tw-bg-opacity));
+}
+
+.bg-gray-50{
+  --tw-bg-opacity:1;
+  background-color:rgba(249, 250, 251, var(--tw-bg-opacity));
+}
+
+.bg-gray-100{
+  --tw-bg-opacity:1;
+  background-color:rgba(243, 244, 246, var(--tw-bg-opacity));
+}
+
+.bg-gray-200{
+  --tw-bg-opacity:1;
+  background-color:rgba(229, 231, 235, var(--tw-bg-opacity));
+}
+
+.bg-gray-500{
+  --tw-bg-opacity:1;
+  background-color:rgba(107, 114, 128, var(--tw-bg-opacity));
+}
+
+.bg-gray-800{
+  --tw-bg-opacity:1;
+  background-color:rgba(31, 41, 55, var(--tw-bg-opacity));
+}
+
+.hover\:bg-black:hover{
+  --tw-bg-opacity:1;
+  background-color:rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+
+.bg-opacity-25{
+  --tw-bg-opacity:0.25;
+}
+
+.bg-opacity-80{
+  --tw-bg-opacity:0.8;
+}
+
+.border-black{
+  --tw-border-opacity:1;
+  border-color:rgba(0, 0, 0, var(--tw-border-opacity));
+}
+
+.border-gray-200{
+  --tw-border-opacity:1;
+  border-color:rgba(229, 231, 235, var(--tw-border-opacity));
+}
+
+.border-gray-300{
+  --tw-border-opacity:1;
+  border-color:rgba(209, 213, 219, var(--tw-border-opacity));
+}
+
+.border-gray-700{
+  --tw-border-opacity:1;
+  border-color:rgba(55, 65, 81, var(--tw-border-opacity));
+}
+
+.border-opacity-70{
+  --tw-border-opacity:0.7;
+}
+
+.rounded{
+  border-radius:0.25rem;
+}
+
+.rounded-md{
+  border-radius:0.375rem;
+}
+
+.rounded-full{
+  border-radius:9999px;
+}
+
+.border-solid{
+  border-style:solid;
+}
+
+.border-2{
+  border-width:2px;
+}
+
+.border{
+  border-width:1px;
+}
+
+.border-b-2{
+  border-bottom-width:2px;
+}
+
+.border-t{
+  border-top-width:1px;
+}
+
+.cursor-pointer{
+  cursor:pointer;
+}
+
+.flex{
+  display:flex;
+}
+
+.table{
+  display:table;
+}
+
+.grid{
+  display:grid;
+}
+
+.hidden{
+  display:none;
+}
+
+.items-center{
+  align-items:center;
+}
+
+.justify-end{
+  justify-content:flex-end;
+}
+
+.justify-center{
+  justify-content:center;
+}
+
+.justify-between{
+  justify-content:space-between;
+}
+
+.flex-1{
+  flex:1 1 0%;
+}
+
+.float-right{
+  float:right;
+}
+
+.font-light{
+  font-weight:300;
+}
+
+.font-medium{
+  font-weight:500;
+}
+
+.font-semibold{
+  font-weight:600;
+}
+
+.font-bold{
+  font-weight:700;
+}
+
+.font-extrabold{
+  font-weight:800;
+}
+
+.font-black{
+  font-weight:900;
+}
+
+.h-6{
+  height:1.5rem;
+}
+
+.h-8{
+  height:2rem;
+}
+
+.h-10{
+  height:2.5rem;
+}
+
+.h-16{
+  height:4rem;
+}
+
+.h-20{
+  height:5rem;
+}
+
+.h-28{
+  height:7rem;
+}
+
+.h-32{
+  height:8rem;
+}
+
+.h-40{
+  height:10rem;
+}
+
+.h-44{
+  height:11rem;
+}
+
+.h-48{
+  height:12rem;
+}
+
+.h-64{
+  height:16rem;
+}
+
+.h-72{
+  height:18rem;
+}
+
+.h-auto{
+  height:auto;
+}
+
+.h-full{
+  height:100%;
+}
+
+.text-xs{
+  font-size:0.75rem;
+  line-height:1rem;
+}
+
+.text-sm{
+  font-size:0.875rem;
+  line-height:1.25rem;
+}
+
+.text-lg{
+  font-size:1.125rem;
+  line-height:1.75rem;
+}
+
+.text-xl{
+  font-size:1.25rem;
+  line-height:1.75rem;
+}
+
+.text-3xl{
+  font-size:1.875rem;
+  line-height:2.25rem;
+}
+
+.text-4xl{
+  font-size:2.25rem;
+  line-height:2.5rem;
+}
+
+.text-6xl{
+  font-size:3.75rem;
+  line-height:1;
+}
+
+.leading-8{
+  line-height:2rem;
+}
+
+.leading-relaxed{
+  line-height:1.625;
+}
+
+.list-disc{
+  list-style-type:disc;
+}
+
+.list-decimal{
+  list-style-type:decimal;
+}
+
+.m-2{
+  margin:0.5rem;
+}
+
+.my-2{
+  margin-top:0.5rem;
+  margin-bottom:0.5rem;
+}
+
+.my-3{
+  margin-top:0.75rem;
+  margin-bottom:0.75rem;
+}
+
+.my-4{
+  margin-top:1rem;
+  margin-bottom:1rem;
+}
+
+.mx-4{
+  margin-left:1rem;
+  margin-right:1rem;
+}
+
+.my-6{
+  margin-top:1.5rem;
+  margin-bottom:1.5rem;
+}
+
+.my-8{
+  margin-top:2rem;
+  margin-bottom:2rem;
+}
+
+.my-12{
+  margin-top:3rem;
+  margin-bottom:3rem;
+}
+
+.my-20{
+  margin-top:5rem;
+  margin-bottom:5rem;
+}
+
+.mx-auto{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.-my-2{
+  margin-top:-0.5rem;
+  margin-bottom:-0.5rem;
+}
+
+.mr-1{
+  margin-right:0.25rem;
+}
+
+.mt-2{
+  margin-top:0.5rem;
+}
+
+.mr-2{
+  margin-right:0.5rem;
+}
+
+.mb-2{
+  margin-bottom:0.5rem;
+}
+
+.mt-3{
+  margin-top:0.75rem;
+}
+
+.mt-4{
+  margin-top:1rem;
+}
+
+.mb-4{
+  margin-bottom:1rem;
+}
+
+.ml-4{
+  margin-left:1rem;
+}
+
+.mt-6{
+  margin-top:1.5rem;
+}
+
+.ml-6{
+  margin-left:1.5rem;
+}
+
+.mb-8{
+  margin-bottom:2rem;
+}
+
+.ml-8{
+  margin-left:2rem;
+}
+
+.mt-12{
+  margin-top:3rem;
+}
+
+.mb-12{
+  margin-bottom:3rem;
+}
+
+.mt-48{
+  margin-top:12rem;
+}
+
+.-ml-1{
+  margin-left:-0.25rem;
+}
+
+.-mt-3{
+  margin-top:-0.75rem;
+}
+
+.-ml-4{
+  margin-left:-1rem;
+}
+
+.-ml-10{
+  margin-left:-2.5rem;
+}
+
+.min-w-full{
+  min-width:100%;
+}
+
+.object-cover{
+  -o-object-fit:cover;
+     object-fit:cover;
+}
+
+.outline-none{
+  outline:2px solid transparent;
+  outline-offset:2px;
+}
+
+.focus\:outline-none:focus{
+  outline:2px solid transparent;
+  outline-offset:2px;
+}
+
+.overflow-auto{
+  overflow:auto;
+}
+
+.overflow-hidden{
+  overflow:hidden;
+}
+
+.p-2{
+  padding:0.5rem;
+}
+
+.p-4{
+  padding:1rem;
+}
+
+.p-6{
+  padding:1.5rem;
+}
+
+.p-8{
+  padding:2rem;
+}
+
+.py-2{
+  padding-top:0.5rem;
+  padding-bottom:0.5rem;
+}
+
+.px-2{
+  padding-left:0.5rem;
+  padding-right:0.5rem;
+}
+
+.py-3{
+  padding-top:0.75rem;
+  padding-bottom:0.75rem;
+}
+
+.py-4{
+  padding-top:1rem;
+  padding-bottom:1rem;
+}
+
+.px-4{
+  padding-left:1rem;
+  padding-right:1rem;
+}
+
+.py-8{
+  padding-top:2rem;
+  padding-bottom:2rem;
+}
+
+.px-8{
+  padding-left:2rem;
+  padding-right:2rem;
+}
+
+.py-20{
+  padding-top:5rem;
+  padding-bottom:5rem;
+}
+
+.pt-2{
+  padding-top:0.5rem;
+}
+
+.pl-4{
+  padding-left:1rem;
+}
+
+.placeholder-gray-600::-moz-placeholder{
+  --tw-placeholder-opacity:1;
+  color:rgba(75, 85, 99, var(--tw-placeholder-opacity));
+}
+
+.placeholder-gray-600:-ms-input-placeholder{
+  --tw-placeholder-opacity:1;
+  color:rgba(75, 85, 99, var(--tw-placeholder-opacity));
+}
+
+.placeholder-gray-600::placeholder{
+  --tw-placeholder-opacity:1;
+  color:rgba(75, 85, 99, var(--tw-placeholder-opacity));
+}
+
+.fixed{
+  position:fixed;
+}
+
+.absolute{
+  position:absolute;
+}
+
+.relative{
+  position:relative;
+}
+
+.top-0{
+  top:0px;
+}
+
+.right-0{
+  right:0px;
+}
+
+.bottom-0{
+  bottom:0px;
+}
+
+.bottom-4{
+  bottom:1rem;
+}
+
+.bottom-8{
+  bottom:2rem;
+}
+
+*{
+  --tw-shadow:0 0 #0000;
+}
+
+*{
+  --tw-ring-inset:var(--tw-empty,/*!*/ /*!*/);
+  --tw-ring-offset-width:0px;
+  --tw-ring-offset-color:#fff;
+  --tw-ring-color:rgba(59, 130, 246, 0.5);
+  --tw-ring-offset-shadow:0 0 #0000;
+  --tw-ring-shadow:0 0 #0000;
+}
+
+.focus\:ring-1:focus{
+  --tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.hover\:fill-current:hover{
+  fill:currentColor;
+}
+
+.text-left{
+  text-align:left;
+}
+
+.text-center{
+  text-align:center;
+}
+
+.text-black{
+  --tw-text-opacity:1;
+  color:rgba(0, 0, 0, var(--tw-text-opacity));
+}
+
+.text-white{
+  --tw-text-opacity:1;
+  color:rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.text-gray-400{
+  --tw-text-opacity:1;
+  color:rgba(156, 163, 175, var(--tw-text-opacity));
+}
+
+.text-gray-500{
+  --tw-text-opacity:1;
+  color:rgba(107, 114, 128, var(--tw-text-opacity));
+}
+
+.text-gray-600{
+  --tw-text-opacity:1;
+  color:rgba(75, 85, 99, var(--tw-text-opacity));
+}
+
+.hover\:text-white:hover{
+  --tw-text-opacity:1;
+  color:rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.uppercase{
+  text-transform:uppercase;
+}
+
+.tracking-wide{
+  letter-spacing:0.025em;
+}
+
+.tracking-wider{
+  letter-spacing:0.05em;
+}
+
+.tracking-widest{
+  letter-spacing:0.1em;
+}
+
+.w-6{
+  width:1.5rem;
+}
+
+.w-8{
+  width:2rem;
+}
+
+.w-16{
+  width:4rem;
+}
+
+.w-28{
+  width:7rem;
+}
+
+.w-32{
+  width:8rem;
+}
+
+.w-48{
+  width:12rem;
+}
+
+.w-auto{
+  width:auto;
+}
+
+.w-1\/2{
+  width:50%;
+}
+
+.w-1\/3{
+  width:33.333333%;
+}
+
+.w-full{
+  width:100%;
+}
+
+.z-10{
+  z-index:10;
+}
+
+.gap-4{
+  gap:1rem;
+}
+
+.grid-flow-row{
+  grid-auto-flow:row;
+}
+
+.grid-flow-col{
+  grid-auto-flow:column;
+}
+
+.grid-cols-1{
+  grid-template-columns:repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2{
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3{
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+}
+
+.col-span-1{
+  grid-column:span 1 / span 1;
+}
+
+.col-span-2{
+  grid-column:span 2 / span 2;
+}
+
+.grid-rows-1{
+  grid-template-rows:repeat(1, minmax(0, 1fr));
+}
+
+.grid-rows-2{
+  grid-template-rows:repeat(2, minmax(0, 1fr));
+}
+
+.grid-rows-3{
+  grid-template-rows:repeat(3, minmax(0, 1fr));
+}
+
+.grid-rows-4{
+  grid-template-rows:repeat(4, minmax(0, 1fr));
+}
+
+.grid-rows-6{
+  grid-template-rows:repeat(6, minmax(0, 1fr));
+}
+
+.transform{
+  --tw-translate-x:0;
+  --tw-translate-y:0;
+  --tw-rotate:0;
+  --tw-skew-x:0;
+  --tw-skew-y:0;
+  --tw-scale-x:1;
+  --tw-scale-y:1;
+  transform:translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hover\:scale-110:hover{
+  --tw-scale-x:1.1;
+  --tw-scale-y:1.1;
+}
+
+.hover\:scale-150:hover{
+  --tw-scale-x:1.5;
+  --tw-scale-y:1.5;
+}
+
+.hover\:translate-x-2:hover{
+  --tw-translate-x:0.5rem;
+}
+
+.hover\:-translate-x-2:hover{
+  --tw-translate-x:-0.5rem;
+}
+
+.transition{
+  transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration:150ms;
+}
+
+.duration-300{
+  transition-duration:300ms;
+}
+
+.duration-500{
+  transition-duration:500ms;
+}
+
+@-webkit-keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@-webkit-keyframes ping{
+  75%, 100%{
+    transform:scale(2);
+    opacity:0;
+  }
+}
+
+@keyframes ping{
+  75%, 100%{
+    transform:scale(2);
+    opacity:0;
+  }
+}
+
+@-webkit-keyframes pulse{
+  50%{
+    opacity:.5;
+  }
+}
+
+@keyframes pulse{
+  50%{
+    opacity:.5;
+  }
+}
+
+@-webkit-keyframes bounce{
+  0%, 100%{
+    transform:translateY(-25%);
+    -webkit-animation-timing-function:cubic-bezier(0.8,0,1,1);
+            animation-timing-function:cubic-bezier(0.8,0,1,1);
+  }
+
+  50%{
+    transform:none;
+    -webkit-animation-timing-function:cubic-bezier(0,0,0.2,1);
+            animation-timing-function:cubic-bezier(0,0,0.2,1);
+  }
+}
+
+@keyframes bounce{
+  0%, 100%{
+    transform:translateY(-25%);
+    -webkit-animation-timing-function:cubic-bezier(0.8,0,1,1);
+            animation-timing-function:cubic-bezier(0.8,0,1,1);
+  }
+
+  50%{
+    transform:none;
+    -webkit-animation-timing-function:cubic-bezier(0,0,0.2,1);
+            animation-timing-function:cubic-bezier(0,0,0.2,1);
+  }
+}
+
+@media (min-width: 640px){
+  .sm\:block{
+    display:block;
+  }
+
+  .sm\:h-32{
+    height:8rem;
+  }
+
+  .sm\:my-4{
+    margin-top:1rem;
+    margin-bottom:1rem;
+  }
+
+  .sm\:w-64{
+    width:16rem;
+  }
+}
+
+@media (min-width: 768px){
+  .md\:prose{
+    color:#374151;
+    max-width:65ch;
+  }
+
+  .md\:prose [class~="lead"]{
+    color:#4b5563;
+    font-size:1.25em;
+    line-height:1.6;
+    margin-top:1.2em;
+    margin-bottom:1.2em;
+  }
+
+  .md\:prose a{
+    color:#111827;
+    text-decoration:underline;
+    font-weight:500;
+  }
+
+  .md\:prose strong{
+    color:#111827;
+    font-weight:600;
+  }
+
+  .md\:prose ol[type="a"]{
+    --list-counter-style:lower-alpha;
+  }
+
+  .md\:prose ol[type="a" s]{
+    --list-counter-style:lower-alpha;
+  }
+
+  .md\:prose ol[type="i"]{
+    --list-counter-style:lower-roman;
+  }
+
+  .md\:prose ol[type="i" s]{
+    --list-counter-style:lower-roman;
+  }
+
+  .md\:prose ol[type="1"]{
+    --list-counter-style:decimal;
+  }
+
+  .md\:prose ol > li{
+    position:relative;
+    padding-left:1.75em;
+  }
+
+  .md\:prose ol > li::before{
+    content:counter(list-item, var(--list-counter-style, decimal)) ".";
+    position:absolute;
+    font-weight:400;
+    color:#6b7280;
+    left:0;
+  }
+
+  .md\:prose ul > li{
+    position:relative;
+    padding-left:1.75em;
+  }
+
+  .md\:prose ul > li::before{
+    content:"";
+    position:absolute;
+    background-color:#d1d5db;
+    border-radius:50%;
+    width:0.375em;
+    height:0.375em;
+    top:calc(0.875em - 0.1875em);
+    left:0.25em;
+  }
+
+  .md\:prose hr{
+    border-color:#e5e7eb;
+    border-top-width:1px;
+    margin-top:3em;
+    margin-bottom:3em;
+  }
+
+  .md\:prose blockquote{
+    font-weight:500;
+    font-style:italic;
+    color:#111827;
+    border-left-width:0.25rem;
+    border-left-color:#e5e7eb;
+    quotes:"\201C""\201D""\2018""\2019";
+    margin-top:1.6em;
+    margin-bottom:1.6em;
+    padding-left:1em;
+  }
+
+  .md\:prose blockquote p:first-of-type::before{
+    content:open-quote;
+  }
+
+  .md\:prose blockquote p:last-of-type::after{
+    content:close-quote;
+  }
+
+  .md\:prose h1{
+    color:#111827;
+    font-weight:800;
+    font-size:2.25em;
+    margin-top:0;
+    margin-bottom:0.8888889em;
+    line-height:1.1111111;
+  }
+
+  .md\:prose h2{
+    color:#111827;
+    font-weight:700;
+    font-size:1.5em;
+    margin-top:2em;
+    margin-bottom:1em;
+    line-height:1.3333333;
+  }
+
+  .md\:prose h3{
+    color:#111827;
+    font-weight:600;
+    font-size:1.25em;
+    margin-top:1.6em;
+    margin-bottom:0.6em;
+    line-height:1.6;
+  }
+
+  .md\:prose h4{
+    color:#111827;
+    font-weight:600;
+    margin-top:1.5em;
+    margin-bottom:0.5em;
+    line-height:1.5;
+  }
+
+  .md\:prose figure figcaption{
+    color:#6b7280;
+    font-size:0.875em;
+    line-height:1.4285714;
+    margin-top:0.8571429em;
+  }
+
+  .md\:prose code{
+    color:#111827;
+    font-weight:600;
+    font-size:0.875em;
+  }
+
+  .md\:prose code::before{
+    content:"`";
+  }
+
+  .md\:prose code::after{
+    content:"`";
+  }
+
+  .md\:prose a code{
+    color:#111827;
+  }
+
+  .md\:prose pre{
+    color:#e5e7eb;
+    background-color:#1f2937;
+    overflow-x:auto;
+    font-size:0.875em;
+    line-height:1.7142857;
+    margin-top:1.7142857em;
+    margin-bottom:1.7142857em;
+    border-radius:0.375rem;
+    padding-top:0.8571429em;
+    padding-right:1.1428571em;
+    padding-bottom:0.8571429em;
+    padding-left:1.1428571em;
+  }
+
+  .md\:prose pre code{
+    background-color:transparent;
+    border-width:0;
+    border-radius:0;
+    padding:0;
+    font-weight:400;
+    color:inherit;
+    font-size:inherit;
+    font-family:inherit;
+    line-height:inherit;
+  }
+
+  .md\:prose pre code::before{
+    content:none;
+  }
+
+  .md\:prose pre code::after{
+    content:none;
+  }
+
+  .md\:prose table{
+    width:100%;
+    table-layout:auto;
+    text-align:left;
+    margin-top:2em;
+    margin-bottom:2em;
+    font-size:0.875em;
+    line-height:1.7142857;
+  }
+
+  .md\:prose thead{
+    color:#111827;
+    font-weight:600;
+    border-bottom-width:1px;
+    border-bottom-color:#d1d5db;
+  }
+
+  .md\:prose thead th{
+    vertical-align:bottom;
+    padding-right:0.5714286em;
+    padding-bottom:0.5714286em;
+    padding-left:0.5714286em;
+  }
+
+  .md\:prose tbody tr{
+    border-bottom-width:1px;
+    border-bottom-color:#e5e7eb;
+  }
+
+  .md\:prose tbody tr:last-child{
+    border-bottom-width:0;
+  }
+
+  .md\:prose tbody td{
+    vertical-align:top;
+    padding-top:0.5714286em;
+    padding-right:0.5714286em;
+    padding-bottom:0.5714286em;
+    padding-left:0.5714286em;
+  }
+
+  .md\:prose{
+    font-size:1rem;
+    line-height:1.75;
+  }
+
+  .md\:prose p{
+    margin-top:1.25em;
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose img{
+    margin-top:2em;
+    margin-bottom:2em;
+  }
+
+  .md\:prose video{
+    margin-top:2em;
+    margin-bottom:2em;
+  }
+
+  .md\:prose figure{
+    margin-top:2em;
+    margin-bottom:2em;
+  }
+
+  .md\:prose figure > *{
+    margin-top:0;
+    margin-bottom:0;
+  }
+
+  .md\:prose h2 code{
+    font-size:0.875em;
+  }
+
+  .md\:prose h3 code{
+    font-size:0.9em;
+  }
+
+  .md\:prose ol{
+    margin-top:1.25em;
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose ul{
+    margin-top:1.25em;
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose li{
+    margin-top:0.5em;
+    margin-bottom:0.5em;
+  }
+
+  .md\:prose > ul > li p{
+    margin-top:0.75em;
+    margin-bottom:0.75em;
+  }
+
+  .md\:prose > ul > li > *:first-child{
+    margin-top:1.25em;
+  }
+
+  .md\:prose > ul > li > *:last-child{
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose > ol > li > *:first-child{
+    margin-top:1.25em;
+  }
+
+  .md\:prose > ol > li > *:last-child{
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose ul ul, .md\:prose ul ol, .md\:prose ol ul, .md\:prose ol ol{
+    margin-top:0.75em;
+    margin-bottom:0.75em;
+  }
+
+  .md\:prose hr + *{
+    margin-top:0;
+  }
+
+  .md\:prose h2 + *{
+    margin-top:0;
+  }
+
+  .md\:prose h3 + *{
+    margin-top:0;
+  }
+
+  .md\:prose h4 + *{
+    margin-top:0;
+  }
+
+  .md\:prose thead th:first-child{
+    padding-left:0;
+  }
+
+  .md\:prose thead th:last-child{
+    padding-right:0;
+  }
+
+  .md\:prose tbody td:first-child{
+    padding-left:0;
+  }
+
+  .md\:prose tbody td:last-child{
+    padding-right:0;
+  }
+
+  .md\:prose > :first-child{
+    margin-top:0;
+  }
+
+  .md\:prose > :last-child{
+    margin-bottom:0;
+  }
+
+  .md\:space-x-6 > :not([hidden]) ~ :not([hidden]){
+    --tw-space-x-reverse:0;
+    margin-right:calc(1.5rem * var(--tw-space-x-reverse));
+    margin-left:calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .md\:block{
+    display:block;
+  }
+
+  .md\:flex{
+    display:flex;
+  }
+
+  .md\:hidden{
+    display:none;
+  }
+
+  .md\:justify-start{
+    justify-content:flex-start;
+  }
+
+  .md\:justify-between{
+    justify-content:space-between;
+  }
+
+  .md\:flex-1{
+    flex:1 1 0%;
+  }
+
+  .md\:h-32{
+    height:8rem;
+  }
+
+  .md\:h-40{
+    height:10rem;
+  }
+
+  .md\:h-64{
+    height:16rem;
+  }
+
+  .md\:h-full{
+    height:100%;
+  }
+
+  .md\:text-xl{
+    font-size:1.25rem;
+    line-height:1.75rem;
+  }
+
+  .md\:text-3xl{
+    font-size:1.875rem;
+    line-height:2.25rem;
+  }
+
+  .md\:my-10{
+    margin-top:2.5rem;
+    margin-bottom:2.5rem;
+  }
+
+  .md\:ml-4{
+    margin-left:1rem;
+  }
+
+  .md\:mt-12{
+    margin-top:3rem;
+  }
+
+  .md\:ml-20{
+    margin-left:5rem;
+  }
+
+  .md\:p-6{
+    padding:1.5rem;
+  }
+
+  .md\:p-10{
+    padding:2.5rem;
+  }
+
+  .md\:py-5{
+    padding-top:1.25rem;
+    padding-bottom:1.25rem;
+  }
+
+  .md\:px-8{
+    padding-left:2rem;
+    padding-right:2rem;
+  }
+
+  .md\:px-12{
+    padding-left:3rem;
+    padding-right:3rem;
+  }
+
+  .md\:px-20{
+    padding-left:5rem;
+    padding-right:5rem;
+  }
+
+  .md\:bottom-8{
+    bottom:2rem;
+  }
+
+  .md\:w-1\/2{
+    width:50%;
+  }
+
+  .md\:w-2\/5{
+    width:40%;
+  }
+
+  .md\:w-3\/5{
+    width:60%;
+  }
+
+  .md\:gap-6{
+    gap:1.5rem;
+  }
+
+  .md\:gap-8{
+    gap:2rem;
+  }
+
+  .md\:gap-x-6{
+    -moz-column-gap:1.5rem;
+         column-gap:1.5rem;
+  }
+
+  .md\:grid-cols-2{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-4{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+  }
+
+  .md\:col-span-2{
+    grid-column:span 2 / span 2;
+  }
+
+  .md\:grid-rows-1{
+    grid-template-rows:repeat(1, minmax(0, 1fr));
+  }
+
+  .md\:grid-rows-2{
+    grid-template-rows:repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-rows-3{
+    grid-template-rows:repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:row-span-2{
+    grid-row:span 2 / span 2;
+  }
+}
+
+@media (min-width: 1024px){
+  .lg\:block{
+    display:block;
+  }
+
+  .lg\:flex{
+    display:flex;
+  }
+
+  .lg\:hidden{
+    display:none;
+  }
+
+  .lg\:justify-end{
+    justify-content:flex-end;
+  }
+
+  .lg\:text-3xl{
+    font-size:1.875rem;
+    line-height:2.25rem;
+  }
+
+  .lg\:mr-0{
+    margin-right:0px;
+  }
+
+  .lg\:ml-12{
+    margin-left:3rem;
+  }
+
+  .lg\:px-16{
+    padding-left:4rem;
+    padding-right:4rem;
+  }
+
+  .lg\:px-40{
+    padding-left:10rem;
+    padding-right:10rem;
+  }
+
+  .lg\:text-left{
+    text-align:left;
+  }
+
+  .lg\:gap-8{
+    gap:2rem;
+  }
+
+  .lg\:grid-cols-3{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+
+  .lg\:col-span-2{
+    grid-column:span 2 / span 2;
+  }
+}
+
+@media (min-width: 1280px){
+  .xl\:px-20{
+    padding-left:5rem;
+    padding-right:5rem;
+  }
+
+  .xl\:px-56{
+    padding-left:14rem;
+    padding-right:14rem;
+  }
+
+  .xl\:grid-cols-4{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1536px){
+  .\32xl\:h-48{
+    height:12rem;
+  }
+}
+.nuxt-progress{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:2px;
+  width:0;
+  opacity:1;
+  transition:width .1s,opacity .4s;
+  background-color:#000;
+  z-index:999999
+}
+.nuxt-progress.nuxt-progress-notransition{
+  transition:none
+}
+.nuxt-progress-failed{
+  background-color:red
+}</style>
+  </head>
+  <body >
+    <div data-server-rendered="true" id="__leafage"><!----><div id="__layout"><div id="app"><header><div class="container mx-auto px-2 md:px-12 lg:px-16 xl:px-20"><div class="flex justify-between md:justify-start items-center border-black border-b-2 py-3 md:py-5"><nav class="hidden md:flex space-x-6 tracking-wide text-xs text-black uppercase"><a href="index.htm" tppabs="https://www.leafage.top/" title="home" class="font-extrabold nuxt-link-active">
+          Home
+        </a> <a href="portfolio.htm" tppabs="https://www.leafage.top/portfolio" title="portfolio" class="font-extrabold">
+          Portfolio
+        </a> <a href="about.htm" tppabs="https://www.leafage.top/about" title="about" class="font-extrabold">
+          About
+        </a> <a href="contact.htm" tppabs="https://www.leafage.top/contact" title="contact" class="text-xs font-extrabold uppercase text-black">
+          Contact
+        </a></nav> <div class="-my-2 md:hidden"><button type="button" aria-label="openMenu" class="m-2 items-center justify-center focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="black" aria-hidden="true" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button></div> <div class="flex items-center justify-end md:flex-1"><a title="subscribe" href="#" rel="noopener" aria-label="subscribe" class="text-gray-600 flex items-center uppercase text-xs font-bold tracking-wide"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail mr-1" style="display: unset"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path> <polyline points="22,6 12,13 2,6"></polyline></svg>
+          Subscribe
+        </a> <a title="searchOpen" href="javascript:;" aria-label="searchOpen" class="ml-8 mr-2 lg:mr-0"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle> <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a></div></div> <div class="flex justify-center items-center h-32 md:h-40"><a href="index.htm" tppabs="https://www.leafage.top/" class="text-4xl tracking-widest font-black uppercase text-black nuxt-link-active"><img src="logo-only.png" tppabs="https://www.leafage.top/logo-only.png" alt="Leafage" class="w-16 h-16 mx-auto"> <h1>Leafage</h1></a></div> <div class="px-2 mb-8" style="display:none;"><ul class="divide-y divide-black font-extrabold uppercase text-center"><li class="my-2"><a href="index.htm" tppabs="https://www.leafage.top/" title="home_mobile" class="nuxt-link-active">Home</a></li> <li class="my-2 pt-2"><a href="portfolio.htm" tppabs="https://www.leafage.top/portfolio" title="portfolio_mobile">Portfolio</a></li> <li class="my-2 pt-2"><a href="about.htm" tppabs="https://www.leafage.top/about" title="about_mobile">About</a></li> <li class="my-2 pt-2"><a href="contact.htm" tppabs="https://www.leafage.top/contact" title="contact_mobile">Contact</a></li></ul></div> <div class="fixed bg-black bg-opacity-80 top-0 right-0 w-full h-full z-10" style="display:none;"><div class="conatiner mx-auto px-8 md:px-20 lg:px-40 xl:px-56"><form><div class="flex justify-center items-center mt-48 w-full"><input type="text" placeholder="Enter The Keywords" value="" class="p-2 px-4 w-full -ml-4 focus:outline-none rounded-md"> <button type="submit" aria-label="search" class="-ml-10 focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6d6d6d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle> <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button></div></form> <a title="search" href="javascript:;" class="absolute mt-2 mr-2 top-0 right-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line></svg></a> <ul class="mt-2"><li class="flex items-center bg-gray-50 h-20 rounded-md"><span class="mx-auto">没有找到匹配的结果</span></li></ul></div></div></div></header> <main><div class="container mx-auto px-2 md:px-12 lg:px-16 xl:px-20"><div class="border-t border-black"></div> <div class="grid grid-flow-row grid-cols-1 lg:grid-cols-3 mt-12"><div class="lg:col-span-2"><article><ul class="flex text-sm font-bold space-x-6 text-gray-600 uppercase mb-4 -mt-3"><li><a href="posts-category=Experience.htm" tppabs="https://www.leafage.top/posts?category=Experience" title="Experience">Experience</a></li> <li class="tracking-wider">3/28/2021</li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye mr-1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle></svg>164
+          </li> <li class="flex items-center cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart mr-1 transform hover:scale-150 hover:fill-current transition duration-300"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>0
+          </li></ul> <h2 class="my-3 text-xl md:text-3xl font-extrabold">Leafage 诞生记（五、nuxt.js 页面初始化加载优化）</h2> <figure class="w-full h-full my-8" style="display:;"><img src="highway-4494907_640.jpg" tppabs="https://cdn.leafage.top/highway-4494907_640.jpg" alt="Leafage 诞生记（五、nuxt.js 页面初始化加载优化）" class="w-full"></figure> <div class="prose min-w-full"><p>leafage上线已经有一段日子了，<strong>最近将域名从<a href="javascript:if(confirm(%27https://www.abeille.top/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://www.abeille.top/%27" tppabs="https://www.abeille.top/">abeille.top</a>换到了<a href="index.htm" tppabs="https://www.leafage.top/">leafage.top</a></strong>，之前所做的一些搜索引擎的收录几乎都没有了，虽然abeille.top还保留访问，但是最晚到今年11月就不再用了，目前暂定使用 leafage.top。</p>
+<p>首页是有多个模块的的组件组合而成的，包括：</p>
+<ul>
+<li>hero：最新三条记录</li>
+<li>featured：除过最新的三条之后的记录</li>
+<li>topPosts：访问量最多的三条记录</li>
+<li>postsList：根据创建时间排序的记录</li>
+<li>sidebar：默认排序规则的5条记录</li>
+<li>recommend：最新的6条记录</li>
+</ul>
+<p>在之前呢，每个组件自己请求加载数据，那就会是从页面排版，逐个进行数据请求，这样导致了页面要完成加载就需要等待所有组件的数据请求之后，继续进行渲染，阻塞时间很长，通过speedtest测试，首页阻塞时间达4s之多。</p>
+<p>之前介绍过asyncData()和fetch()都会阻塞页面加载，直到数据加载完成才会继续，那就可以通过减少数据请求时间来缩短页面加载时间。由于之前每个组件都是各自请求数据，所以会按照排版进行顺序渲染组件内容，那也就会顺序发送数据请求接口。</p>
+<p>那么缩短时间的思路就有了，让这些组合的组件数据，同时去请求，那么它阻塞的时间最大限度是多个请求中耗时最长的那个请求的时间，这个顶多在几百毫秒之内。</p>
+<p>然而在看了axios的官方介绍，使用axios.all([method1(), method2()])，并不能在next.js中使用，需要通过Promise.all([method1(), method2()])来实现，同时导出结果通过数组来接收，示例如下：</p>
+<pre class="hljs"><code><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">asyncData</span>(<span class="hljs-params">{ app: { $axios } }</span>)</span> {
+    <span class="hljs-keyword">const</span> [
+      heroDatas,
+      featuredDatas,
+      topDatas,
+      listDatas,
+      recommendDatas,
+    ] = <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+      <span class="hljs-keyword">await</span> $axios.$get(SERVER_URL.posts.concat(<span class="hljs-string">&quot;?page=0&amp;size=3&quot;</span>)),
+      <span class="hljs-keyword">await</span> $axios.$get(SERVER_URL.posts.concat(<span class="hljs-string">&quot;?page=1&amp;size=4&quot;</span>)),
+      <span class="hljs-keyword">await</span> $axios.$get(SERVER_URL.posts.concat(<span class="hljs-string">&quot;?page=0&amp;size=3&amp;order=viewed&quot;</span>)),
+      <span class="hljs-keyword">await</span> $axios.$get(SERVER_URL.posts.concat(<span class="hljs-string">&quot;?page=0&amp;size=10&amp;order=likes&quot;</span>)),
+      <span class="hljs-keyword">await</span> $axios.$get(SERVER_URL.posts.concat(<span class="hljs-string">&quot;?page=0&amp;size=6&amp;order=viewed&quot;</span>)),
+      <span class="hljs-keyword">await</span> $axios.$get(<span class="hljs-string">&quot;/check&quot;</span>),
+    ]);
+    <span class="hljs-keyword">return</span> { heroDatas, featuredDatas, topDatas, listDatas, recommendDatas };
+  },
+</code></pre>
+<p>在完成此项优化后，首页加载速度降到了0.4s，提高了不止一星半点呀。</p>
+</div> <div class="bg-gray-200 my-8 p-8"><ul class="grid grid-flow-row grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 gap-4 text-xs font-bold"><li><a href="21318HYYR.htm" tppabs="https://www.leafage.top/posts/detail/21318HYYR" title="21318HYYR" class="flex items-center transform hover:-translate-x-2 transition duration-500"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>Leafage 诞生记（四、nuxt/content使用限制、如何进行markdown解析并高亮代码块）</a></li> <li class="flex items-center justify-end"><a href="21414BX0U.htm" tppabs="https://www.leafage.top/posts/detail/21414BX0U" title="21414BX0U" class="flex items-center transform hover:translate-x-2 transition duration-500">vue3+typescript上传文件到七牛云
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></a></li></ul></div></article> <div class="my-12"><div class="flex divide-y-2 divide-gray-400 divide-dotted"><h3 class="uppercase font-extrabold">Top Posts</h3> <span class="flex-1 w-full ml-4 mt-3"></span></div> <div class="my-6"><div class="grid grid-flow-row grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-3 gap-4 md:gap-8"><div><div class="overflow-hidden relative"><div class="transform hover:scale-110 transition duration-500"><img src="data-4404730_640.jpg-imageMogr2-thumbnail-640x192-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/data-4404730_640.jpg?imageMogr2/thumbnail/640x192/format/webp/blur/1x0/quality/75" alt="Mybatis批量操作sql写法" class="w-full h-44"></div> <a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology" class="absolute top-0 text-white text-xs font-extrabold uppercase p-4">Technology</a></div> <div><h3 class="font-extrabold my-4 transform hover:translate-x-2 transition duration-500"><a href="20815YW6T.htm" tppabs="https://www.leafage.top/posts/detail/20815YW6T" title="20815YW6T">Mybatis批量操作sql写法</a></h3> <ul class="flex text-xs space-x-6 uppercase text-gray-500"><li>4/10/2021</li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye mr-1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle></svg>634
+                  </li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart mr-1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>10
+                  </li></ul></div></div><div><div class="overflow-hidden relative"><div class="transform hover:scale-110 transition duration-500"><img src="security-869216_640.jpg-imageMogr2-thumbnail-640x192-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/security-869216_640.jpg?imageMogr2/thumbnail/640x192/format/webp/blur/1x0/quality/75" alt="spring security 学习和踩坑总结（入门）" class="w-full h-44"></div> <a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology" class="absolute top-0 text-white text-xs font-extrabold uppercase p-4">Technology</a></div> <div><h3 class="font-extrabold my-4 transform hover:translate-x-2 transition duration-500"><a href="208291JMJ.htm" tppabs="https://www.leafage.top/posts/detail/208291JMJ" title="208291JMJ">spring security 学习和踩坑总结（入门）</a></h3> <ul class="flex text-xs space-x-6 uppercase text-gray-500"><li>4/10/2021</li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye mr-1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle></svg>500
+                  </li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart mr-1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>2
+                  </li></ul></div></div><div><div class="overflow-hidden relative"><div class="transform hover:scale-110 transition duration-500"><img src="password-2781614_640.jpg-imageMogr2-thumbnail-640x192-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/password-2781614_640.jpg?imageMogr2/thumbnail/640x192/format/webp/blur/1x0/quality/75" alt="一步步带你实现redis分布式锁" class="w-full h-44"></div> <a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology" class="absolute top-0 text-white text-xs font-extrabold uppercase p-4">Technology</a></div> <div><h3 class="font-extrabold my-4 transform hover:translate-x-2 transition duration-500"><a href="20824ZB0N.htm" tppabs="https://www.leafage.top/posts/detail/20824ZB0N" title="20824ZB0N">一步步带你实现redis分布式锁</a></h3> <ul class="flex text-xs space-x-6 uppercase text-gray-500"><li>2/2/2021</li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye mr-1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle></svg>460
+                  </li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart mr-1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>7
+                  </li></ul></div></div></div></div></div></div> <aside data-fetch-key="SideBar:0" class="lg:flex lg:justify-end w-full"><div class="lg:ml-12"><div class="border border-solid border-gray-200 p-8"><h3 class="font-extrabold">欢迎关注公众号（Leafage）</h3> <div class="flex items-center mt-4"><img src="leafage-wechat.jpg" tppabs="https://www.leafage.top/images/resources/leafage-wechat.jpg" alt="leafage" class="w-32 h-32 border"> <div class="mx-4"><p class="my-2">微信搜一搜</p> <input type="text" disabled="disabled" placeholder="Leafage" class="placeholder-gray-600 border border-gray-300 p-2 w-full text-sm rounded"></div></div></div> <div class="my-12 py-8 border border-solid border-gray-200 relative"><h3 class="absolute top-0 -mt-3 px-2 ml-6 bg-white uppercase text-sm font-semibold">
+        Trending
+      </h3> <div class="flex px-4 md:px-8 py-2"><img src="data-4404730_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/data-4404730_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="Mybatis批量操作sql写法" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="20815YW6T.htm" tppabs="https://www.leafage.top/posts/detail/20815YW6T" title="20815YW6T">Mybatis批量操作sql写法</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">使用mybatis时，如何自定义实现批量操作数据，SQL如何编写，其中需要注意的点有哪些</p> <span class="text-xs text-gray-500 font-bold uppercase">4/10/2021</span></div></div><div class="flex px-4 md:px-8 py-2"><img src="security-869216_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/security-869216_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="spring security 学习和踩坑总结（入门）" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="208291JMJ.htm" tppabs="https://www.leafage.top/posts/detail/208291JMJ" title="208291JMJ">spring security 学习和踩坑总结（入门）</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">spring security 是个很强大的框架，但是网上没有一个完整的对于它的一个分析，或者使用的说明，本文将一步步的对其进行使用和分析做出说明</p> <span class="text-xs text-gray-500 font-bold uppercase">4/10/2021</span></div></div><div class="flex px-4 md:px-8 py-2"><img src="password-2781614_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/password-2781614_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="一步步带你实现redis分布式锁" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="20824ZB0N.htm" tppabs="https://www.leafage.top/posts/detail/20824ZB0N" title="20824ZB0N">一步步带你实现redis分布式锁</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">在开发过程中，那面遇到一些场景，需要实现锁，现在大都是分布式方案，那么分布式下如何实现锁</p> <span class="text-xs text-gray-500 font-bold uppercase">2/2/2021</span></div></div><div class="flex px-4 md:px-8 py-2"><img src="woman-1919143_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/woman-1919143_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="prometheus和grafana服务监控系统" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="2129YYQ4.htm" tppabs="https://www.leafage.top/posts/detail/2129YYQ4" title="2129YYQ4">prometheus和grafana服务监控系统</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">Prometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL</p> <span class="text-xs text-gray-500 font-bold uppercase">4/20/2021</span></div></div><div class="flex px-4 md:px-8 py-2"><img src="security-265130_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/security-265130_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="spring security 学习和踩坑总结（表单）" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="20829TXGD.htm" tppabs="https://www.leafage.top/posts/detail/20829TXGD" title="20829TXGD">spring security 学习和踩坑总结（表单）</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">本篇将介绍如何进行自定义的一些配置来实现自定义的登录，包括从数据库查用户信息等</p> <span class="text-xs text-gray-500 font-bold uppercase">4/28/2021</span></div></div></div> <div class="border border-solid border-gray-200 relative"><h3 class="absolute top-0 -mt-3 px-2 ml-6 bg-white uppercase text-sm font-semibold">
+        Categories
+      </h3> <ul class="grid grid-cols-1 divide-y divide-gray-300 p-8 text-xs text-gray-600 font-semibold uppercase list-disc"><li class="py-3 mx-4"><a href="posts-category=Lifestyle.htm" tppabs="https://www.leafage.top/posts?category=Lifestyle" title="Lifestyle">Lifestyle</a> <span class="mr-2 float-right">1</span></li><li class="py-3 mx-4"><a href="posts-category=Travel.htm" tppabs="https://www.leafage.top/posts?category=Travel" title="Travel">Travel</a> <span class="mr-2 float-right">0</span></li><li class="py-3 mx-4"><a href="posts-category=Experience.htm" tppabs="https://www.leafage.top/posts?category=Experience" title="Experience">Experience</a> <span class="mr-2 float-right">1</span></li><li class="py-3 mx-4"><a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology">Technology</a> <span class="mr-2 float-right">14</span></li><li class="py-3 mx-4"><a href="posts-category=Photograph.htm" tppabs="https://www.leafage.top/posts?category=Photograph" title="Photograph">Photograph</a> <span class="mr-2 float-right">0</span></li></ul></div> <div class="my-12 border-2 border-solid border-black border-opacity-70 p-8"><h3 class="font-extrabold">Send Email To Me</h3> <form class="mt-4 flex items-center"><input type="email" placeholder="Enter your email adress" class="w-full text-sm text-black placeholder-gray-600 border border-gray-300 py-2 pl-4"> <a aria-label="email" title="email" href="mailto:little3201@163.com?subject=Leafage%20Website%20News" class="bg-black text-white p-2 -ml-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line> <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></a></form></div> <div class="border border-solid border-gray-200 relative my-12"><h3 class="absolute top-0 -mt-3 px-2 ml-6 bg-white uppercase text-sm font-semibold">
+        Friend Chain
+      </h3> <ul class="grid grid-cols-1 divide-y divide-gray-300 p-8 text-xs text-gray-600 font-semibold list-decimal"><li class="py-3 mx-4"><a title="howtodoinjava" href="javascript:if(confirm(%27https://howtodoinjava.com/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://howtodoinjava.com/%27" tppabs="https://howtodoinjava.com/" target="_blank" rel="noopener">howtodoinjava</a></li> <li class="py-3 mx-4"><a title="nginx" href="javascript:if(confirm(%27https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhCN  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhCN%27" tppabs="https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhCN" rel="noopener" target="_blank">nginx配置生成</a></li> <li class="py-3 mx-4"><a title="leafage console" href="javascript:if(confirm(%27https://console.leafage.top/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://console.leafage.top/%27" tppabs="https://console.leafage.top/" target="_blank" rel="noopener">leafage后台管理系统</a></li> <li class="py-3 mx-4"><a title="csdn" href="javascript:if(confirm(%27https://blog.csdn.net/zx110503?spm=1008.2028.3001.5343&type=blog  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://blog.csdn.net/zx110503?spm=1008.2028.3001.5343&type=blog%27" tppabs="https://blog.csdn.net/zx110503?spm=1008.2028.3001.5343&type=blog" rel="noopener" target="_blank">csdn</a></li> <li class="py-3 mx-4"><a title="oschina" href="javascript:if(confirm(%27https://my.oschina.net/u/4066932  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://my.oschina.net/u/4066932%27" tppabs="https://my.oschina.net/u/4066932" target="_blank" rel="noopener">开源中国 oschina</a></li> <li class="py-3 mx-4"><a title="segmentfault" href="javascript:if(confirm(%27https://segmentfault.com/u/bujidao_5d0c24ce7055e/articles  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://segmentfault.com/u/bujidao_5d0c24ce7055e/articles%27" tppabs="https://segmentfault.com/u/bujidao_5d0c24ce7055e/articles" rel="noopener" target="_blank">思否 segmentfault</a></li></ul></div></div></aside></div></div></main> <footer class="bg-black"><section class="container mx-auto px-2 md:px-12 lg:px-16 xl:px-20"><div class="md:flex md:justify-between items-center text-white md:h-32"><div class="flex justify-center text-3xl tracking-widest font-black uppercase py-4"><a href="index.htm" tppabs="https://www.leafage.top/" title="leafage" class="nuxt-link-active">Leafage</a></div> <div class="flex justify-center space-x-6 sm:my-4"><a title="github" href="javascript:if(confirm(%27https://github.com/little3201  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://github.com/little3201%27" tppabs="https://github.com/little3201" rel="noopener" target="_blank">Github</a> <a title="gitee" href="javascript:if(confirm(%27https://gitee.com/little3201  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://gitee.com/little3201%27" tppabs="https://gitee.com/little3201" rel="noopener" target="_blank">Gitee</a></div> <div class="flex justify-center space-x-10 uppercase font-extrabold my-4"><a href="about.htm" tppabs="https://www.leafage.top/about" title="about">About</a> <a href="contact.htm" tppabs="https://www.leafage.top/contact" title="contact">Contact</a></div></div></section> <section class="py-3 text-xs text-center text-gray-400 container mx-auto px-2 md:px-12 lg:px-16 xl:px-20"><p class="border-t border-gray-700 py-3">
+      © 2021 leafage.top All Rights Reserved.
+    </p> <p><a href="javascript:if(confirm(%27https://beian.miit.gov.cn/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://beian.miit.gov.cn/%27" tppabs="https://beian.miit.gov.cn/" rel="noopener" target="_blank">陕ICP备19017836号-1</a></p></section></footer></div></div></div><script>window.__LEAFAGE__=(function(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T){l[0]=m;l[1]="nuxt-1.js"/*tpa=https://www.leafage.top/posts/detail/nuxt.js*/;l[2]="async";l[3]="promise";l[4]="axios";l[5]="优化";return {layout:"default",data:[{data:{code:i,modifyTime:"2021-03-28T15:47:05.787",title:j,subtitle:k,cover:"https:\u002F\u002Fcdn.leafage.top\u002Fhighway-4494907_640.jpg",tags:l,category:n,likes:a,comment:a,viewed:164,content:"leafage上线已经有一段日子了，**最近将域名从[abeille.top](https:\u002F\u002Fwww.abeille.top)换到了[leafage.top](https:\u002F\u002Fwww.leafage.top)**，之前所做的一些搜索引擎的收录几乎都没有了，虽然abeille.top还保留访问，但是最晚到今年11月就不再用了，目前暂定使用 leafage.top。\n\n首页是有多个模块的的组件组合而成的，包括：\n\n- hero：最新三条记录\n- featured：除过最新的三条之后的记录\n- topPosts：访问量最多的三条记录\n- postsList：根据创建时间排序的记录\n- sidebar：默认排序规则的5条记录\n- recommend：最新的6条记录\n\n在之前呢，每个组件自己请求加载数据，那就会是从页面排版，逐个进行数据请求，这样导致了页面要完成加载就需要等待所有组件的数据请求之后，继续进行渲染，阻塞时间很长，通过speedtest测试，首页阻塞时间达4s之多。\n\n之前介绍过asyncData()和fetch()都会阻塞页面加载，直到数据加载完成才会继续，那就可以通过减少数据请求时间来缩短页面加载时间。由于之前每个组件都是各自请求数据，所以会按照排版进行顺序渲染组件内容，那也就会顺序发送数据请求接口。\n\n那么缩短时间的思路就有了，让这些组合的组件数据，同时去请求，那么它阻塞的时间最大限度是多个请求中耗时最长的那个请求的时间，这个顶多在几百毫秒之内。\n\n然而在看了axios的官方介绍，使用axios.all([method1(), method2()])，并不能在next.js中使用，需要通过Promise.all([method1(), method2()])来实现，同时导出结果通过数组来接收，示例如下：\n\n```ts\nasync asyncData({ app: { $axios } }) {\n    const [\n      heroDatas,\n      featuredDatas,\n      topDatas,\n      listDatas,\n      recommendDatas,\n    ] = await Promise.all([\n      await $axios.$get(SERVER_URL.posts.concat(\"?page=0&size=3\")),\n      await $axios.$get(SERVER_URL.posts.concat(\"?page=1&size=4\")),\n      await $axios.$get(SERVER_URL.posts.concat(\"?page=0&size=3&order=viewed\")),\n      await $axios.$get(SERVER_URL.posts.concat(\"?page=0&size=10&order=likes\")),\n      await $axios.$get(SERVER_URL.posts.concat(\"?page=0&size=6&order=viewed\")),\n      await $axios.$get(\"\u002Fcheck\"),\n    ]);\n    return { heroDatas, featuredDatas, topDatas, listDatas, recommendDatas };\n  },\n```\n在完成此项优化后，首页加载速度降到了0.4s，提高了不止一星半点呀。\n",catalog:b},previous:{code:"21318HYYR",modifyTime:"2021-04-10T11:42:52.369",title:"Leafage 诞生记（四、nuxt\u002Fcontent使用限制、如何进行markdown解析并高亮代码块）",subtitle:"上一篇中介绍了nuxtjs的基本配置项，以及自动引入components的使用，那么接下来说一说在nuxtjs中如何读取mark",cover:"https:\u002F\u002Fcdn.leafage.top\u002Fback-to-nature-4536616_640.jpg",tags:[m,"markdown-it","highlight-1.js"/*tpa=https://www.leafage.top/posts/detail/highlight.js*/,"tailwindcss",e,"typograph"],category:b,likes:f,comment:a,viewed:182},next:{code:"21414BX0U",modifyTime:"2021-04-14T19:28:14.661",title:"vue3+typescript上传文件到七牛云",subtitle:"七牛云js-sdk上传文件，本地js生成token，直传模式上传文件到七牛云",cover:"https:\u002F\u002Fcdn.leafage.top\u002Fsnowdrop.jpg",tags:["vue-1.js"/*tpa=https://www.leafage.top/posts/detail/vue.js*/,"vue3","七牛云","qiniu-js","上传","前端上传"],category:b,likes:3,comment:a,viewed:79},topDatas:[{code:o,modifyTime:p,title:q,subtitle:r,cover:s,tags:[t,u,v,w,x,y],category:c,likes:z,comment:a,viewed:A},{code:B,modifyTime:C,title:D,subtitle:E,cover:F,tags:[g,h,e,d,G],category:c,likes:H,comment:a,viewed:I},{code:J,modifyTime:K,title:L,subtitle:M,cover:N,tags:[d,O,P,Q,R],category:c,likes:S,comment:a,viewed:T}],rendered:"\u003Cp\u003Eleafage上线已经有一段日子了，\u003Cstrong\u003E最近将域名从\u003Ca href=\"https:\u002F\u002Fwww.abeille.top\"\u003Eabeille.top\u003C\u002Fa\u003E换到了\u003Ca href=\"https:\u002F\u002Fwww.leafage.top\"\u003Eleafage.top\u003C\u002Fa\u003E\u003C\u002Fstrong\u003E，之前所做的一些搜索引擎的收录几乎都没有了，虽然abeille.top还保留访问，但是最晚到今年11月就不再用了，目前暂定使用 leafage.top。\u003C\u002Fp\u003E\n\u003Cp\u003E首页是有多个模块的的组件组合而成的，包括：\u003C\u002Fp\u003E\n\u003Cul\u003E\n\u003Cli\u003Ehero：最新三条记录\u003C\u002Fli\u003E\n\u003Cli\u003Efeatured：除过最新的三条之后的记录\u003C\u002Fli\u003E\n\u003Cli\u003EtopPosts：访问量最多的三条记录\u003C\u002Fli\u003E\n\u003Cli\u003EpostsList：根据创建时间排序的记录\u003C\u002Fli\u003E\n\u003Cli\u003Esidebar：默认排序规则的5条记录\u003C\u002Fli\u003E\n\u003Cli\u003Erecommend：最新的6条记录\u003C\u002Fli\u003E\n\u003C\u002Ful\u003E\n\u003Cp\u003E在之前呢，每个组件自己请求加载数据，那就会是从页面排版，逐个进行数据请求，这样导致了页面要完成加载就需要等待所有组件的数据请求之后，继续进行渲染，阻塞时间很长，通过speedtest测试，首页阻塞时间达4s之多。\u003C\u002Fp\u003E\n\u003Cp\u003E之前介绍过asyncData()和fetch()都会阻塞页面加载，直到数据加载完成才会继续，那就可以通过减少数据请求时间来缩短页面加载时间。由于之前每个组件都是各自请求数据，所以会按照排版进行顺序渲染组件内容，那也就会顺序发送数据请求接口。\u003C\u002Fp\u003E\n\u003Cp\u003E那么缩短时间的思路就有了，让这些组合的组件数据，同时去请求，那么它阻塞的时间最大限度是多个请求中耗时最长的那个请求的时间，这个顶多在几百毫秒之内。\u003C\u002Fp\u003E\n\u003Cp\u003E然而在看了axios的官方介绍，使用axios.all([method1(), method2()])，并不能在next.js中使用，需要通过Promise.all([method1(), method2()])来实现，同时导出结果通过数组来接收，示例如下：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-keyword\"\u003Easync\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-function\"\u003E\u003Cspan class=\"hljs-title\"\u003EasyncData\u003C\u002Fspan\u003E(\u003Cspan class=\"hljs-params\"\u003E{ app: { $axios } }\u003C\u002Fspan\u003E)\u003C\u002Fspan\u003E {\n    \u003Cspan class=\"hljs-keyword\"\u003Econst\u003C\u002Fspan\u003E [\n      heroDatas,\n      featuredDatas,\n      topDatas,\n      listDatas,\n      recommendDatas,\n    ] = \u003Cspan class=\"hljs-keyword\"\u003Eawait\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-built_in\"\u003EPromise\u003C\u002Fspan\u003E.all([\n      \u003Cspan class=\"hljs-keyword\"\u003Eawait\u003C\u002Fspan\u003E $axios.$get(SERVER_URL.posts.concat(\u003Cspan class=\"hljs-string\"\u003E&quot;?page=0&amp;size=3&quot;\u003C\u002Fspan\u003E)),\n      \u003Cspan class=\"hljs-keyword\"\u003Eawait\u003C\u002Fspan\u003E $axios.$get(SERVER_URL.posts.concat(\u003Cspan class=\"hljs-string\"\u003E&quot;?page=1&amp;size=4&quot;\u003C\u002Fspan\u003E)),\n      \u003Cspan class=\"hljs-keyword\"\u003Eawait\u003C\u002Fspan\u003E $axios.$get(SERVER_URL.posts.concat(\u003Cspan class=\"hljs-string\"\u003E&quot;?page=0&amp;size=3&amp;order=viewed&quot;\u003C\u002Fspan\u003E)),\n      \u003Cspan class=\"hljs-keyword\"\u003Eawait\u003C\u002Fspan\u003E $axios.$get(SERVER_URL.posts.concat(\u003Cspan class=\"hljs-string\"\u003E&quot;?page=0&amp;size=10&amp;order=likes&quot;\u003C\u002Fspan\u003E)),\n      \u003Cspan class=\"hljs-keyword\"\u003Eawait\u003C\u002Fspan\u003E $axios.$get(SERVER_URL.posts.concat(\u003Cspan class=\"hljs-string\"\u003E&quot;?page=0&amp;size=6&amp;order=viewed&quot;\u003C\u002Fspan\u003E)),\n      \u003Cspan class=\"hljs-keyword\"\u003Eawait\u003C\u002Fspan\u003E $axios.$get(\u003Cspan class=\"hljs-string\"\u003E&quot;\u002Fcheck&quot;\u003C\u002Fspan\u003E),\n    ]);\n    \u003Cspan class=\"hljs-keyword\"\u003Ereturn\u003C\u002Fspan\u003E { heroDatas, featuredDatas, topDatas, listDatas, recommendDatas };\n  },\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E在完成此项优化后，首页加载速度降到了0.4s，提高了不止一星半点呀。\u003C\u002Fp\u003E\n"}],fetch:{"SideBar:0":{datas:[{code:o,modifyTime:p,title:q,subtitle:r,cover:s,tags:[t,u,v,w,x,y],category:c,likes:z,comment:a,viewed:A},{code:B,modifyTime:C,title:D,subtitle:E,cover:F,tags:[g,h,e,d,G],category:c,likes:H,comment:a,viewed:I},{code:J,modifyTime:K,title:L,subtitle:M,cover:N,tags:[d,O,P,Q,R],category:c,likes:S,comment:a,viewed:T},{code:"2129YYQ4",modifyTime:"2021-04-20T14:46:54.746",title:"prometheus和grafana服务监控系统",subtitle:"Prometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL",cover:"https:\u002F\u002Fcdn.leafage.top\u002Fwoman-1919143_640.jpg",tags:["prometheus","grafana","监控","运维","微服务"],category:c,likes:6,comment:a,viewed:428},{code:"20829TXGD",modifyTime:"2021-04-28T21:18:44.491",title:"spring security 学习和踩坑总结（表单）",subtitle:"本篇将介绍如何进行自定义的一些配置来实现自定义的登录，包括从数据库查用户信息等",cover:"https:\u002F\u002Fcdn.leafage.top\u002Fsecurity-265130_640.jpg",tags:[g,h,d,e],category:c,likes:a,comment:a,viewed:371}],categories:[{code:"20C329QX",modifyTime:"2020-12-03T15:08:01",alias:"Lifestyle",count:f,description:b},{code:"2128O0TW",modifyTime:"2021-02-08T15:14:56.769",alias:"Travel",count:a,description:b},{code:"21317DTNP",modifyTime:"2021-03-17T08:44:31.446",alias:n,count:f,description:b},{code:"20C3ID6W",modifyTime:"2020-12-03T15:06:50",alias:c,count:14,description:b},{code:"21412YAAR",modifyTime:"2021-04-12T12:47:14.065",alias:"Photograph",count:a,description:"摄影"}]}},error:b,state:{code:i,title:j,keywords:l,description:k},serverRendered:true,routePath:"\u002Fposts\u002Fdetail\u002F21328R4IT",config:{_app:{basePath:"\u002F",assetsPath:"\u002F_nuxt\u002F",cdnURL:b}}}}(0,null,"Technology","java","form",1,"spring","security","21328R4IT","Leafage 诞生记（五、nuxt.js 页面初始化加载优化）","近日，对于leafage 网站进行了一些测验和优化，主要内容包括首页加载耗时，seo的一些主要的优化",Array(6),"leafage","Experience","20815YW6T","2021-04-10T11:45:57.04","Mybatis批量操作sql写法","使用mybatis时，如何自定义实现批量操作数据，SQL如何编写，其中需要注意的点有哪些","https:\u002F\u002Fcdn.leafage.top\u002Fdata-4404730_640.jpg","mybatis","sql","batch","批量","insert","update",10,634,"208291JMJ","2021-04-10T11:32:35.069","spring security 学习和踩坑总结（入门）","spring security 是个很强大的框架，但是网上没有一个完整的对于它的一个分析，或者使用的说明，本文将一步步的对其进行使用和分析做出说明","https:\u002F\u002Fcdn.leafage.top\u002Fsecurity-869216_640.jpg","登录",2,500,"20824ZB0N","2021-02-02T16:28:43.759","一步步带你实现redis分布式锁","在开发过程中，那面遇到一些场景，需要实现锁，现在大都是分布式方案，那么分布式下如何实现锁","https:\u002F\u002Fcdn.leafage.top\u002Fpassword-2781614_640.jpg","redis","分布式","锁","缓存",7,460));</script><script src="2dcea8e.js" tppabs="https://www.leafage.top/_nuxt/2dcea8e.js" defer></script><script src="6c4e3a2.js" tppabs="https://www.leafage.top/_nuxt/6c4e3a2.js" defer></script><script src="1318273.js" tppabs="https://www.leafage.top/_nuxt/1318273.js" defer></script><script src="6a18bf6.js" tppabs="https://www.leafage.top/_nuxt/6a18bf6.js" defer></script><script src="b1b6c93.js" tppabs="https://www.leafage.top/_nuxt/b1b6c93.js" defer></script><script src="5f999ff.js" tppabs="https://www.leafage.top/_nuxt/5f999ff.js" defer></script>
+  </body>
+</html>

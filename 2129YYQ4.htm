@@ -1,0 +1,3136 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head >
+    <title>prometheus和grafana服务监控系统</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width, initial-scale=1"><meta data-n-head="ssr" name="google-site-verification" content="_2Z6I2Wl5xuTKIGRrCD3meIZDgfn_XFVrTv1tKeJ6v8"><meta data-n-head="ssr" name="msvalidate.01" content="E02DDF417CA7C7D33A55805B3E9A81C7"><meta data-n-head="ssr" name="baidu-site-verification" content="code-7cRwEMlHAr"><meta data-n-head="ssr" data-hid="description" name="description" content="Prometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL"><meta data-n-head="ssr" data-hid="keywords" name="keywords" content="prometheus,grafana,监控,运维,微服务"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="favicon.ico" tppabs="https://www.leafage.top/favicon.ico"><link data-n-head="ssr" rel="preconnect" href="https://www.google-analytics.com"><link data-n-head="ssr" rel="canonical" href="https://www.leafage.top/posts/detail/2129YYQ4"><script data-n-head="ssr" src="hm.js-afb964e86bcad4267c09806a48c3ccbd.js" tppabs="https://hm.baidu.com/hm.js?afb964e86bcad4267c09806a48c3ccbd"></script><link rel="preload" href="/_nuxt/2dcea8e.js" as="script"><link rel="preload" href="/_nuxt/6a18bf6.js" as="script"><link rel="preload" href="/_nuxt/b1b6c93.js" as="script"><link rel="preload" href="/_nuxt/5f999ff.js" as="script"><link rel="preload" href="/_nuxt/6c4e3a2.js" as="script"><link rel="preload" href="/_nuxt/1318273.js" as="script"><style data-vue-ssr-id="54b08540:0 53f61d5f:0">/*! tailwindcss v2.1.2 | MIT License | https://tailwindcss.com*/
+
+/*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+
+/*
+Document
+========
+*/
+
+/**
+Use a better box model (opinionated).
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/**
+Use a more readable tab size (opinionated).
+*/
+
+:root {
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+     tab-size: 4;
+}
+
+/**
+1. Correct the line height in all browsers.
+2. Prevent adjustments of font size after orientation changes in iOS.
+*/
+
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/*
+Sections
+========
+*/
+
+/**
+Remove the margin in all browsers.
+*/
+
+body {
+  margin: 0;
+}
+
+/**
+Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
+*/
+
+body {
+  font-family:
+		system-ui,
+		-apple-system, /* Firefox supports this but not yet `system-ui` */
+		'Segoe UI',
+		Roboto,
+		Helvetica,
+		Arial,
+		sans-serif,
+		'Apple Color Emoji',
+		'Segoe UI Emoji';
+}
+
+/*
+Grouping content
+================
+*/
+
+/**
+1. Add the correct height in Firefox.
+2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+*/
+
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+}
+
+/*
+Text-level semantics
+====================
+*/
+
+/**
+Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+abbr[title] {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+
+/**
+Add the correct font weight in Edge and Safari.
+*/
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+1. Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
+2. Correct the odd 'em' font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+  font-family:
+		ui-monospace,
+		SFMono-Regular,
+		Consolas,
+		'Liberation Mono',
+		Menlo,
+		monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+Add the correct font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+
+/**
+Prevent 'sub' and 'sup' elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+Tabular data
+============
+*/
+
+/**
+1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+*/
+
+table {
+  text-indent: 0; /* 1 */
+  border-color: inherit; /* 2 */
+}
+
+/*
+Forms
+=====
+*/
+
+/**
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+Remove the inheritance of text transform in Edge and Firefox.
+1. Remove the inheritance of text transform in Firefox.
+*/
+
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+/**
+Correct the inability to style clickable types in iOS and Safari.
+*/
+
+button,
+[type='button'],
+[type='submit'] {
+  -webkit-appearance: button;
+}
+
+/**
+Remove the inner border and padding in Firefox.
+*/
+
+/**
+Restore the focus styles unset by the previous rule.
+*/
+
+/**
+Remove the additional ':invalid' styles in Firefox.
+See: https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737
+*/
+
+/**
+Remove the padding so developers are not caught out when they zero out 'fieldset' elements in all browsers.
+*/
+
+legend {
+  padding: 0;
+}
+
+/**
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+/**
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+[type='search'] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+/**
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to 'inherit' in Safari.
+*/
+
+/*
+Interactive
+===========
+*/
+
+/*
+Add the correct display in Chrome and Safari.
+*/
+
+summary {
+  display: list-item;
+}
+
+/**
+ * Manually forked from SUIT CSS Base: https://github.com/suitcss/base
+ * A thin layer on top of normalize.css that provides a starting point more
+ * suitable for web applications.
+ */
+
+/**
+ * Removes the default spacing and border for appropriate elements.
+ */
+
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+button {
+  background-color: transparent;
+  background-image: none;
+}
+
+/**
+ * Work around a Firefox/IE bug where the transparent `button` background
+ * results in a loss of the default `button` focus styles.
+ */
+
+button:focus {
+  outline: 1px dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Tailwind custom reset styles
+ */
+
+/**
+ * 1. Use the user's configured `sans` font-family (with Tailwind's default
+ *    sans-serif font stack as a fallback) as a sane default.
+ * 2. Use Tailwind's default "normal" line-height so the user isn't forced
+ *    to override it to ensure consistency even when using the default theme.
+ */
+
+html {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 1 */
+  line-height: 1.5; /* 2 */
+}
+
+/**
+ * Inherit font-family and line-height from `html` so users can set them as
+ * a class directly on the `html` element.
+ */
+
+body {
+  font-family: inherit;
+  line-height: inherit;
+}
+
+/**
+ * 1. Prevent padding and border from affecting element width.
+ *
+ *    We used to set this in the html element and inherit from
+ *    the parent element for everything else. This caused issues
+ *    in shadow-dom-enhanced elements like <details> where the content
+ *    is wrapped by a div with box-sizing set to `content-box`.
+ *
+ *    https://github.com/mozdevs/cssremedy/issues/4
+ *
+ *
+ * 2. Allow adding a border to an element by just adding a border-width.
+ *
+ *    By default, the way the browser specifies that an element should have no
+ *    border is by setting it's border-style to `none` in the user-agent
+ *    stylesheet.
+ *
+ *    In order to easily add borders to elements by just setting the `border-width`
+ *    property, we change the default border-style for all elements to `solid`, and
+ *    use border-width to hide them instead. This way our `border` utilities only
+ *    need to set the `border-width` property instead of the entire `border`
+ *    shorthand, making our border utilities much more straightforward to compose.
+ *
+ *    https://github.com/tailwindcss/tailwindcss/pull/116
+ */
+
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: #e5e7eb; /* 2 */
+}
+
+/*
+ * Ensure horizontal rules are visible by default
+ */
+
+hr {
+  border-top-width: 1px;
+}
+
+/**
+ * Undo the `border-style: none` reset that Normalize applies to images so that
+ * our `border-{width}` utilities have the expected effect.
+ *
+ * The Normalize reset is unnecessary for us since we default the border-width
+ * to 0 on all elements.
+ *
+ * https://github.com/tailwindcss/tailwindcss/issues/362
+ */
+
+img {
+  border-style: solid;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/**
+ * Reset links to optimize for opt-in styling instead of
+ * opt-out.
+ */
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/**
+ * Reset form element properties that are easy to forget to
+ * style explicitly so you don't inadvertently introduce
+ * styles that deviate from your design system. These styles
+ * supplement a partial reset that is already applied by
+ * normalize.css.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  padding: 0;
+  line-height: inherit;
+  color: inherit;
+}
+
+/**
+ * Use the configured 'mono' font family for elements that
+ * are expected to be rendered with a monospace font, falling
+ * back to the system monospace stack if there is no configured
+ * 'mono' font family.
+ */
+
+pre,
+code,
+kbd,
+samp {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/**
+ * Make replaced elements `display: block` by default as that's
+ * the behavior you want almost all of the time. Inspired by
+ * CSS Remedy, with `svg` added as well.
+ *
+ * https://github.com/mozdevs/cssremedy/issues/14
+ */
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+/**
+ * Constrain images and videos to the parent width and preserve
+ * their intrinsic aspect ratio.
+ *
+ * https://github.com/mozdevs/cssremedy/issues/14
+ */
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.container{
+  width:100%;
+}
+
+@media (min-width: 640px){
+  .container{
+    max-width:640px;
+  }
+}
+
+@media (min-width: 768px){
+  .container{
+    max-width:768px;
+  }
+}
+
+@media (min-width: 1024px){
+  .container{
+    max-width:1024px;
+  }
+}
+
+@media (min-width: 1280px){
+  .container{
+    max-width:1280px;
+  }
+}
+
+@media (min-width: 1536px){
+  .container{
+    max-width:1536px;
+  }
+}
+
+.prose{
+  color:#374151;
+  max-width:65ch;
+}
+
+.prose [class~="lead"]{
+  color:#4b5563;
+  font-size:1.25em;
+  line-height:1.6;
+  margin-top:1.2em;
+  margin-bottom:1.2em;
+}
+
+.prose a{
+  color:#111827;
+  text-decoration:underline;
+  font-weight:500;
+}
+
+.prose strong{
+  color:#111827;
+  font-weight:600;
+}
+
+.prose ol[type="a"]{
+  --list-counter-style:lower-alpha;
+}
+
+.prose ol[type="a" s]{
+  --list-counter-style:lower-alpha;
+}
+
+.prose ol[type="i"]{
+  --list-counter-style:lower-roman;
+}
+
+.prose ol[type="i" s]{
+  --list-counter-style:lower-roman;
+}
+
+.prose ol[type="1"]{
+  --list-counter-style:decimal;
+}
+
+.prose ol > li{
+  position:relative;
+  padding-left:1.75em;
+}
+
+.prose ol > li::before{
+  content:counter(list-item, var(--list-counter-style, decimal)) ".";
+  position:absolute;
+  font-weight:400;
+  color:#6b7280;
+  left:0;
+}
+
+.prose ul > li{
+  position:relative;
+  padding-left:1.75em;
+}
+
+.prose ul > li::before{
+  content:"";
+  position:absolute;
+  background-color:#d1d5db;
+  border-radius:50%;
+  width:0.375em;
+  height:0.375em;
+  top:calc(0.875em - 0.1875em);
+  left:0.25em;
+}
+
+.prose hr{
+  border-color:#e5e7eb;
+  border-top-width:1px;
+  margin-top:3em;
+  margin-bottom:3em;
+}
+
+.prose blockquote{
+  font-weight:500;
+  font-style:italic;
+  color:#111827;
+  border-left-width:0.25rem;
+  border-left-color:#e5e7eb;
+  quotes:"\201C""\201D""\2018""\2019";
+  margin-top:1.6em;
+  margin-bottom:1.6em;
+  padding-left:1em;
+}
+
+.prose blockquote p:first-of-type::before{
+  content:open-quote;
+}
+
+.prose blockquote p:last-of-type::after{
+  content:close-quote;
+}
+
+.prose h1{
+  color:#111827;
+  font-weight:800;
+  font-size:2.25em;
+  margin-top:0;
+  margin-bottom:0.8888889em;
+  line-height:1.1111111;
+}
+
+.prose h2{
+  color:#111827;
+  font-weight:700;
+  font-size:1.5em;
+  margin-top:2em;
+  margin-bottom:1em;
+  line-height:1.3333333;
+}
+
+.prose h3{
+  color:#111827;
+  font-weight:600;
+  font-size:1.25em;
+  margin-top:1.6em;
+  margin-bottom:0.6em;
+  line-height:1.6;
+}
+
+.prose h4{
+  color:#111827;
+  font-weight:600;
+  margin-top:1.5em;
+  margin-bottom:0.5em;
+  line-height:1.5;
+}
+
+.prose figure figcaption{
+  color:#6b7280;
+  font-size:0.875em;
+  line-height:1.4285714;
+  margin-top:0.8571429em;
+}
+
+.prose code{
+  color:#111827;
+  font-weight:600;
+  font-size:0.875em;
+}
+
+.prose code::before{
+  content:"`";
+}
+
+.prose code::after{
+  content:"`";
+}
+
+.prose a code{
+  color:#111827;
+}
+
+.prose pre{
+  color:#e5e7eb;
+  background-color:#1f2937;
+  overflow-x:auto;
+  font-size:0.875em;
+  line-height:1.7142857;
+  margin-top:1.7142857em;
+  margin-bottom:1.7142857em;
+  border-radius:0.375rem;
+  padding-top:0.8571429em;
+  padding-right:1.1428571em;
+  padding-bottom:0.8571429em;
+  padding-left:1.1428571em;
+}
+
+.prose pre code{
+  background-color:transparent;
+  border-width:0;
+  border-radius:0;
+  padding:0;
+  font-weight:400;
+  color:inherit;
+  font-size:inherit;
+  font-family:inherit;
+  line-height:inherit;
+}
+
+.prose pre code::before{
+  content:none;
+}
+
+.prose pre code::after{
+  content:none;
+}
+
+.prose table{
+  width:100%;
+  table-layout:auto;
+  text-align:left;
+  margin-top:2em;
+  margin-bottom:2em;
+  font-size:0.875em;
+  line-height:1.7142857;
+}
+
+.prose thead{
+  color:#111827;
+  font-weight:600;
+  border-bottom-width:1px;
+  border-bottom-color:#d1d5db;
+}
+
+.prose thead th{
+  vertical-align:bottom;
+  padding-right:0.5714286em;
+  padding-bottom:0.5714286em;
+  padding-left:0.5714286em;
+}
+
+.prose tbody tr{
+  border-bottom-width:1px;
+  border-bottom-color:#e5e7eb;
+}
+
+.prose tbody tr:last-child{
+  border-bottom-width:0;
+}
+
+.prose tbody td{
+  vertical-align:top;
+  padding-top:0.5714286em;
+  padding-right:0.5714286em;
+  padding-bottom:0.5714286em;
+  padding-left:0.5714286em;
+}
+
+.prose{
+  font-size:1rem;
+  line-height:1.75;
+}
+
+.prose p{
+  margin-top:1.25em;
+  margin-bottom:1.25em;
+}
+
+.prose img{
+  margin-top:2em;
+  margin-bottom:2em;
+}
+
+.prose video{
+  margin-top:2em;
+  margin-bottom:2em;
+}
+
+.prose figure{
+  margin-top:2em;
+  margin-bottom:2em;
+}
+
+.prose figure > *{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+.prose h2 code{
+  font-size:0.875em;
+}
+
+.prose h3 code{
+  font-size:0.9em;
+}
+
+.prose ol{
+  margin-top:1.25em;
+  margin-bottom:1.25em;
+}
+
+.prose ul{
+  margin-top:1.25em;
+  margin-bottom:1.25em;
+}
+
+.prose li{
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+}
+
+.prose > ul > li p{
+  margin-top:0.75em;
+  margin-bottom:0.75em;
+}
+
+.prose > ul > li > *:first-child{
+  margin-top:1.25em;
+}
+
+.prose > ul > li > *:last-child{
+  margin-bottom:1.25em;
+}
+
+.prose > ol > li > *:first-child{
+  margin-top:1.25em;
+}
+
+.prose > ol > li > *:last-child{
+  margin-bottom:1.25em;
+}
+
+.prose ul ul, .prose ul ol, .prose ol ul, .prose ol ol{
+  margin-top:0.75em;
+  margin-bottom:0.75em;
+}
+
+.prose hr + *{
+  margin-top:0;
+}
+
+.prose h2 + *{
+  margin-top:0;
+}
+
+.prose h3 + *{
+  margin-top:0;
+}
+
+.prose h4 + *{
+  margin-top:0;
+}
+
+.prose thead th:first-child{
+  padding-left:0;
+}
+
+.prose thead th:last-child{
+  padding-right:0;
+}
+
+.prose tbody td:first-child{
+  padding-left:0;
+}
+
+.prose tbody td:last-child{
+  padding-right:0;
+}
+
+.prose > :first-child{
+  margin-top:0;
+}
+
+.prose > :last-child{
+  margin-bottom:0;
+}
+
+.prose-sm{
+  font-size:0.875rem;
+  line-height:1.7142857;
+}
+
+.prose-sm p{
+  margin-top:1.1428571em;
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm [class~="lead"]{
+  font-size:1.2857143em;
+  line-height:1.5555556;
+  margin-top:0.8888889em;
+  margin-bottom:0.8888889em;
+}
+
+.prose-sm blockquote{
+  margin-top:1.3333333em;
+  margin-bottom:1.3333333em;
+  padding-left:1.1111111em;
+}
+
+.prose-sm h1{
+  font-size:2.1428571em;
+  margin-top:0;
+  margin-bottom:0.8em;
+  line-height:1.2;
+}
+
+.prose-sm h2{
+  font-size:1.4285714em;
+  margin-top:1.6em;
+  margin-bottom:0.8em;
+  line-height:1.4;
+}
+
+.prose-sm h3{
+  font-size:1.2857143em;
+  margin-top:1.5555556em;
+  margin-bottom:0.4444444em;
+  line-height:1.5555556;
+}
+
+.prose-sm h4{
+  margin-top:1.4285714em;
+  margin-bottom:0.5714286em;
+  line-height:1.4285714;
+}
+
+.prose-sm img{
+  margin-top:1.7142857em;
+  margin-bottom:1.7142857em;
+}
+
+.prose-sm video{
+  margin-top:1.7142857em;
+  margin-bottom:1.7142857em;
+}
+
+.prose-sm figure{
+  margin-top:1.7142857em;
+  margin-bottom:1.7142857em;
+}
+
+.prose-sm figure > *{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+.prose-sm figure figcaption{
+  font-size:0.8571429em;
+  line-height:1.3333333;
+  margin-top:0.6666667em;
+}
+
+.prose-sm code{
+  font-size:0.8571429em;
+}
+
+.prose-sm h2 code{
+  font-size:0.9em;
+}
+
+.prose-sm h3 code{
+  font-size:0.8888889em;
+}
+
+.prose-sm pre{
+  font-size:0.8571429em;
+  line-height:1.6666667;
+  margin-top:1.6666667em;
+  margin-bottom:1.6666667em;
+  border-radius:0.25rem;
+  padding-top:0.6666667em;
+  padding-right:1em;
+  padding-bottom:0.6666667em;
+  padding-left:1em;
+}
+
+.prose-sm ol{
+  margin-top:1.1428571em;
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm ul{
+  margin-top:1.1428571em;
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm li{
+  margin-top:0.2857143em;
+  margin-bottom:0.2857143em;
+}
+
+.prose-sm ol > li{
+  padding-left:1.5714286em;
+}
+
+.prose-sm ol > li::before{
+  left:0;
+}
+
+.prose-sm ul > li{
+  padding-left:1.5714286em;
+}
+
+.prose-sm ul > li::before{
+  height:0.3571429em;
+  width:0.3571429em;
+  top:calc(0.8571429em - 0.1785714em);
+  left:0.2142857em;
+}
+
+.prose-sm > ul > li p{
+  margin-top:0.5714286em;
+  margin-bottom:0.5714286em;
+}
+
+.prose-sm > ul > li > *:first-child{
+  margin-top:1.1428571em;
+}
+
+.prose-sm > ul > li > *:last-child{
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm > ol > li > *:first-child{
+  margin-top:1.1428571em;
+}
+
+.prose-sm > ol > li > *:last-child{
+  margin-bottom:1.1428571em;
+}
+
+.prose-sm ul ul, .prose-sm ul ol, .prose-sm ol ul, .prose-sm ol ol{
+  margin-top:0.5714286em;
+  margin-bottom:0.5714286em;
+}
+
+.prose-sm hr{
+  margin-top:2.8571429em;
+  margin-bottom:2.8571429em;
+}
+
+.prose-sm hr + *{
+  margin-top:0;
+}
+
+.prose-sm h2 + *{
+  margin-top:0;
+}
+
+.prose-sm h3 + *{
+  margin-top:0;
+}
+
+.prose-sm h4 + *{
+  margin-top:0;
+}
+
+.prose-sm table{
+  font-size:0.8571429em;
+  line-height:1.5;
+}
+
+.prose-sm thead th{
+  padding-right:1em;
+  padding-bottom:0.6666667em;
+  padding-left:1em;
+}
+
+.prose-sm thead th:first-child{
+  padding-left:0;
+}
+
+.prose-sm thead th:last-child{
+  padding-right:0;
+}
+
+.prose-sm tbody td{
+  padding-top:0.6666667em;
+  padding-right:1em;
+  padding-bottom:0.6666667em;
+  padding-left:1em;
+}
+
+.prose-sm tbody td:first-child{
+  padding-left:0;
+}
+
+.prose-sm tbody td:last-child{
+  padding-right:0;
+}
+
+.prose-sm > :first-child{
+  margin-top:0;
+}
+
+.prose-sm > :last-child{
+  margin-bottom:0;
+}
+
+.space-x-2 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse:0;
+  margin-right:calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-6 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse:0;
+  margin-right:calc(1.5rem * var(--tw-space-x-reverse));
+  margin-left:calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-10 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse:0;
+  margin-right:calc(2.5rem * var(--tw-space-x-reverse));
+  margin-left:calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.divide-y-2 > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-y-reverse:0;
+  border-top-width:calc(2px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width:calc(2px * var(--tw-divide-y-reverse));
+}
+
+.divide-y > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-y-reverse:0;
+  border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width:calc(1px * var(--tw-divide-y-reverse));
+}
+
+.divide-black > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-opacity:1;
+  border-color:rgba(0, 0, 0, var(--tw-divide-opacity));
+}
+
+.divide-gray-300 > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-opacity:1;
+  border-color:rgba(209, 213, 219, var(--tw-divide-opacity));
+}
+
+.divide-gray-400 > :not([hidden]) ~ :not([hidden]){
+  --tw-divide-opacity:1;
+  border-color:rgba(156, 163, 175, var(--tw-divide-opacity));
+}
+
+.divide-dotted > :not([hidden]) ~ :not([hidden]){
+  border-style:dotted;
+}
+
+.bg-black{
+  --tw-bg-opacity:1;
+  background-color:rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+
+.bg-white{
+  --tw-bg-opacity:1;
+  background-color:rgba(255, 255, 255, var(--tw-bg-opacity));
+}
+
+.bg-gray-50{
+  --tw-bg-opacity:1;
+  background-color:rgba(249, 250, 251, var(--tw-bg-opacity));
+}
+
+.bg-gray-100{
+  --tw-bg-opacity:1;
+  background-color:rgba(243, 244, 246, var(--tw-bg-opacity));
+}
+
+.bg-gray-200{
+  --tw-bg-opacity:1;
+  background-color:rgba(229, 231, 235, var(--tw-bg-opacity));
+}
+
+.bg-gray-500{
+  --tw-bg-opacity:1;
+  background-color:rgba(107, 114, 128, var(--tw-bg-opacity));
+}
+
+.bg-gray-800{
+  --tw-bg-opacity:1;
+  background-color:rgba(31, 41, 55, var(--tw-bg-opacity));
+}
+
+.hover\:bg-black:hover{
+  --tw-bg-opacity:1;
+  background-color:rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+
+.bg-opacity-25{
+  --tw-bg-opacity:0.25;
+}
+
+.bg-opacity-80{
+  --tw-bg-opacity:0.8;
+}
+
+.border-black{
+  --tw-border-opacity:1;
+  border-color:rgba(0, 0, 0, var(--tw-border-opacity));
+}
+
+.border-gray-200{
+  --tw-border-opacity:1;
+  border-color:rgba(229, 231, 235, var(--tw-border-opacity));
+}
+
+.border-gray-300{
+  --tw-border-opacity:1;
+  border-color:rgba(209, 213, 219, var(--tw-border-opacity));
+}
+
+.border-gray-700{
+  --tw-border-opacity:1;
+  border-color:rgba(55, 65, 81, var(--tw-border-opacity));
+}
+
+.border-opacity-70{
+  --tw-border-opacity:0.7;
+}
+
+.rounded{
+  border-radius:0.25rem;
+}
+
+.rounded-md{
+  border-radius:0.375rem;
+}
+
+.rounded-full{
+  border-radius:9999px;
+}
+
+.border-solid{
+  border-style:solid;
+}
+
+.border-2{
+  border-width:2px;
+}
+
+.border{
+  border-width:1px;
+}
+
+.border-b-2{
+  border-bottom-width:2px;
+}
+
+.border-t{
+  border-top-width:1px;
+}
+
+.cursor-pointer{
+  cursor:pointer;
+}
+
+.flex{
+  display:flex;
+}
+
+.table{
+  display:table;
+}
+
+.grid{
+  display:grid;
+}
+
+.hidden{
+  display:none;
+}
+
+.items-center{
+  align-items:center;
+}
+
+.justify-end{
+  justify-content:flex-end;
+}
+
+.justify-center{
+  justify-content:center;
+}
+
+.justify-between{
+  justify-content:space-between;
+}
+
+.flex-1{
+  flex:1 1 0%;
+}
+
+.float-right{
+  float:right;
+}
+
+.font-light{
+  font-weight:300;
+}
+
+.font-medium{
+  font-weight:500;
+}
+
+.font-semibold{
+  font-weight:600;
+}
+
+.font-bold{
+  font-weight:700;
+}
+
+.font-extrabold{
+  font-weight:800;
+}
+
+.font-black{
+  font-weight:900;
+}
+
+.h-6{
+  height:1.5rem;
+}
+
+.h-8{
+  height:2rem;
+}
+
+.h-10{
+  height:2.5rem;
+}
+
+.h-16{
+  height:4rem;
+}
+
+.h-20{
+  height:5rem;
+}
+
+.h-28{
+  height:7rem;
+}
+
+.h-32{
+  height:8rem;
+}
+
+.h-40{
+  height:10rem;
+}
+
+.h-44{
+  height:11rem;
+}
+
+.h-48{
+  height:12rem;
+}
+
+.h-64{
+  height:16rem;
+}
+
+.h-72{
+  height:18rem;
+}
+
+.h-auto{
+  height:auto;
+}
+
+.h-full{
+  height:100%;
+}
+
+.text-xs{
+  font-size:0.75rem;
+  line-height:1rem;
+}
+
+.text-sm{
+  font-size:0.875rem;
+  line-height:1.25rem;
+}
+
+.text-lg{
+  font-size:1.125rem;
+  line-height:1.75rem;
+}
+
+.text-xl{
+  font-size:1.25rem;
+  line-height:1.75rem;
+}
+
+.text-3xl{
+  font-size:1.875rem;
+  line-height:2.25rem;
+}
+
+.text-4xl{
+  font-size:2.25rem;
+  line-height:2.5rem;
+}
+
+.text-6xl{
+  font-size:3.75rem;
+  line-height:1;
+}
+
+.leading-8{
+  line-height:2rem;
+}
+
+.leading-relaxed{
+  line-height:1.625;
+}
+
+.list-disc{
+  list-style-type:disc;
+}
+
+.list-decimal{
+  list-style-type:decimal;
+}
+
+.m-2{
+  margin:0.5rem;
+}
+
+.my-2{
+  margin-top:0.5rem;
+  margin-bottom:0.5rem;
+}
+
+.my-3{
+  margin-top:0.75rem;
+  margin-bottom:0.75rem;
+}
+
+.my-4{
+  margin-top:1rem;
+  margin-bottom:1rem;
+}
+
+.mx-4{
+  margin-left:1rem;
+  margin-right:1rem;
+}
+
+.my-6{
+  margin-top:1.5rem;
+  margin-bottom:1.5rem;
+}
+
+.my-8{
+  margin-top:2rem;
+  margin-bottom:2rem;
+}
+
+.my-12{
+  margin-top:3rem;
+  margin-bottom:3rem;
+}
+
+.my-20{
+  margin-top:5rem;
+  margin-bottom:5rem;
+}
+
+.mx-auto{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.-my-2{
+  margin-top:-0.5rem;
+  margin-bottom:-0.5rem;
+}
+
+.mr-1{
+  margin-right:0.25rem;
+}
+
+.mt-2{
+  margin-top:0.5rem;
+}
+
+.mr-2{
+  margin-right:0.5rem;
+}
+
+.mb-2{
+  margin-bottom:0.5rem;
+}
+
+.mt-3{
+  margin-top:0.75rem;
+}
+
+.mt-4{
+  margin-top:1rem;
+}
+
+.mb-4{
+  margin-bottom:1rem;
+}
+
+.ml-4{
+  margin-left:1rem;
+}
+
+.mt-6{
+  margin-top:1.5rem;
+}
+
+.ml-6{
+  margin-left:1.5rem;
+}
+
+.mb-8{
+  margin-bottom:2rem;
+}
+
+.ml-8{
+  margin-left:2rem;
+}
+
+.mt-12{
+  margin-top:3rem;
+}
+
+.mb-12{
+  margin-bottom:3rem;
+}
+
+.mt-48{
+  margin-top:12rem;
+}
+
+.-ml-1{
+  margin-left:-0.25rem;
+}
+
+.-mt-3{
+  margin-top:-0.75rem;
+}
+
+.-ml-4{
+  margin-left:-1rem;
+}
+
+.-ml-10{
+  margin-left:-2.5rem;
+}
+
+.min-w-full{
+  min-width:100%;
+}
+
+.object-cover{
+  -o-object-fit:cover;
+     object-fit:cover;
+}
+
+.outline-none{
+  outline:2px solid transparent;
+  outline-offset:2px;
+}
+
+.focus\:outline-none:focus{
+  outline:2px solid transparent;
+  outline-offset:2px;
+}
+
+.overflow-auto{
+  overflow:auto;
+}
+
+.overflow-hidden{
+  overflow:hidden;
+}
+
+.p-2{
+  padding:0.5rem;
+}
+
+.p-4{
+  padding:1rem;
+}
+
+.p-6{
+  padding:1.5rem;
+}
+
+.p-8{
+  padding:2rem;
+}
+
+.py-2{
+  padding-top:0.5rem;
+  padding-bottom:0.5rem;
+}
+
+.px-2{
+  padding-left:0.5rem;
+  padding-right:0.5rem;
+}
+
+.py-3{
+  padding-top:0.75rem;
+  padding-bottom:0.75rem;
+}
+
+.py-4{
+  padding-top:1rem;
+  padding-bottom:1rem;
+}
+
+.px-4{
+  padding-left:1rem;
+  padding-right:1rem;
+}
+
+.py-8{
+  padding-top:2rem;
+  padding-bottom:2rem;
+}
+
+.px-8{
+  padding-left:2rem;
+  padding-right:2rem;
+}
+
+.py-20{
+  padding-top:5rem;
+  padding-bottom:5rem;
+}
+
+.pt-2{
+  padding-top:0.5rem;
+}
+
+.pl-4{
+  padding-left:1rem;
+}
+
+.placeholder-gray-600::-moz-placeholder{
+  --tw-placeholder-opacity:1;
+  color:rgba(75, 85, 99, var(--tw-placeholder-opacity));
+}
+
+.placeholder-gray-600:-ms-input-placeholder{
+  --tw-placeholder-opacity:1;
+  color:rgba(75, 85, 99, var(--tw-placeholder-opacity));
+}
+
+.placeholder-gray-600::placeholder{
+  --tw-placeholder-opacity:1;
+  color:rgba(75, 85, 99, var(--tw-placeholder-opacity));
+}
+
+.fixed{
+  position:fixed;
+}
+
+.absolute{
+  position:absolute;
+}
+
+.relative{
+  position:relative;
+}
+
+.top-0{
+  top:0px;
+}
+
+.right-0{
+  right:0px;
+}
+
+.bottom-0{
+  bottom:0px;
+}
+
+.bottom-4{
+  bottom:1rem;
+}
+
+.bottom-8{
+  bottom:2rem;
+}
+
+*{
+  --tw-shadow:0 0 #0000;
+}
+
+*{
+  --tw-ring-inset:var(--tw-empty,/*!*/ /*!*/);
+  --tw-ring-offset-width:0px;
+  --tw-ring-offset-color:#fff;
+  --tw-ring-color:rgba(59, 130, 246, 0.5);
+  --tw-ring-offset-shadow:0 0 #0000;
+  --tw-ring-shadow:0 0 #0000;
+}
+
+.focus\:ring-1:focus{
+  --tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.hover\:fill-current:hover{
+  fill:currentColor;
+}
+
+.text-left{
+  text-align:left;
+}
+
+.text-center{
+  text-align:center;
+}
+
+.text-black{
+  --tw-text-opacity:1;
+  color:rgba(0, 0, 0, var(--tw-text-opacity));
+}
+
+.text-white{
+  --tw-text-opacity:1;
+  color:rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.text-gray-400{
+  --tw-text-opacity:1;
+  color:rgba(156, 163, 175, var(--tw-text-opacity));
+}
+
+.text-gray-500{
+  --tw-text-opacity:1;
+  color:rgba(107, 114, 128, var(--tw-text-opacity));
+}
+
+.text-gray-600{
+  --tw-text-opacity:1;
+  color:rgba(75, 85, 99, var(--tw-text-opacity));
+}
+
+.hover\:text-white:hover{
+  --tw-text-opacity:1;
+  color:rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.uppercase{
+  text-transform:uppercase;
+}
+
+.tracking-wide{
+  letter-spacing:0.025em;
+}
+
+.tracking-wider{
+  letter-spacing:0.05em;
+}
+
+.tracking-widest{
+  letter-spacing:0.1em;
+}
+
+.w-6{
+  width:1.5rem;
+}
+
+.w-8{
+  width:2rem;
+}
+
+.w-16{
+  width:4rem;
+}
+
+.w-28{
+  width:7rem;
+}
+
+.w-32{
+  width:8rem;
+}
+
+.w-48{
+  width:12rem;
+}
+
+.w-auto{
+  width:auto;
+}
+
+.w-1\/2{
+  width:50%;
+}
+
+.w-1\/3{
+  width:33.333333%;
+}
+
+.w-full{
+  width:100%;
+}
+
+.z-10{
+  z-index:10;
+}
+
+.gap-4{
+  gap:1rem;
+}
+
+.grid-flow-row{
+  grid-auto-flow:row;
+}
+
+.grid-flow-col{
+  grid-auto-flow:column;
+}
+
+.grid-cols-1{
+  grid-template-columns:repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2{
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3{
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+}
+
+.col-span-1{
+  grid-column:span 1 / span 1;
+}
+
+.col-span-2{
+  grid-column:span 2 / span 2;
+}
+
+.grid-rows-1{
+  grid-template-rows:repeat(1, minmax(0, 1fr));
+}
+
+.grid-rows-2{
+  grid-template-rows:repeat(2, minmax(0, 1fr));
+}
+
+.grid-rows-3{
+  grid-template-rows:repeat(3, minmax(0, 1fr));
+}
+
+.grid-rows-4{
+  grid-template-rows:repeat(4, minmax(0, 1fr));
+}
+
+.grid-rows-6{
+  grid-template-rows:repeat(6, minmax(0, 1fr));
+}
+
+.transform{
+  --tw-translate-x:0;
+  --tw-translate-y:0;
+  --tw-rotate:0;
+  --tw-skew-x:0;
+  --tw-skew-y:0;
+  --tw-scale-x:1;
+  --tw-scale-y:1;
+  transform:translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hover\:scale-110:hover{
+  --tw-scale-x:1.1;
+  --tw-scale-y:1.1;
+}
+
+.hover\:scale-150:hover{
+  --tw-scale-x:1.5;
+  --tw-scale-y:1.5;
+}
+
+.hover\:translate-x-2:hover{
+  --tw-translate-x:0.5rem;
+}
+
+.hover\:-translate-x-2:hover{
+  --tw-translate-x:-0.5rem;
+}
+
+.transition{
+  transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration:150ms;
+}
+
+.duration-300{
+  transition-duration:300ms;
+}
+
+.duration-500{
+  transition-duration:500ms;
+}
+
+@-webkit-keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@-webkit-keyframes ping{
+  75%, 100%{
+    transform:scale(2);
+    opacity:0;
+  }
+}
+
+@keyframes ping{
+  75%, 100%{
+    transform:scale(2);
+    opacity:0;
+  }
+}
+
+@-webkit-keyframes pulse{
+  50%{
+    opacity:.5;
+  }
+}
+
+@keyframes pulse{
+  50%{
+    opacity:.5;
+  }
+}
+
+@-webkit-keyframes bounce{
+  0%, 100%{
+    transform:translateY(-25%);
+    -webkit-animation-timing-function:cubic-bezier(0.8,0,1,1);
+            animation-timing-function:cubic-bezier(0.8,0,1,1);
+  }
+
+  50%{
+    transform:none;
+    -webkit-animation-timing-function:cubic-bezier(0,0,0.2,1);
+            animation-timing-function:cubic-bezier(0,0,0.2,1);
+  }
+}
+
+@keyframes bounce{
+  0%, 100%{
+    transform:translateY(-25%);
+    -webkit-animation-timing-function:cubic-bezier(0.8,0,1,1);
+            animation-timing-function:cubic-bezier(0.8,0,1,1);
+  }
+
+  50%{
+    transform:none;
+    -webkit-animation-timing-function:cubic-bezier(0,0,0.2,1);
+            animation-timing-function:cubic-bezier(0,0,0.2,1);
+  }
+}
+
+@media (min-width: 640px){
+  .sm\:block{
+    display:block;
+  }
+
+  .sm\:h-32{
+    height:8rem;
+  }
+
+  .sm\:my-4{
+    margin-top:1rem;
+    margin-bottom:1rem;
+  }
+
+  .sm\:w-64{
+    width:16rem;
+  }
+}
+
+@media (min-width: 768px){
+  .md\:prose{
+    color:#374151;
+    max-width:65ch;
+  }
+
+  .md\:prose [class~="lead"]{
+    color:#4b5563;
+    font-size:1.25em;
+    line-height:1.6;
+    margin-top:1.2em;
+    margin-bottom:1.2em;
+  }
+
+  .md\:prose a{
+    color:#111827;
+    text-decoration:underline;
+    font-weight:500;
+  }
+
+  .md\:prose strong{
+    color:#111827;
+    font-weight:600;
+  }
+
+  .md\:prose ol[type="a"]{
+    --list-counter-style:lower-alpha;
+  }
+
+  .md\:prose ol[type="a" s]{
+    --list-counter-style:lower-alpha;
+  }
+
+  .md\:prose ol[type="i"]{
+    --list-counter-style:lower-roman;
+  }
+
+  .md\:prose ol[type="i" s]{
+    --list-counter-style:lower-roman;
+  }
+
+  .md\:prose ol[type="1"]{
+    --list-counter-style:decimal;
+  }
+
+  .md\:prose ol > li{
+    position:relative;
+    padding-left:1.75em;
+  }
+
+  .md\:prose ol > li::before{
+    content:counter(list-item, var(--list-counter-style, decimal)) ".";
+    position:absolute;
+    font-weight:400;
+    color:#6b7280;
+    left:0;
+  }
+
+  .md\:prose ul > li{
+    position:relative;
+    padding-left:1.75em;
+  }
+
+  .md\:prose ul > li::before{
+    content:"";
+    position:absolute;
+    background-color:#d1d5db;
+    border-radius:50%;
+    width:0.375em;
+    height:0.375em;
+    top:calc(0.875em - 0.1875em);
+    left:0.25em;
+  }
+
+  .md\:prose hr{
+    border-color:#e5e7eb;
+    border-top-width:1px;
+    margin-top:3em;
+    margin-bottom:3em;
+  }
+
+  .md\:prose blockquote{
+    font-weight:500;
+    font-style:italic;
+    color:#111827;
+    border-left-width:0.25rem;
+    border-left-color:#e5e7eb;
+    quotes:"\201C""\201D""\2018""\2019";
+    margin-top:1.6em;
+    margin-bottom:1.6em;
+    padding-left:1em;
+  }
+
+  .md\:prose blockquote p:first-of-type::before{
+    content:open-quote;
+  }
+
+  .md\:prose blockquote p:last-of-type::after{
+    content:close-quote;
+  }
+
+  .md\:prose h1{
+    color:#111827;
+    font-weight:800;
+    font-size:2.25em;
+    margin-top:0;
+    margin-bottom:0.8888889em;
+    line-height:1.1111111;
+  }
+
+  .md\:prose h2{
+    color:#111827;
+    font-weight:700;
+    font-size:1.5em;
+    margin-top:2em;
+    margin-bottom:1em;
+    line-height:1.3333333;
+  }
+
+  .md\:prose h3{
+    color:#111827;
+    font-weight:600;
+    font-size:1.25em;
+    margin-top:1.6em;
+    margin-bottom:0.6em;
+    line-height:1.6;
+  }
+
+  .md\:prose h4{
+    color:#111827;
+    font-weight:600;
+    margin-top:1.5em;
+    margin-bottom:0.5em;
+    line-height:1.5;
+  }
+
+  .md\:prose figure figcaption{
+    color:#6b7280;
+    font-size:0.875em;
+    line-height:1.4285714;
+    margin-top:0.8571429em;
+  }
+
+  .md\:prose code{
+    color:#111827;
+    font-weight:600;
+    font-size:0.875em;
+  }
+
+  .md\:prose code::before{
+    content:"`";
+  }
+
+  .md\:prose code::after{
+    content:"`";
+  }
+
+  .md\:prose a code{
+    color:#111827;
+  }
+
+  .md\:prose pre{
+    color:#e5e7eb;
+    background-color:#1f2937;
+    overflow-x:auto;
+    font-size:0.875em;
+    line-height:1.7142857;
+    margin-top:1.7142857em;
+    margin-bottom:1.7142857em;
+    border-radius:0.375rem;
+    padding-top:0.8571429em;
+    padding-right:1.1428571em;
+    padding-bottom:0.8571429em;
+    padding-left:1.1428571em;
+  }
+
+  .md\:prose pre code{
+    background-color:transparent;
+    border-width:0;
+    border-radius:0;
+    padding:0;
+    font-weight:400;
+    color:inherit;
+    font-size:inherit;
+    font-family:inherit;
+    line-height:inherit;
+  }
+
+  .md\:prose pre code::before{
+    content:none;
+  }
+
+  .md\:prose pre code::after{
+    content:none;
+  }
+
+  .md\:prose table{
+    width:100%;
+    table-layout:auto;
+    text-align:left;
+    margin-top:2em;
+    margin-bottom:2em;
+    font-size:0.875em;
+    line-height:1.7142857;
+  }
+
+  .md\:prose thead{
+    color:#111827;
+    font-weight:600;
+    border-bottom-width:1px;
+    border-bottom-color:#d1d5db;
+  }
+
+  .md\:prose thead th{
+    vertical-align:bottom;
+    padding-right:0.5714286em;
+    padding-bottom:0.5714286em;
+    padding-left:0.5714286em;
+  }
+
+  .md\:prose tbody tr{
+    border-bottom-width:1px;
+    border-bottom-color:#e5e7eb;
+  }
+
+  .md\:prose tbody tr:last-child{
+    border-bottom-width:0;
+  }
+
+  .md\:prose tbody td{
+    vertical-align:top;
+    padding-top:0.5714286em;
+    padding-right:0.5714286em;
+    padding-bottom:0.5714286em;
+    padding-left:0.5714286em;
+  }
+
+  .md\:prose{
+    font-size:1rem;
+    line-height:1.75;
+  }
+
+  .md\:prose p{
+    margin-top:1.25em;
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose img{
+    margin-top:2em;
+    margin-bottom:2em;
+  }
+
+  .md\:prose video{
+    margin-top:2em;
+    margin-bottom:2em;
+  }
+
+  .md\:prose figure{
+    margin-top:2em;
+    margin-bottom:2em;
+  }
+
+  .md\:prose figure > *{
+    margin-top:0;
+    margin-bottom:0;
+  }
+
+  .md\:prose h2 code{
+    font-size:0.875em;
+  }
+
+  .md\:prose h3 code{
+    font-size:0.9em;
+  }
+
+  .md\:prose ol{
+    margin-top:1.25em;
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose ul{
+    margin-top:1.25em;
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose li{
+    margin-top:0.5em;
+    margin-bottom:0.5em;
+  }
+
+  .md\:prose > ul > li p{
+    margin-top:0.75em;
+    margin-bottom:0.75em;
+  }
+
+  .md\:prose > ul > li > *:first-child{
+    margin-top:1.25em;
+  }
+
+  .md\:prose > ul > li > *:last-child{
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose > ol > li > *:first-child{
+    margin-top:1.25em;
+  }
+
+  .md\:prose > ol > li > *:last-child{
+    margin-bottom:1.25em;
+  }
+
+  .md\:prose ul ul, .md\:prose ul ol, .md\:prose ol ul, .md\:prose ol ol{
+    margin-top:0.75em;
+    margin-bottom:0.75em;
+  }
+
+  .md\:prose hr + *{
+    margin-top:0;
+  }
+
+  .md\:prose h2 + *{
+    margin-top:0;
+  }
+
+  .md\:prose h3 + *{
+    margin-top:0;
+  }
+
+  .md\:prose h4 + *{
+    margin-top:0;
+  }
+
+  .md\:prose thead th:first-child{
+    padding-left:0;
+  }
+
+  .md\:prose thead th:last-child{
+    padding-right:0;
+  }
+
+  .md\:prose tbody td:first-child{
+    padding-left:0;
+  }
+
+  .md\:prose tbody td:last-child{
+    padding-right:0;
+  }
+
+  .md\:prose > :first-child{
+    margin-top:0;
+  }
+
+  .md\:prose > :last-child{
+    margin-bottom:0;
+  }
+
+  .md\:space-x-6 > :not([hidden]) ~ :not([hidden]){
+    --tw-space-x-reverse:0;
+    margin-right:calc(1.5rem * var(--tw-space-x-reverse));
+    margin-left:calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .md\:block{
+    display:block;
+  }
+
+  .md\:flex{
+    display:flex;
+  }
+
+  .md\:hidden{
+    display:none;
+  }
+
+  .md\:justify-start{
+    justify-content:flex-start;
+  }
+
+  .md\:justify-between{
+    justify-content:space-between;
+  }
+
+  .md\:flex-1{
+    flex:1 1 0%;
+  }
+
+  .md\:h-32{
+    height:8rem;
+  }
+
+  .md\:h-40{
+    height:10rem;
+  }
+
+  .md\:h-64{
+    height:16rem;
+  }
+
+  .md\:h-full{
+    height:100%;
+  }
+
+  .md\:text-xl{
+    font-size:1.25rem;
+    line-height:1.75rem;
+  }
+
+  .md\:text-3xl{
+    font-size:1.875rem;
+    line-height:2.25rem;
+  }
+
+  .md\:my-10{
+    margin-top:2.5rem;
+    margin-bottom:2.5rem;
+  }
+
+  .md\:ml-4{
+    margin-left:1rem;
+  }
+
+  .md\:mt-12{
+    margin-top:3rem;
+  }
+
+  .md\:ml-20{
+    margin-left:5rem;
+  }
+
+  .md\:p-6{
+    padding:1.5rem;
+  }
+
+  .md\:p-10{
+    padding:2.5rem;
+  }
+
+  .md\:py-5{
+    padding-top:1.25rem;
+    padding-bottom:1.25rem;
+  }
+
+  .md\:px-8{
+    padding-left:2rem;
+    padding-right:2rem;
+  }
+
+  .md\:px-12{
+    padding-left:3rem;
+    padding-right:3rem;
+  }
+
+  .md\:px-20{
+    padding-left:5rem;
+    padding-right:5rem;
+  }
+
+  .md\:bottom-8{
+    bottom:2rem;
+  }
+
+  .md\:w-1\/2{
+    width:50%;
+  }
+
+  .md\:w-2\/5{
+    width:40%;
+  }
+
+  .md\:w-3\/5{
+    width:60%;
+  }
+
+  .md\:gap-6{
+    gap:1.5rem;
+  }
+
+  .md\:gap-8{
+    gap:2rem;
+  }
+
+  .md\:gap-x-6{
+    -moz-column-gap:1.5rem;
+         column-gap:1.5rem;
+  }
+
+  .md\:grid-cols-2{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-4{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+  }
+
+  .md\:col-span-2{
+    grid-column:span 2 / span 2;
+  }
+
+  .md\:grid-rows-1{
+    grid-template-rows:repeat(1, minmax(0, 1fr));
+  }
+
+  .md\:grid-rows-2{
+    grid-template-rows:repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-rows-3{
+    grid-template-rows:repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:row-span-2{
+    grid-row:span 2 / span 2;
+  }
+}
+
+@media (min-width: 1024px){
+  .lg\:block{
+    display:block;
+  }
+
+  .lg\:flex{
+    display:flex;
+  }
+
+  .lg\:hidden{
+    display:none;
+  }
+
+  .lg\:justify-end{
+    justify-content:flex-end;
+  }
+
+  .lg\:text-3xl{
+    font-size:1.875rem;
+    line-height:2.25rem;
+  }
+
+  .lg\:mr-0{
+    margin-right:0px;
+  }
+
+  .lg\:ml-12{
+    margin-left:3rem;
+  }
+
+  .lg\:px-16{
+    padding-left:4rem;
+    padding-right:4rem;
+  }
+
+  .lg\:px-40{
+    padding-left:10rem;
+    padding-right:10rem;
+  }
+
+  .lg\:text-left{
+    text-align:left;
+  }
+
+  .lg\:gap-8{
+    gap:2rem;
+  }
+
+  .lg\:grid-cols-3{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+
+  .lg\:col-span-2{
+    grid-column:span 2 / span 2;
+  }
+}
+
+@media (min-width: 1280px){
+  .xl\:px-20{
+    padding-left:5rem;
+    padding-right:5rem;
+  }
+
+  .xl\:px-56{
+    padding-left:14rem;
+    padding-right:14rem;
+  }
+
+  .xl\:grid-cols-4{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1536px){
+  .\32xl\:h-48{
+    height:12rem;
+  }
+}
+.nuxt-progress{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:2px;
+  width:0;
+  opacity:1;
+  transition:width .1s,opacity .4s;
+  background-color:#000;
+  z-index:999999
+}
+.nuxt-progress.nuxt-progress-notransition{
+  transition:none
+}
+.nuxt-progress-failed{
+  background-color:red
+}</style>
+  </head>
+  <body >
+    <div data-server-rendered="true" id="__leafage"><!----><div id="__layout"><div id="app"><header><div class="container mx-auto px-2 md:px-12 lg:px-16 xl:px-20"><div class="flex justify-between md:justify-start items-center border-black border-b-2 py-3 md:py-5"><nav class="hidden md:flex space-x-6 tracking-wide text-xs text-black uppercase"><a href="index.htm" tppabs="https://www.leafage.top/" title="home" class="font-extrabold nuxt-link-active">
+          Home
+        </a> <a href="portfolio.htm" tppabs="https://www.leafage.top/portfolio" title="portfolio" class="font-extrabold">
+          Portfolio
+        </a> <a href="about.htm" tppabs="https://www.leafage.top/about" title="about" class="font-extrabold">
+          About
+        </a> <a href="contact.htm" tppabs="https://www.leafage.top/contact" title="contact" class="text-xs font-extrabold uppercase text-black">
+          Contact
+        </a></nav> <div class="-my-2 md:hidden"><button type="button" aria-label="openMenu" class="m-2 items-center justify-center focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="black" aria-hidden="true" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button></div> <div class="flex items-center justify-end md:flex-1"><a title="subscribe" href="#" rel="noopener" aria-label="subscribe" class="text-gray-600 flex items-center uppercase text-xs font-bold tracking-wide"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail mr-1" style="display: unset"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path> <polyline points="22,6 12,13 2,6"></polyline></svg>
+          Subscribe
+        </a> <a title="searchOpen" href="javascript:;" aria-label="searchOpen" class="ml-8 mr-2 lg:mr-0"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle> <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a></div></div> <div class="flex justify-center items-center h-32 md:h-40"><a href="index.htm" tppabs="https://www.leafage.top/" class="text-4xl tracking-widest font-black uppercase text-black nuxt-link-active"><img src="logo-only.png" tppabs="https://www.leafage.top/logo-only.png" alt="Leafage" class="w-16 h-16 mx-auto"> <h1>Leafage</h1></a></div> <div class="px-2 mb-8" style="display:none;"><ul class="divide-y divide-black font-extrabold uppercase text-center"><li class="my-2"><a href="index.htm" tppabs="https://www.leafage.top/" title="home_mobile" class="nuxt-link-active">Home</a></li> <li class="my-2 pt-2"><a href="portfolio.htm" tppabs="https://www.leafage.top/portfolio" title="portfolio_mobile">Portfolio</a></li> <li class="my-2 pt-2"><a href="about.htm" tppabs="https://www.leafage.top/about" title="about_mobile">About</a></li> <li class="my-2 pt-2"><a href="contact.htm" tppabs="https://www.leafage.top/contact" title="contact_mobile">Contact</a></li></ul></div> <div class="fixed bg-black bg-opacity-80 top-0 right-0 w-full h-full z-10" style="display:none;"><div class="conatiner mx-auto px-8 md:px-20 lg:px-40 xl:px-56"><form><div class="flex justify-center items-center mt-48 w-full"><input type="text" placeholder="Enter The Keywords" value="" class="p-2 px-4 w-full -ml-4 focus:outline-none rounded-md"> <button type="submit" aria-label="search" class="-ml-10 focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6d6d6d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle> <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button></div></form> <a title="search" href="javascript:;" class="absolute mt-2 mr-2 top-0 right-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line></svg></a> <ul class="mt-2"><li class="flex items-center bg-gray-50 h-20 rounded-md"><span class="mx-auto">没有找到匹配的结果</span></li></ul></div></div></div></header> <main><div class="container mx-auto px-2 md:px-12 lg:px-16 xl:px-20"><div class="border-t border-black"></div> <div class="grid grid-flow-row grid-cols-1 lg:grid-cols-3 mt-12"><div class="lg:col-span-2"><article><ul class="flex text-sm font-bold space-x-6 text-gray-600 uppercase mb-4 -mt-3"><li><a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology">Technology</a></li> <li class="tracking-wider">4/20/2021</li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye mr-1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle></svg>427
+          </li> <li class="flex items-center cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart mr-1 transform hover:scale-150 hover:fill-current transition duration-300"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>6
+          </li></ul> <h2 class="my-3 text-xl md:text-3xl font-extrabold">prometheus和grafana服务监控系统</h2> <figure class="w-full h-full my-8" style="display:;"><img src="woman-1919143_640.jpg" tppabs="https://cdn.leafage.top/woman-1919143_640.jpg" alt="prometheus和grafana服务监控系统" class="w-full"></figure> <div class="prose min-w-full"><h1>prometheus服务监控</h1>
+<p>注：文档仅记录在linux下进行的一系列操作；<br />
+安装前准备：</p>
+<ol>
+<li>安装wget，用于下载文件，命令：</li>
+</ol>
+<pre class="hljs"><code>yum install wget -y
+</code></pre>
+<ol start="2">
+<li>安装lrzsz，用于上传文件资料，命令：</li>
+</ol>
+<pre class="hljs"><code>yum install lrzsz -y
+</code></pre>
+<ol start="3">
+<li>如果要跨机器访问需要开启端口号，在root用户下使用命令（0000表示要开启的端口号）：</li>
+</ol>
+<pre class="hljs"><code>firewall-cmd --zone=public --add-port=0000/tcp --permanent
+</code></pre>
+<p>重启防火墙：</p>
+<pre class="hljs"><code>firewall-cmd --reload
+</code></pre>
+<h2>Prometheus介绍：</h2>
+<p>Prometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Google的Brog系统演变而来），从2012年开始由前Google工程师在Soundcloud以开源软件的形式进行研发，并且于2015年早期对外发布早期版本。2016年5月继Kubernetes之后成为第二个正式加入CNCF基金会的项目，同年6月正式发布1.0版本。2017年底发布了基于全新存储层的2.0版本，能更好地与容器平台、云平台配合。</p>
+<p><img src="03102102_nlEP.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102102_nlEP.jpg" alt="12212.png" /></p>
+<p>Prometheus核心部分只有一个单独的二进制文件，不存在任何的第三方依赖(数据库，缓存等等)。唯一需要的就是本地磁盘，因此不会有潜在级联故障的风险。</p>
+<p>Prometheus基于Pull模型的架构方式，可以在任何地方（本地电脑，开发环境，测试环境）搭建我们的监控系统。对于一些复杂的情况，还可以使用Prometheus服务发现(Service Discovery)的能力动态管理监控目标。<br />
+所有采集的监控数据均以指标(metric)的形式保存在内置的时间序列数据库当中(TSDB)。所有的样本除了基本的指标名称以外，还包含一组用于描述该样本特征的标签。</p>
+<p>每一条时间序列由指标名称(Metrics Name)以及一组标签(Labels)唯一标识。每条时间序列按照时间的先后顺序存储一系列的样本值。<br />
+表示维度的标签可能来源于你的监控对象的状态，比如code=404或者content_path=/api/path。也可能来源于的你的环境定义，比如environment=produment。基于这些Labels我们可以方便地对监控数据进行聚合，过滤，裁剪。</p>
+<p>Prometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL也被应用于数据可视化(如Grafana)以及告警当中。</p>
+<p>通过PromQL可以轻松回答类似于以下问题：</p>
+<ul>
+<li>在过去一段时间中95%应用延迟时间的分布范围</li>
+<li>预测在4小时后，磁盘空间占用大致会是什么情况</li>
+<li>CPU占用率前5位的服务有哪些(过滤)</li>
+</ul>
+<p>对于监控系统而言，大量的监控任务必然导致有大量的数据产生。而Prometheus可以高效地处理这些数据，对于单一Prometheus Server实例而言它可以处理：</p>
+<ul>
+<li>数以百万的监控指标</li>
+<li>每秒处理数十万的数据点</li>
+</ul>
+<h3>Prometheus生态结构：</h3>
+<p>Prometheus 生态结构图如下所示：</p>
+<p><img src="03102102_Ux0h.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102102_Ux0h.jpg" alt="architecture.png" /></p>
+<p>prometheus 获取服务数据的方式有两种：pull和push两种模式，默认支持pull模式，配置简单，操作容易，配合一系列的Exporter可以很容易获取metircs接口数据，push模式需要pushgateway的支持，且需要自己实现一些操作，包括数据添加、更新、删除操作的数据到prometheus的pushgateway中，官方对push模式这样说的：</p>
+<p><img src="03102102_ChHg.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102102_ChHg.jpg" alt="11.png" /></p>
+<p><img src="03102102_fBC2.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102102_fBC2.jpg" alt="222.png" /></p>
+<p>使用Pushgateway有几个陷阱：</p>
+<ul>
+<li>通过单个Pushgateway监控多个实例时，Pushgateway成为单点故障和潜在瓶颈。</li>
+<li>您通过up 指标（每次刮除时生成）丢失了Prometheus的自动实例运行状况监控。</li>
+<li>Pushgateway永远不会忘记推送到它的系列，并将永远暴露给Prometheus，除非这些系列是通过Pushgateway的API手动删除的。</li>
+</ul>
+<h3>Prometheus对比Zabbix：</h3>
+<table>
+<thead>
+<tr>
+<th>Zabbix</th>
+<th>Prometheus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>后端用C开发，界面用PHP开发，定制化难度很高。</td>
+<td>后端用golang开发，前端是Grafana，JSON编辑即可解决定制化难度较低</td>
+</tr>
+<tr>
+<td>集群规模上限为 10000 个节点</td>
+<td>支持更大的集群规模，速度也更快</td>
+</tr>
+<tr>
+<td>更适合监控物理机环境</td>
+<td>更适合云环境的监控，对OpenStack，Kubernetes有更好的集成</td>
+</tr>
+<tr>
+<td>监控数据存储在关系型数据库内，如 MySQL，很难从现有数据中扩展维度</td>
+<td>监控数据存储在基于时间序列的数据库内，便于对已有数据进行新的聚合</td>
+</tr>
+<tr>
+<td>安装简单，zabbix-server 一个软件包中包括了所有的服务端功能</td>
+<td>安装相对复杂，监控、告警和界面都分属于不同的组件</td>
+</tr>
+<tr>
+<td>图形化界面比较成熟，界面上基本上能完成全部的配置操作</td>
+<td>界面相对较弱，很多配置需要修改配置文件</td>
+</tr>
+<tr>
+<td>发展时间更长，对于很多监控场景，都有现成的解决方案</td>
+<td>2015 年后开始快速发展，但发展时间较短，成熟度不及Zabbix</td>
+</tr>
+</tbody>
+</table>
+<h3>Prometheus工作流程：</h3>
+<p>1、Prometheus Server 定期从配置好的 jobs 或者 exporters 中拉 metrics，或者接收来自 Push Gateway 发过来的 metrics，或者从其他的 Prometheus Server 中拉 metrics。<br />
+2、Prometheus Server 在本地存储收集到的 metrics，并运行已定义好的预警规则，记录新的时间序列或者向 Alertmanager 推送警报。<br />
+3、Alertmanager 根据配置文件，对接收到的警报进行处理，发出告警。<br />
+4、在图形界面（Grafana）中，采集数据，将其可视化。</p>
+<p>Prometheus客户端库主要提供四种主要的 metric 类型：</p>
+<ul>
+<li>Counter(计数器)：<br />
+- 说明：Counter是一个累积度量，它表示一个单调递增的 Metrics，其值只能在重启时递增或重置为零；<br />
+- 场景：可以使用Counter来表示http的请求数、已完成的任务数或错误数、下单数。</li>
+<li>Gauge(测量仪)：<br />
+- 说明：当前值的一次快照(snapshot)测量，可增可减。<br />
+- 场景：磁盘使用率，当前同时在线用户数。</li>
+<li>Histogram(直方图)：<br />
+- 说明：通过区间统计样本分布。<br />
+- 场景：请求延迟时间的统计。例如统计 0200ms、200ms400ms、400ms~800ms 区间的请求数有多。</li>
+<li>Summary(汇总)：<br />
+- 说明：根据样本统计出百分位。<br />
+- 场景：请求延迟时间的统计。例如统计 95%的请求延迟 &lt; xxx ms ，99%的请求延迟 &lt; xxx ms。</li>
+</ul>
+<h2>Prometheus安装：</h2>
+<ol>
+<li>下载prometheus文件，在Linux系统中，使用cd命令进入目标目录下，例如：/usr/local/src/prometheus；下载链接为：<a href="javascript:if(confirm(%27https://prometheus.io/download/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://prometheus.io/download/%27" tppabs="https://prometheus.io/download/">https://prometheus.io/download/</a><br />
+如图所示，下载红色框中的文件：</li>
+</ol>
+<p><img src="up-1292a13defbb076b2e7f61f833fbd51d932.png" tppabs="https://oscimg.oschina.net/oscnet/up-1292a13defbb076b2e7f61f833fbd51d932.png" alt="" /></p>
+<ol start="2">
+<li>解压下载文件，使用tar -zxvf prometheus-*.tar.gz命令进行解压缩。解压后如下图所示，红色框中的为执行文件：</li>
+</ol>
+<p><img src="up-9e6897cae263fbb7808a6a307558eecc66f.png" tppabs="https://oscimg.oschina.net/oscnet/up-9e6897cae263fbb7808a6a307558eecc66f.png" alt="" /></p>
+<ol start="3">
+<li>进入到premotheus根目录下，执行命令：sudo ./Prometheus 启动服务（启动prometheus需要/prometheus/data权限），可以看到下图所示信息即表示启动成功；</li>
+</ol>
+<p><img src="up-9b5df8fabb029d03b455cdb433ab94ff595.png" tppabs="https://oscimg.oschina.net/oscnet/up-9b5df8fabb029d03b455cdb433ab94ff595.png" alt="" /></p>
+<p>另外后台启动服务使用命令：nohup ./prometheus &gt; prometheus.log 2&gt;&amp;1 &amp; 启动之后，浏览器输入<a href="javascript:if(confirm(%27http://192.168.xx.xx:9090/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9090/%27" tppabs="http://192.168.xx.xx:9090/">http://192.168.xx.xx:9090</a> ，如下如所示：</p>
+<p><img src="aHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjUyNDQtZGEwMWYwYzYtMjQwYi00Njk3LWE4NDYtOGEyOTcxYWEyOGY5LnBuZw.png#align=left&display=inline&height=281&originHeight=468&originWidth=1240&status=done&width=745" tppabs="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjUyNDQtZGEwMWYwYzYtMjQwYi00Njk3LWE4NDYtOGEyOTcxYWEyOGY5LnBuZw#align=left&display=inline&height=281&originHeight=468&originWidth=1240&status=done&width=745" alt="" /></p>
+<h3>在阿里云的ESC部署的时候发现的问题及解决办法：</h3>
+<ol>
+<li>按照上面的操作进行启动的时候报错，报错信息如下：</li>
+</ol>
+<blockquote>
+<p>level=error ts=2019-07-23T02:03:30.555Z caller=main.go:731 err=“opening storage failed: lock DB directory: resource temporarily unavailable”</p>
+</blockquote>
+<p>解决办法：删除解压目录下的 lock 文件<br />
+执行：</p>
+<pre class="hljs"><code>rm -f \[软件的本地解压目录\]/prometheus/data/lock
+</code></pre>
+<ol>
+<li>解决上面的问题后，启动服务发现还有报错，报错信息如下：</li>
+</ol>
+<blockquote>
+<p>level=error ts=2019-07-23T02:30:49.107Z caller=main.go:731 err=“error starting web server: listen tcp 0.0.0.0:9090: bind: address already in use”</p>
+</blockquote>
+<p>解决办法：查找占用9090端口的应用的PID，然后强制关闭<br />
+执行：</p>
+<pre class="hljs"><code>sudo netstat -antup
+</code></pre>
+<p>查找到占用9090端口的应用的PID<br />
+执行：</p>
+<pre class="hljs"><code><span class="hljs-built_in">kill</span> -9 \[具体的pid\]
+</code></pre>
+<h2>Prometheus配置介绍：</h2>
+<p>Prometheus配置只有一个prometheus.yml文件，其内容如下图所示：</p>
+<p><img src="03102103_Y1bb.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102103_Y1bb.jpg" alt="" /></p>
+<p>读配置文件即其中的注释可以知道默认的配置有四个，global全局配置，alerting预警，rule_files规则文件，scrape_configs下载配置；</p>
+<p>在scrage_configs下看到默认配置了prometheus自己的监控配置，job_name是一个配置标识， static_config下有一个targets，这个配置监控服务的地址+端口号，promehteus会通过这个配置的url和默认的路径”/metrics”，去对应的服务上pull监控的各种数据到prometheus中进行存储。</p>
+<h2>Prometheus数据存储配置：</h2>
+<p>数据存储：prometheus采用自定义的存储格式将样本数据保存在本地磁盘当中，默认数据存储在prometheus根目录下的/data文件夹中，如图所示：</p>
+<p><img src="03102103_1htH.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102103_1htH.jpg" alt="" /></p>
+<p><img src="03102103_QKTN.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102103_QKTN.jpg" alt="" /></p>
+<p>存储说明：Prometheus 按照两个小时为一个时间窗口，将两小时内产生的数据存储在一个块（Block）中。每个块都是一个单独的目录，里面含该时间窗口内的所有样本数据（chunks），元数据文件（meta.json）以及索引文件（index）。其中索引文件会将指标名称和标签索引到样板数据的时间序列中。此期间如果通过 API 删除时间序列，删除记录会保存在单独的逻辑文件 tombstone 当中。</p>
+<p>当前样本数据所在的块会被直接保存在内存中，不会持久化到磁盘中。为了确保 Prometheus 发生崩溃或重启时能够恢复数据，Prometheus 启动时会通过预写日志（write-ahead-log(WAL)）重新记录，从而恢复数据。预写日志文件保存在 wal 目录中，每个文件大小为 128MB。</p>
+<p>wal 文件包括还没有被压缩的原始数据，所以比常规的块文件大得多。一般情况下，Prometheus 会保留三个 wal 文件，但如果有些高负载服务器需要保存两个小时以上的原始数据，wal 文件的数量就会大于 3 个。</p>
+<p>Prometheus保存块数据的目录结构如下所示：</p>
+<p><img src="03102103_knNW.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102103_knNW.jpg" alt="" /></p>
+<p>Prometheus 的本地存储无法持久化数据，无法灵活扩展。为了保持简单性，定义两个标准接口（远程写remote_write，远程读remote_read），让用户可以基于这两个接口对接将数据保存到任意第三方的存储服务中，这种方式在 Promthues 中称为 Remote Storage。</p>
+<h3>Prometheus远程存储配置：</h3>
+<p>Prometheus远程存储的方式有很多种，但是部分只支持写，并不支持读，Elasticsearch就是其中一个，但是我们可以通过中间工具可以实现将数据存储到Elasticsearch和从Elasticsearch中读取数据。在prometheus官网是这样介绍远程读写的：</p>
+<p><img src="03102103_05aq.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102103_05aq.jpg" alt="2A481C6A-77FC-4c73-9935-E714C2148514.png" /></p>
+<p>prometheus远程读写数据到Elasticsearch，需要一个对应的adapter来实现，Prometheus-es-adapter 就是实现这个功能的。</p>
+<h4>Prometheus远程读写到Elasticsearch：</h4>
+<p>Prometheus-es-adapter在github上可以拉取源码：<a href="javascript:if(confirm(%27https://github.com/pwillie/prometheus-es-adapter.git  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://github.com/pwillie/prometheus-es-adapter.git%27" tppabs="https://github.com/pwillie/prometheus-es-adapter.git">https://github.com/pwillie/prometheus-es-adapter.git</a>， 这个adapter是Go语言开发的，所有编译运行需要Go语言环境。Go语言环境搭建这里不再描述，只说明编译和运行的步骤。<br />
+这里特殊说明一点，go的仓库在国外，可能有些依赖下载不下来，需要配置GOPRAXY环境变量，说明如下：</p>
+<p><img src="03102103_XY3K.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102103_XY3K.jpg" alt="50465B35-A121-4c2b-874C-0A3F4DB4AE3B.png" /></p>
+<p>修改配置文件，添加go module和goproxy的配置：</p>
+<p><img src="03102104_SPdp.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102104_SPdp.jpg" alt="90CFF1CD-BC2B-45a1-95A0-57F0975CB9C5.png" /></p>
+<p>在Go语言环境配置好之后，因为验证时没有在root用户下操作，所以配置的GOPATH为/home/xxx/go，如果是在root用户下操作，安装Go环境之后，默认的GOPATH是/root/go，cd到GOPATH目录下，如果没有src目录则在这个目录下创建一个src文件夹，然后将prometheus-es-adapter 克隆/下载到/src下，也就是/home/xxx/go/src/，或者/root/go/src下，cd到prometheus-es-adapter下，修改/cmd/adapter/main.go文件，默认配置的es信息如下图所示：</p>
+<p><img src="03102104_nIS0.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102104_nIS0.jpg" alt="E8837991-5BF0-4d85-8686-06641430B370.png" /></p>
+<p>然后执行make build命令进行编译，编译完成之后，在当前目录下会生成一个prometheus-es-adapter的可执行文件，这个文件在当前目录下的/release/linux/amd64/文件夹，启动这个可执行文件。</p>
+<p>如果是docker启动服务则需要修改docker-compose.yml文件，配置elasticsearch路径、版本等信息，示例如下所示，其中蓝色框中的是自己注释掉的，这个暂且不需要，红色框的是要修改的：</p>
+<p><img src="03102104_d8NQ.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102104_d8NQ.jpg" alt="EE5B7B55-B9AD-40d6-99CF-E4459165F237.png" /></p>
+<p>远程读/写的配置很简单，在prometheus.yml中添加remote_write的配置项即可，这里演示配置远程写到Elasticsearch，示例如下：</p>
+<pre class="hljs"><code><span class="hljs-comment">#远程写</span>
+<span class="hljs-attr">remote_write:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">http://192.168.xx.xx:8000/write</span>
+<span class="hljs-comment">#远程读</span>
+<span class="hljs-attr">remote_read:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">http://192.168.xx.xx:8000/read</span>
+</code></pre>
+<p>配置完成后，使用kill -HUP pid 就可以热启动，然后访问：<a href="javascript:if(confirm(%27http://192.168.xx.xx:8000/read  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:8000/read%27" tppabs="http://192.168.xx.xx:8000/read">http://192.168.xx.xx:8000/read</a></p>
+<h2>Prometheus监控配置：</h2>
+<h3>Node_exporter服务器监控：</h3>
+<p>在Prometheus的架构设计中，Prometheus Server并不直接服务监控特定的目标，其主要任务负责数据的收集，存储并且对外提供数据查询支持。因此为了能够能够监控到某些东西，如主机的CPU使用率，我们需要使用到Exporter。Prometheus周期性的从Exporter暴露的HTTP服务地址（通常是/metrics）拉取监控样本数据。</p>
+<p>为了能够采集到主机的运行指标如CPU, 内存，磁盘等信息。我们可以使用Node Exporter。Node Exporter同样采用Golang编写，并且不存在任何的第三方依赖，只需要下载，解压即可运行。</p>
+<ol>
+<li>下载node_exporter可以从<a href="javascript:if(confirm(%27https://prometheus.io/download/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://prometheus.io/download/%27" tppabs="https://prometheus.io/download/">https://prometheus.io/download/</a> 获取最新的node exporter版本的二进制包。在prometheus官网提供很多exporter，下载下图红框中的文件，放到要安装的目录下，例如：/usr/local/src目录下；</li>
+</ol>
+<p><img src="03102104_632w.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102104_632w.jpg" alt="" /></p>
+<ol start="2">
+<li>解压缩文件，使用tar -zxvf node_exporter-0.18.1.linux-amd64.tar.gz命令，解压文件，包含一个可执行文件，下图红色框中的文件：</li>
+</ol>
+<p><img src="03102104_Bw5n.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102104_Bw5n.jpg" alt="" /></p>
+<ol start="3">
+<li>进入到node_exporter根目录，输入命令：./node_exporter，启动服务，可以看到下图所示信息即表示启动成功。</li>
+</ol>
+<p><img src="03102104_zVbO.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102104_zVbO.jpg" alt="" /></p>
+<pre><code>另外可以后台启动服务使用命令：nohup ./node\_exporter &gt; node\_exporter.log 2&gt;&amp;1 &amp;，启动成功后，访问[http://192.168.xx.xx:9100](http://192.168.xx.xx:9100)可以看到:
+
+![](https://static.oschina.net/uploads/img/202101/03102104_Kulf.jpg)
+
+点击mertrics可以看到服务监控信息：
+</code></pre>
+<p><img src="03102105_jdtG.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102105_jdtG.jpg" alt="" /></p>
+<h4>Node_exporter配置到Prometheus:</h4>
+<p>node_exporter的端口是9100，打开prometheus的配置文件prometheus.yml，在scrape_configs下面添加如下内容，注意这个要跟默认的job_name: 'prometheus’同级配置；</p>
+<pre class="hljs"><code><span class="hljs-comment"># A scrape configuration containing exactly one endpoint to scrape:</span>
+<span class="hljs-attr">scrape_configs:</span>
+	<span class="hljs-comment">#node_exporter</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;node_exporter&#x27;</span>
+    <span class="hljs-attr">static_configs:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;localhost:9100&#x27;</span>]
+</code></pre>
+<p><img src="03102105_fanR.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102105_fanR.jpg" alt="" /></p>
+<p>配置好之后，需要重启prometheus服务，重启完成，再次访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:9090/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9090/%27" tppabs="http://192.168.xx.xx:9090/">http://192.168.xx.xx:9090</a></p>
+<p>点击菜单栏status下的targets可以看到，node_exporter已经出现，并显示状态为UP；因为只部署了一个node_exporter所以看到的是node_exporter（1/1 up）;</p>
+<p><img src="03102105_6Jo7.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102105_6Jo7.jpg" alt="" /></p>
+<p>点击Endpoint下的url（因为所有的服务都在同一机器上，所以这里配置的是localhost）可以看到服务器的监控信息，也就是点击<a href="javascript:if(confirm(%27http://192.168.xx.xx:9100/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9100/%27" tppabs="http://192.168.xx.xx:9100/">http://192.168.xx.xx:9100</a> 下的metrics同样的页面和内容。</p>
+<h3>Mysqld_exporter数据库监控：</h3>
+<p>Mysqld_exporter和Node_exporter类似，也是官网提供的监控插件，在官网可以下载到。</p>
+<ol>
+<li>通过浏览器访问prometheus官网<a href="javascript:if(confirm(%27https://prometheus.io/download/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://prometheus.io/download/%27" tppabs="https://prometheus.io/download/">https://prometheus.io/download/</a> 获取最新的mysqld_exporter版本的二进制包。下载下图红框中的文件，放到要安装的目录下，例如：/usr/local/src目录下；</li>
+</ol>
+<p><img src="03102105_kVFY.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102105_kVFY.jpg" alt="" /></p>
+<ol start="2">
+<li>解压缩文件，使用tar -zxvf mysqld_exporter-0.12.0.linux-amd64.tar.gz命令，解压文件，包含一个可执行文件，下图红色框中的文件（其中mysqld_exporter.log是后台启动指定创建的日志文件，本身不包含此文件）：</li>
+</ol>
+<p><img src="03102105_Sfar.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102105_Sfar.jpg" alt="" /></p>
+<ol start="3">
+<li>启动可执行文件，使用命令：./mysqld_exporter 看到下图所示信息：</li>
+</ol>
+<p><img src="03102105_YERr.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102105_YERr.jpg" alt="" /></p>
+<p>注意红色框中的信息提示当前用户目录root下没有.my.cnf文件，mysqld_exporter监控数据库信息，需要数据库相关的配置，包括url、端口号、用户名和密码，如果这个配置需要配置在当前用户目录下的.my.cnf文件中；</p>
+<p>命令cd到用户目录下，当前用户是root 就cd /home/root，然后使用命令：vi .my.cnf这个如果有会打开，如果没有这个文件，保存时会创建。使用ls -la 命令可查看.my.cnf文件是否存在，打开此文件，配置数据库相关信息：</p>
+<pre class="hljs"><code>[client]host=192.168.xx.xx
+port=3306
+user=root
+password=root
+</code></pre>
+<ol>
+<li>编辑好之后进行保存，然后重新启动mysqld_exporter服务：</li>
+</ol>
+<p><img src="03102105_jCqQ.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102105_jCqQ.jpg" alt="" /></p>
+<p>此时可以看到错误信息中出现了数据库相关信息，但是拒绝连接，这个是因为数据库没有启动，去后台启动数据库服务后即可，正常连接后如下图所示：</p>
+<p><img src="03102106_Umwu.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102106_Umwu.jpg" alt="" /></p>
+<p>访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:9104/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9104/%27" tppabs="http://192.168.xx.xx:9104/">http://192.168.xx.xx:9104</a> 查看相关信息：</p>
+<p><img src="03102106_Lw8B.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102106_Lw8B.jpg" alt="" /></p>
+<h4>Mysqld_exporter配置到Prometheus：</h4>
+<p>配置好mysqld_exporter之后，在prometheus的配置文件prometheus.yml中加入mysqld_exporter的配置，配置信息如下所示：</p>
+<pre class="hljs"><code><span class="hljs-comment"># A scrape configuration containing exactly one endpoint to scrape:</span>
+<span class="hljs-attr">scrape_configs:</span>
+  <span class="hljs-comment">#mysqld_exporter</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;mysqld_exporter&#x27;</span>
+    <span class="hljs-attr">static_configs:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;localhost:9104&#x27;</span>]
+</code></pre>
+<p>然后重启prometheus服务，访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:9090/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9090/%27" tppabs="http://192.168.xx.xx:9090/">http://192.168.xx.xx:9090</a><br />
+点击菜单栏status下的targets可以看到有关mysqld_exporter的信息，并且状态是UP。</p>
+<p><img src="03102106_025T.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102106_025T.jpg" alt="" /></p>
+<p>点击连接，可以看到数据库监控信息，如图所示：</p>
+<p><img src="03102106_oQVw.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102106_oQVw.jpg" alt="" /></p>
+<h3>Java服务监控：</h3>
+<ol>
+<li>在服务中加入maven依赖：</li>
+</ol>
+<pre class="hljs"><code><span class="hljs-comment">&lt;!-- actuator --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- prometheus--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.micrometer<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>micrometer-registry-prometheus<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code></pre>
+<ol>
+<li>在配置文件中配置相关信息：</li>
+</ol>
+<pre class="hljs"><code><span class="hljs-comment">##=====actuator=====##</span>
+<span class="hljs-attr">management:</span>
+  <span class="hljs-attr">endpoints:</span>
+    <span class="hljs-attr">web:</span>
+      <span class="hljs-attr">exposure:</span>
+        <span class="hljs-attr">include:</span> <span class="hljs-string">health,info,env,metrics,Prometheus</span>
+</code></pre>
+<p>这里include也可以配置成*，表示所有，配置好之后，启动服务，访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:8762/actuator/health  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:8762/actuator/health%27" tppabs="http://192.168.xx.xx:8762/actuator/health">http://192.168.xx.xx:8762/actuator</a> 可看到相关监控信息：</p>
+<p><img src="03102106_F9OJ.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102106_F9OJ.jpg" alt="" /></p>
+<h4>Java服务配置到Prometheus：</h4>
+<p>服务启动后打开prometheus配置文件prometheus.yml，在配置文件中加入服务监控的相关配置，这里需要注意，和前面的配置相比，多了一个metrics_path的配置项，这里配置的是/actuator/promehteus, 配置信息如下所示：</p>
+<pre class="hljs"><code><span class="hljs-comment"># A scrape configuration containing exactly one endpoint to scrape:</span>
+<span class="hljs-attr">scrape_configs:</span>
+  <span class="hljs-comment">#spring-boot 这里命名为spring-boot</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;spring-boot&#x27;</span>
+    <span class="hljs-attr">metrics_path:</span> <span class="hljs-string">&#x27;/actuator/prometheus&#x27;</span>
+    <span class="hljs-attr">static_configs:</span>
+		<span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;192.168.xx.xx:8762&#x27;</span>]
+</code></pre>
+<h5>metrics_path说明：</h5>
+<p>prometheus处理监控信息的格式是固定的如下图所示：</p>
+<p><img src="03102106_6qkU.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102106_6qkU.jpg" alt="" /></p>
+<p>prometheus默认的监控接口是/metrics，访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:8762/actuator/metrics  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:8762/actuator/metrics%27" tppabs="http://192.168.xx.xx:8762/actuator/metrics">http://192.168.xx.xx:8762/actuator/metrics</a> 看到如下信息：</p>
+<p><img src="03102106_Luq7.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102106_Luq7.jpg" alt="" /></p>
+<p>上图中的数据格式prometheus是无法处理的，所以不能在prometheus配置中使用默认的接口，访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:8762/actuator/prometheus  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:8762/actuator/prometheus%27" tppabs="http://192.168.xx.xx:8762/actuator/prometheus">http://192.168.xx.xx:8762/actuator/prometheus</a><br />
+可以看到：</p>
+<p><img src="03102107_QkOI.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102107_QkOI.jpg" alt="" /></p>
+<p>这个是prometheus可以处理的，所以要配置metrics_path为/actuator/prometheus的接口。配置完成后，访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:9090/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9090/%27" tppabs="http://192.168.xx.xx:9090/">http://192.168.xx.xx:9090</a> 点击菜单栏status下的targets可以看到有关spring_boot的信息，并且状态是UP，如果没有配置metrics_path，服务状态则是DOWN。</p>
+<p><img src="03102107_lbHT.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102107_lbHT.jpg" alt="" /></p>
+<h2>Prometheus告警配置:</h2>
+<p>Prometheus 告警配置参考prometheus.yml配置文档中的描述可以知道，告警规则可以是外部的YAML文件。在Prometheus中一条告警规则主要由以下几部分组成：</p>
+<ul>
+<li>告警名称：用户需要为告警规则命名，当然对于命名而言，需要能够直接表达出该告警的主要内容；</li>
+<li>告警规则：告警规则实际上主要由PromQL进行定义，其实际意义是当表达式（PromQL）查询结果持续多长时间（During）后出发告警；</li>
+</ul>
+<p>在Prometheus中，还可以通过Group（告警组）对一组相关的告警进行统一定义。当然这些定义都是通过YAML文件来统一管理的。</p>
+<h3>Prometheus告警规则：</h3>
+<p>Prometheus告警规则是基于PromQL表达式定义的，示例如下：</p>
+<pre class="hljs"><code><span class="hljs-attr">groups:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">node_alert</span>
+  <span class="hljs-attr">rules:</span>
+
+  <span class="hljs-comment"># Alert for any instance that is unreachable for &gt; 10 seconds.</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">alert:</span> <span class="hljs-string">Instance</span> <span class="hljs-string">Down</span>
+    <span class="hljs-attr">expr:</span> <span class="hljs-string">up</span> <span class="hljs-string">==</span> <span class="hljs-number">0</span>
+    <span class="hljs-attr">for:</span> <span class="hljs-string">10s</span>
+    <span class="hljs-attr">annotations:</span>
+      <span class="hljs-attr">summary:</span> <span class="hljs-string">&quot;Instance {
+   { $labels.instance }} down&quot;</span>
+      <span class="hljs-attr">description:</span> <span class="hljs-string">&quot;{
+   { $labels.instance }} of job {
+   { $labels.job }} has been down.&quot;</span>
+</code></pre>
+<p>在告警规则文件中，我们可以将一组相关的规则设置定义在一个group下。在每一个group中我们可以定义多个告警规则(rule)。通过 <a href="javascript:if(confirm(%27http://labels.name/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://labels.name/%27" tppabs="http://labels.name/">labels.name</a> 变量可以访问当前告警实例中指定标签的值。$value则可以获取当前PromQL表达式计算的样本值。一条告警规则主要由以下几部分组成：</p>
+<ul>
+<li>alert：告警规则的名称。</li>
+<li>expr：基于PromQL表达式告警触发条件，用于计算是否有时间序列满足该条件。</li>
+<li>for：评估等待时间，可选参数。用于表示只有当触发条件持续一段时间后才发送告警。在等待期间新产生告警的状态为pending。</li>
+<li>labels：自定义标签，允许用户指定要附加到告警上的一组附加标签。</li>
+<li>annotations：用于指定一组附加信息，比如用于描述告警详细信息的文字等，annotations的内容在告警产生时会一同作为参数发送到Alertmanager。</li>
+</ul>
+<p>按照PromQl语法配置一个告警规则，定义alert_rules.yml文件，将示例中的语句复制到alert_rules.yml文件中，保存，然后在prometheus的配置文件中，规则配置项添加alert_rules.yml的文件路径配置,完成之后使用命令：./promtool check rules ./ alert_rules.yml 检查规则是否正确，简称正确，一切完成后重启prometheus，访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:9090/rules  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9090/rules%27" tppabs="http://192.168.xx.xx:9090/rules">http://192.168.xx.xx:9090/rules</a> 可以看到配置的告警信息：</p>
+<p><img src="03102107_ui8S.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102107_ui8S.jpg" alt="" /></p>
+<p><img src="03102107_PHJ4.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102107_PHJ4.jpg" alt="" /></p>
+<p>当告警规则触发时，alerts的state会变成PENDING，如果后告警条件持续满足配置的时间，告警状态为FIRING<br />
+<img src="03102107_oJFg.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102107_oJFg.jpg" alt="" /></p>
+<h3>Alertmanager配置到Prometheus:</h3>
+<p>Prometheus可以配置告警规则，并触发告警配置，但是只能在页面看到状态的变化，无法发送告警通知，alertmanager结合prometheus可以做到更多。</p>
+<ol>
+<li>
+<p>通过浏览器访问prometheus官网<a href="javascript:if(confirm(%27https://prometheus.io/download/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://prometheus.io/download/%27" tppabs="https://prometheus.io/download/">https://prometheus.io/download/</a> 获取最新的alertmanager。下载下图红框中的文件，放到要安装的目录下，例如：/usr/local/src目录下；<br />
+<img src="03102107_n8sZ.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102107_n8sZ.jpg" alt="" /></p>
+</li>
+<li>
+<p>执行解压缩命令，解压下载的alertmanager-0.18.0.linux-amd64.tar.gz文件，里面包含alertmanager的可执行文件alertmanager，和配置文件alertmanager.yml</p>
+</li>
+</ol>
+<p><img src="03102107_1MMn.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102107_1MMn.jpg" alt="" /></p>
+<ol start="3">
+<li>启动alertmanager服务，默认端口为9093，访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:9093/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9093/%27" tppabs="http://192.168.xx.xx:9093/">http://192.168.xx.xx:9093</a> 可以看到相关的信息，点击status查看配置信息：</li>
+</ol>
+<p><img src="03102107_fSOF.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102107_fSOF.jpg" alt="" /></p>
+<p><img src="03102108_UBV4.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102108_UBV4.jpg" alt="" /></p>
+<ol>
+<li>打开alertmanager.yml文件，下载邮件通知模板，添加邮件配置信息，内容示例如下所示：</li>
+</ol>
+<pre class="hljs"><code><span class="hljs-attr">global:</span>
+  <span class="hljs-attr">resolve_timeout:</span> <span class="hljs-string">5m</span>
+  <span class="hljs-attr">smtp_smarthost:</span> <span class="hljs-string">&#x27;smtp.qq.com:587&#x27;</span>
+  <span class="hljs-attr">smtp_from:</span> <span class="hljs-string">&#x27;29029xxx2@qq.com&#x27;</span>
+  <span class="hljs-attr">smtp_auth_username:</span> <span class="hljs-string">&#x27;29029xxx2@qq.com&#x27;</span>
+  <span class="hljs-attr">smtp_auth_password:</span> <span class="hljs-string">&#x27;sxxasd&#x27;</span> <span class="hljs-comment">#这里需要得是客户端授权登录密码，非账号登录密码</span>
+<span class="hljs-attr">route:</span>
+  <span class="hljs-attr">group_by:</span> [<span class="hljs-string">&#x27;alertname&#x27;</span>]
+  <span class="hljs-attr">group_wait:</span> <span class="hljs-string">10s</span>
+  <span class="hljs-attr">group_interval:</span> <span class="hljs-string">10s</span>
+  <span class="hljs-attr">repeat_interval:</span> <span class="hljs-string">1h</span>
+  <span class="hljs-attr">receiver:</span> <span class="hljs-string">team-X-mails</span>
+<span class="hljs-attr">receivers:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">&#x27;team-X-mails&#x27;</span>
+    <span class="hljs-attr">email_configs:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">to:</span> <span class="hljs-string">&#x27;liwenqiang@tseveryday.com&#x27;</span>
+<span class="hljs-attr">inhibit_rules:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">source_match:</span>
+      <span class="hljs-attr">severity:</span> <span class="hljs-string">&#x27;critical&#x27;</span>
+    <span class="hljs-attr">target_match:</span>
+      <span class="hljs-attr">severity:</span> <span class="hljs-string">&#x27;warning&#x27;</span>
+    <span class="hljs-attr">equal:</span> [<span class="hljs-string">&#x27;alertname&#x27;</span>, <span class="hljs-string">&#x27;dev&#x27;</span>, <span class="hljs-string">&#x27;instance&#x27;</span>]
+<span class="hljs-attr">templates:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;default.tmpl&#x27;</span>
+</code></pre>
+<p>模板下载：</p>
+<pre class="hljs"><code>wget https://raw.githubusercontent.com/prometheus/alertmanager/master/template/default.tmpl
+</code></pre>
+<ol>
+<li>配置完成后重启服务，刷新<a href="javascript:if(confirm(%27http://192.168.xx.xx:9093/status  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:9093/status%27" tppabs="http://192.168.xx.xx:9093/status">http://192.168.xx.xx:9093/status</a> 可以看到配置信息已经更新：<br />
+<img src="aHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjc4NzAtMmYwN2Q0MTItOWVhNi00ODBlLTk4NDYtMDExMmQ5YTJhZTJmLnBuZw.png#align=left&display=inline&height=1063&originHeight=926&originWidth=724&status=done&width=831" tppabs="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjc4NzAtMmYwN2Q0MTItOWVhNi00ODBlLTk4NDYtMDExMmQ5YTJhZTJmLnBuZw#align=left&display=inline&height=1063&originHeight=926&originWidth=724&status=done&width=831" alt="" /></li>
+</ol>
+<p>当告警规则触发后，alertmanager会收到来自prometheus的告警信息，并且会发送告警通知（这里配置的是邮件通知，所以会）：<br />
+<img src="aHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjc5MjEtYjY5M2VlMmYtZDVjZC00MDZiLWFkMzAtNDE2YWI0ZWVmNDc3LnBuZw.png#align=left&display=inline&height=407&originHeight=590&originWidth=1204&status=done&width=831" tppabs="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjc5MjEtYjY5M2VlMmYtZDVjZC00MDZiLWFkMzAtNDE2YWI0ZWVmNDc3LnBuZw#align=left&display=inline&height=407&originHeight=590&originWidth=1204&status=done&width=831" alt="" /></p>
+<h2>Grafana安装：</h2>
+<p>虽然prometheus可以进行一些数据的查看，但是没有只能看到一堆的数据，分析起来复杂，且不直观，grafana是一个可视化工具，可以根据需要安装各种功能分析和展示插件来直观的展示数据信息；</p>
+<ol>
+<li>安装grafana的方式很多，参考：<a href="javascript:if(confirm(%27https://grafana.com/docs/installation/rpm/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://grafana.com/docs/installation/rpm/%27" tppabs="https://grafana.com/docs/installation/rpm/">https://grafana.com/docs/installation/rpm/</a> 为了方便直接使用 yum 安装:</li>
+</ol>
+<pre class="hljs"><code>sudo yum install [https://dl.grafana.com/oss/release/grafana-5.4.2-1.x86_64.rpm](https://dl.grafana.com/oss/release/grafana-5.4.2-1.x86_64.rpm)
+</code></pre>
+<ol start="2">
+<li>安装完成后执行：sudo service grafana-server start启动grafana服务，也可以通过systemctl start grafana-server启动（在使用此命令之前先执行一次systemctl daemon-reload），启动之后查看状态：systemctl status grafana-server；</li>
+<li>Grafana默认端口号为3000，启动后访问<a href="javascript:if(confirm(%27http://192.168.xx.xx:3000/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://192.168.xx.xx:3000/%27" tppabs="http://192.168.xx.xx:3000/">http://192.168.xx.xx:3000</a> ，可看到下图画面，默认的账号密码是admin/admin；</li>
+</ol>
+<p><img src="03102108_H3WT.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102108_H3WT.jpg" alt="" /></p>
+<p><img src="03102108_LgNt.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102108_LgNt.jpg" alt="" /></p>
+<h2>Grafana 配置数据源：</h2>
+<ol>
+<li>进入首页，点击add data source选项，进入数据源配置页面：</li>
+</ol>
+<p><img src="03102108_ICTc.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102108_ICTc.jpg" alt="" /></p>
+<ol start="2">
+<li>选择prometheus作为数据源配置，点击prometheus后进入数据源配置页面，如下图所示：</li>
+</ol>
+<p><img src="03102108_EiIA.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102108_EiIA.jpg" alt="" /></p>
+<ol start="3">
+<li>在红色框中配置相关的信息，这里grafana和prometheus在同一台机器上，所以这里配置<a href="javascript:if(confirm(%27http://localhost:9090/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://localhost:9090/%27" tppabs="http://localhost:9090/">http://localhost:9090</a> ，填写完成后，点击save and test，然后点击绿色框中的dashbords选项，选择prometheus 2.0 stats点击后面的import。</li>
+</ol>
+<p><img src="03102109_iZmQ.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102109_iZmQ.jpg" alt="" /></p>
+<ol start="4">
+<li>Import之后，在首页中，选择配置的prometheus 2.0 stats，就可以看到数据展示。</li>
+</ol>
+<p><img src="03102109_W1Ru.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102109_W1Ru.jpg" alt="" /></p>
+<p><img src="03102109_MmNV.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102109_MmNV.jpg" alt="" /></p>
+<h2>Grafana dashboards添加：</h2>
+<p>点击左侧栏中的+图标下的import，在页面中输入grafana labs的dashboards下的插件id（node_exporter：1860， mysqld_exporter: 6239， jvm: 4701/9568），会自动跳转至配置页，选择数据源为prometheus，然后点击import。</p>
+<p><img src="03102109_t3AE.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102109_t3AE.jpg" alt="" /></p>
+<p><img src="03102109_Qfwi.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102109_Qfwi.jpg" alt="" /></p>
+<p>操作完成，服务运行一段时间之后可以看到相关的数据统计：</p>
+<p><img src="03102110_QGoA.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102110_QGoA.jpg" alt="" /></p>
+<p><img src="03102110_LSow.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102110_LSow.jpg" alt="" /></p>
+<p><img src="03102110_hxGX.jpg" tppabs="https://static.oschina.net/uploads/img/202101/03102110_hxGX.jpg" alt="" /></p>
+<p>注意红色框中，容器名称时没有的，这里需要说明得是，使用4701这个dashboards时，需要在spring boot配置文件中增加一些配置，两种配置二选一即可：</p>
+<p><img src="03102110_bcue.jpg.png" tppabs="https://static.oschina.net/uploads/img/202101/03102110_bcue.jpg" alt="" /></p>
+</div> <div class="bg-gray-200 my-8 p-8"><ul class="grid grid-flow-row grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 gap-4 text-xs font-bold"><li><a href="21286KZA.htm" tppabs="https://www.leafage.top/posts/detail/21286KZA" title="21286KZA" class="flex items-center transform hover:-translate-x-2 transition duration-500"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>Leafage 网站的前生今世</a></li> <li class="flex items-center justify-end"><a href="2133Y9Q4.htm" tppabs="https://www.leafage.top/posts/detail/2133Y9Q4" title="2133Y9Q4" class="flex items-center transform hover:translate-x-2 transition duration-500">Leafage 诞生记（一、创建基于nuxt.js的项目）
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></a></li></ul></div></article> <div class="my-12"><div class="flex divide-y-2 divide-gray-400 divide-dotted"><h3 class="uppercase font-extrabold">Top Posts</h3> <span class="flex-1 w-full ml-4 mt-3"></span></div> <div class="my-6"><div class="grid grid-flow-row grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-3 gap-4 md:gap-8"><div><div class="overflow-hidden relative"><div class="transform hover:scale-110 transition duration-500"><img src="data-4404730_640.jpg-imageMogr2-thumbnail-640x192-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/data-4404730_640.jpg?imageMogr2/thumbnail/640x192/format/webp/blur/1x0/quality/75" alt="Mybatis批量操作sql写法" class="w-full h-44"></div> <a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology" class="absolute top-0 text-white text-xs font-extrabold uppercase p-4">Technology</a></div> <div><h3 class="font-extrabold my-4 transform hover:translate-x-2 transition duration-500"><a href="20815YW6T.htm" tppabs="https://www.leafage.top/posts/detail/20815YW6T" title="20815YW6T">Mybatis批量操作sql写法</a></h3> <ul class="flex text-xs space-x-6 uppercase text-gray-500"><li>4/10/2021</li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye mr-1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle></svg>634
+                  </li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart mr-1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>10
+                  </li></ul></div></div><div><div class="overflow-hidden relative"><div class="transform hover:scale-110 transition duration-500"><img src="security-869216_640.jpg-imageMogr2-thumbnail-640x192-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/security-869216_640.jpg?imageMogr2/thumbnail/640x192/format/webp/blur/1x0/quality/75" alt="spring security 学习和踩坑总结（入门）" class="w-full h-44"></div> <a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology" class="absolute top-0 text-white text-xs font-extrabold uppercase p-4">Technology</a></div> <div><h3 class="font-extrabold my-4 transform hover:translate-x-2 transition duration-500"><a href="208291JMJ.htm" tppabs="https://www.leafage.top/posts/detail/208291JMJ" title="208291JMJ">spring security 学习和踩坑总结（入门）</a></h3> <ul class="flex text-xs space-x-6 uppercase text-gray-500"><li>4/10/2021</li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye mr-1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle></svg>500
+                  </li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart mr-1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>2
+                  </li></ul></div></div><div><div class="overflow-hidden relative"><div class="transform hover:scale-110 transition duration-500"><img src="password-2781614_640.jpg-imageMogr2-thumbnail-640x192-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/password-2781614_640.jpg?imageMogr2/thumbnail/640x192/format/webp/blur/1x0/quality/75" alt="一步步带你实现redis分布式锁" class="w-full h-44"></div> <a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology" class="absolute top-0 text-white text-xs font-extrabold uppercase p-4">Technology</a></div> <div><h3 class="font-extrabold my-4 transform hover:translate-x-2 transition duration-500"><a href="20824ZB0N.htm" tppabs="https://www.leafage.top/posts/detail/20824ZB0N" title="20824ZB0N">一步步带你实现redis分布式锁</a></h3> <ul class="flex text-xs space-x-6 uppercase text-gray-500"><li>2/2/2021</li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye mr-1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle></svg>460
+                  </li> <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart mr-1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>7
+                  </li></ul></div></div></div></div></div></div> <aside data-fetch-key="SideBar:0" class="lg:flex lg:justify-end w-full"><div class="lg:ml-12"><div class="border border-solid border-gray-200 p-8"><h3 class="font-extrabold">欢迎关注公众号（Leafage）</h3> <div class="flex items-center mt-4"><img src="leafage-wechat.jpg" tppabs="https://www.leafage.top/images/resources/leafage-wechat.jpg" alt="leafage" class="w-32 h-32 border"> <div class="mx-4"><p class="my-2">微信搜一搜</p> <input type="text" disabled="disabled" placeholder="Leafage" class="placeholder-gray-600 border border-gray-300 p-2 w-full text-sm rounded"></div></div></div> <div class="my-12 py-8 border border-solid border-gray-200 relative"><h3 class="absolute top-0 -mt-3 px-2 ml-6 bg-white uppercase text-sm font-semibold">
+        Trending
+      </h3> <div class="flex px-4 md:px-8 py-2"><img src="security-265130_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/security-265130_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="spring security 学习和踩坑总结（表单）" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="20829TXGD.htm" tppabs="https://www.leafage.top/posts/detail/20829TXGD" title="20829TXGD">spring security 学习和踩坑总结（表单）</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">本篇将介绍如何进行自定义的一些配置来实现自定义的登录，包括从数据库查用户信息等</p> <span class="text-xs text-gray-500 font-bold uppercase">4/28/2021</span></div></div><div class="flex px-4 md:px-8 py-2"><img src="data-4404730_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/data-4404730_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="Mybatis批量操作sql写法" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="20815YW6T.htm" tppabs="https://www.leafage.top/posts/detail/20815YW6T" title="20815YW6T">Mybatis批量操作sql写法</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">使用mybatis时，如何自定义实现批量操作数据，SQL如何编写，其中需要注意的点有哪些</p> <span class="text-xs text-gray-500 font-bold uppercase">4/10/2021</span></div></div><div class="flex px-4 md:px-8 py-2"><img src="security-869216_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/security-869216_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="spring security 学习和踩坑总结（入门）" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="208291JMJ.htm" tppabs="https://www.leafage.top/posts/detail/208291JMJ" title="208291JMJ">spring security 学习和踩坑总结（入门）</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">spring security 是个很强大的框架，但是网上没有一个完整的对于它的一个分析，或者使用的说明，本文将一步步的对其进行使用和分析做出说明</p> <span class="text-xs text-gray-500 font-bold uppercase">4/10/2021</span></div></div><div class="flex px-4 md:px-8 py-2"><img src="password-2781614_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/password-2781614_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="一步步带你实现redis分布式锁" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="20824ZB0N.htm" tppabs="https://www.leafage.top/posts/detail/20824ZB0N" title="20824ZB0N">一步步带你实现redis分布式锁</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">在开发过程中，那面遇到一些场景，需要实现锁，现在大都是分布式方案，那么分布式下如何实现锁</p> <span class="text-xs text-gray-500 font-bold uppercase">2/2/2021</span></div></div><div class="flex px-4 md:px-8 py-2"><img src="woman-1919143_640.jpg-imageMogr2-thumbnail-640x80-format-webp-blur-1x0-quality-75" tppabs="https://cdn.leafage.top/woman-1919143_640.jpg?imageMogr2/thumbnail/640x80/format/webp/blur/1x0/quality/75" alt="prometheus和grafana服务监控系统" class="w-28 h-20"> <div class="m-2 md:ml-4"><h3 class="text-sm font-bold transform hover:translate-x-2 transition duration-500"><a href="2129YYQ4.htm" tppabs="https://www.leafage.top/posts/detail/2129YYQ4" aria-current="page" title="2129YYQ4" class="nuxt-link-exact-active nuxt-link-active">prometheus和grafana服务监控系统</a></h3> <p class="text-xs mt-2 hidden sm:block lg:hidden">Prometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL</p> <span class="text-xs text-gray-500 font-bold uppercase">4/20/2021</span></div></div></div> <div class="border border-solid border-gray-200 relative"><h3 class="absolute top-0 -mt-3 px-2 ml-6 bg-white uppercase text-sm font-semibold">
+        Categories
+      </h3> <ul class="grid grid-cols-1 divide-y divide-gray-300 p-8 text-xs text-gray-600 font-semibold uppercase list-disc"><li class="py-3 mx-4"><a href="posts-category=Technology.htm" tppabs="https://www.leafage.top/posts?category=Technology" title="Technology">Technology</a> <span class="mr-2 float-right">14</span></li><li class="py-3 mx-4"><a href="posts-category=Lifestyle.htm" tppabs="https://www.leafage.top/posts?category=Lifestyle" title="Lifestyle">Lifestyle</a> <span class="mr-2 float-right">1</span></li><li class="py-3 mx-4"><a href="posts-category=Travel.htm" tppabs="https://www.leafage.top/posts?category=Travel" title="Travel">Travel</a> <span class="mr-2 float-right">0</span></li><li class="py-3 mx-4"><a href="posts-category=Experience.htm" tppabs="https://www.leafage.top/posts?category=Experience" title="Experience">Experience</a> <span class="mr-2 float-right">1</span></li><li class="py-3 mx-4"><a href="posts-category=Photograph.htm" tppabs="https://www.leafage.top/posts?category=Photograph" title="Photograph">Photograph</a> <span class="mr-2 float-right">0</span></li></ul></div> <div class="my-12 border-2 border-solid border-black border-opacity-70 p-8"><h3 class="font-extrabold">Send Email To Me</h3> <form class="mt-4 flex items-center"><input type="email" placeholder="Enter your email adress" class="w-full text-sm text-black placeholder-gray-600 border border-gray-300 py-2 pl-4"> <a aria-label="email" title="email" href="mailto:little3201@163.com?subject=Leafage%20Website%20News" class="bg-black text-white p-2 -ml-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line> <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></a></form></div> <div class="border border-solid border-gray-200 relative my-12"><h3 class="absolute top-0 -mt-3 px-2 ml-6 bg-white uppercase text-sm font-semibold">
+        Friend Chain
+      </h3> <ul class="grid grid-cols-1 divide-y divide-gray-300 p-8 text-xs text-gray-600 font-semibold list-decimal"><li class="py-3 mx-4"><a title="howtodoinjava" href="javascript:if(confirm(%27https://howtodoinjava.com/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://howtodoinjava.com/%27" tppabs="https://howtodoinjava.com/" target="_blank" rel="noopener">howtodoinjava</a></li> <li class="py-3 mx-4"><a title="nginx" href="javascript:if(confirm(%27https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhCN  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhCN%27" tppabs="https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhCN" rel="noopener" target="_blank">nginx配置生成</a></li> <li class="py-3 mx-4"><a title="leafage console" href="javascript:if(confirm(%27https://console.leafage.top/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://console.leafage.top/%27" tppabs="https://console.leafage.top/" target="_blank" rel="noopener">leafage后台管理系统</a></li> <li class="py-3 mx-4"><a title="csdn" href="javascript:if(confirm(%27https://blog.csdn.net/zx110503?spm=1008.2028.3001.5343&type=blog  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://blog.csdn.net/zx110503?spm=1008.2028.3001.5343&type=blog%27" tppabs="https://blog.csdn.net/zx110503?spm=1008.2028.3001.5343&type=blog" rel="noopener" target="_blank">csdn</a></li> <li class="py-3 mx-4"><a title="oschina" href="javascript:if(confirm(%27https://my.oschina.net/u/4066932  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://my.oschina.net/u/4066932%27" tppabs="https://my.oschina.net/u/4066932" target="_blank" rel="noopener">开源中国 oschina</a></li> <li class="py-3 mx-4"><a title="segmentfault" href="javascript:if(confirm(%27https://segmentfault.com/u/bujidao_5d0c24ce7055e/articles  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://segmentfault.com/u/bujidao_5d0c24ce7055e/articles%27" tppabs="https://segmentfault.com/u/bujidao_5d0c24ce7055e/articles" rel="noopener" target="_blank">思否 segmentfault</a></li></ul></div></div></aside></div></div></main> <footer class="bg-black"><section class="container mx-auto px-2 md:px-12 lg:px-16 xl:px-20"><div class="md:flex md:justify-between items-center text-white md:h-32"><div class="flex justify-center text-3xl tracking-widest font-black uppercase py-4"><a href="index.htm" tppabs="https://www.leafage.top/" title="leafage" class="nuxt-link-active">Leafage</a></div> <div class="flex justify-center space-x-6 sm:my-4"><a title="github" href="javascript:if(confirm(%27https://github.com/little3201  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://github.com/little3201%27" tppabs="https://github.com/little3201" rel="noopener" target="_blank">Github</a> <a title="gitee" href="javascript:if(confirm(%27https://gitee.com/little3201  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://gitee.com/little3201%27" tppabs="https://gitee.com/little3201" rel="noopener" target="_blank">Gitee</a></div> <div class="flex justify-center space-x-10 uppercase font-extrabold my-4"><a href="about.htm" tppabs="https://www.leafage.top/about" title="about">About</a> <a href="contact.htm" tppabs="https://www.leafage.top/contact" title="contact">Contact</a></div></div></section> <section class="py-3 text-xs text-center text-gray-400 container mx-auto px-2 md:px-12 lg:px-16 xl:px-20"><p class="border-t border-gray-700 py-3">
+      © 2021 leafage.top All Rights Reserved.
+    </p> <p><a href="javascript:if(confirm(%27https://beian.miit.gov.cn/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://beian.miit.gov.cn/%27" tppabs="https://beian.miit.gov.cn/" rel="noopener" target="_blank">陕ICP备19017836号-1</a></p></section></footer></div></div></div><script>window.__LEAFAGE__=(function(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,_){n[0]=o;n[1]=p;n[2]=q;n[3]=r;n[4]=s;return {layout:"default",data:[{data:{code:e,modifyTime:l,title:f,subtitle:g,cover:m,tags:n,category:b,likes:t,comment:a,viewed:427,content:"# prometheus服务监控\n\n注：文档仅记录在linux下进行的一系列操作；  \n安装前准备：\n\n1.  安装wget，用于下载文件，命令：\n```bash\nyum install wget -y\n```\n2.  安装lrzsz，用于上传文件资料，命令：\n```bash\nyum install lrzsz -y\n```\n3.  如果要跨机器访问需要开启端口号，在root用户下使用命令（0000表示要开启的端口号）：\n```bash\nfirewall-cmd --zone=public --add-port=0000\u002Ftcp --permanent\n```\n重启防火墙：\n```bash\nfirewall-cmd --reload\n```\n\n## Prometheus介绍：\n\nPrometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Google的Brog系统演变而来），从2012年开始由前Google工程师在Soundcloud以开源软件的形式进行研发，并且于2015年早期对外发布早期版本。2016年5月继Kubernetes之后成为第二个正式加入CNCF基金会的项目，同年6月正式发布1.0版本。2017年底发布了基于全新存储层的2.0版本，能更好地与容器平台、云平台配合。\n\n![12212.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102102_nlEP.jpg)\n\nPrometheus核心部分只有一个单独的二进制文件，不存在任何的第三方依赖(数据库，缓存等等)。唯一需要的就是本地磁盘，因此不会有潜在级联故障的风险。\n\nPrometheus基于Pull模型的架构方式，可以在任何地方（本地电脑，开发环境，测试环境）搭建我们的监控系统。对于一些复杂的情况，还可以使用Prometheus服务发现(Service Discovery)的能力动态管理监控目标。  \n所有采集的监控数据均以指标(metric)的形式保存在内置的时间序列数据库当中(TSDB)。所有的样本除了基本的指标名称以外，还包含一组用于描述该样本特征的标签。\n\n每一条时间序列由指标名称(Metrics Name)以及一组标签(Labels)唯一标识。每条时间序列按照时间的先后顺序存储一系列的样本值。\n表示维度的标签可能来源于你的监控对象的状态，比如code=404或者content_path=\u002Fapi\u002Fpath。也可能来源于的你的环境定义，比如environment=produment。基于这些Labels我们可以方便地对监控数据进行聚合，过滤，裁剪。\n\nPrometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL也被应用于数据可视化(如Grafana)以及告警当中。\n\n通过PromQL可以轻松回答类似于以下问题：\n\n-   在过去一段时间中95%应用延迟时间的分布范围\n-   预测在4小时后，磁盘空间占用大致会是什么情况\n-   CPU占用率前5位的服务有哪些(过滤)\n\n对于监控系统而言，大量的监控任务必然导致有大量的数据产生。而Prometheus可以高效地处理这些数据，对于单一Prometheus Server实例而言它可以处理：\n\n-   数以百万的监控指标\n-   每秒处理数十万的数据点\n\n### Prometheus生态结构：\n\nPrometheus 生态结构图如下所示：\n\n![architecture.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102102_Ux0h.jpg)\n\nprometheus 获取服务数据的方式有两种：pull和push两种模式，默认支持pull模式，配置简单，操作容易，配合一系列的Exporter可以很容易获取metircs接口数据，push模式需要pushgateway的支持，且需要自己实现一些操作，包括数据添加、更新、删除操作的数据到prometheus的pushgateway中，官方对push模式这样说的：\n\n![11.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102102_ChHg.jpg)\n\n![222.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102102_fBC2.jpg)\n\n使用Pushgateway有几个陷阱：\n\n-   通过单个Pushgateway监控多个实例时，Pushgateway成为单点故障和潜在瓶颈。\n-   您通过up 指标（每次刮除时生成）丢失了Prometheus的自动实例运行状况监控。\n-   Pushgateway永远不会忘记推送到它的系列，并将永远暴露给Prometheus，除非这些系列是通过Pushgateway的API手动删除的。\n\n### Prometheus对比Zabbix：\n\n| Zabbix | Prometheus |\n| --- | --- |\n| 后端用C开发，界面用PHP开发，定制化难度很高。 | 后端用golang开发，前端是Grafana，JSON编辑即可解决定制化难度较低 |\n| 集群规模上限为 10000 个节点 | 支持更大的集群规模，速度也更快 |\n| 更适合监控物理机环境 | 更适合云环境的监控，对OpenStack，Kubernetes有更好的集成 |\n| 监控数据存储在关系型数据库内，如 MySQL，很难从现有数据中扩展维度 | 监控数据存储在基于时间序列的数据库内，便于对已有数据进行新的聚合 |\n| 安装简单，zabbix-server 一个软件包中包括了所有的服务端功能 | 安装相对复杂，监控、告警和界面都分属于不同的组件 |\n| 图形化界面比较成熟，界面上基本上能完成全部的配置操作 | 界面相对较弱，很多配置需要修改配置文件 |\n| 发展时间更长，对于很多监控场景，都有现成的解决方案 | 2015 年后开始快速发展，但发展时间较短，成熟度不及Zabbix |\n\n### Prometheus工作流程：\n\n1、Prometheus Server 定期从配置好的 jobs 或者 exporters 中拉 metrics，或者接收来自 Push Gateway 发过来的 metrics，或者从其他的 Prometheus Server 中拉 metrics。\n2、Prometheus Server 在本地存储收集到的 metrics，并运行已定义好的预警规则，记录新的时间序列或者向 Alertmanager 推送警报。\n3、Alertmanager 根据配置文件，对接收到的警报进行处理，发出告警。\n4、在图形界面（Grafana）中，采集数据，将其可视化。\n\nPrometheus客户端库主要提供四种主要的 metric 类型：\n\n-   Counter(计数器)：\n    \\- 说明：Counter是一个累积度量，它表示一个单调递增的 Metrics，其值只能在重启时递增或重置为零；\n    \\- 场景：可以使用Counter来表示http的请求数、已完成的任务数或错误数、下单数。\n-   Gauge(测量仪)：\n    \\- 说明：当前值的一次快照(snapshot)测量，可增可减。\n    \\- 场景：磁盘使用率，当前同时在线用户数。\n-   Histogram(直方图)：\n    \\- 说明：通过区间统计样本分布。\n    \\- 场景：请求延迟时间的统计。例如统计 0200ms、200ms400ms、400ms~800ms 区间的请求数有多。\n-   Summary(汇总)：\n    \\- 说明：根据样本统计出百分位。\n    \\- 场景：请求延迟时间的统计。例如统计 95%的请求延迟 \u003C xxx ms ，99%的请求延迟 \u003C xxx ms。\n\n## Prometheus安装：\n\n1.  下载prometheus文件，在Linux系统中，使用cd命令进入目标目录下，例如：\u002Fusr\u002Flocal\u002Fsrc\u002Fprometheus；下载链接为：[https:\u002F\u002Fprometheus.io\u002Fdownload\u002F](https:\u002F\u002Fprometheus.io\u002Fdownload\u002F)\n如图所示，下载红色框中的文件：\n\n![](https:\u002F\u002Foscimg.oschina.net\u002Foscnet\u002Fup-1292a13defbb076b2e7f61f833fbd51d932.png)\n\n2.  解压下载文件，使用tar -zxvf prometheus-*.tar.gz命令进行解压缩。解压后如下图所示，红色框中的为执行文件：\n\n![](https:\u002F\u002Foscimg.oschina.net\u002Foscnet\u002Fup-9e6897cae263fbb7808a6a307558eecc66f.png)\n\n3.  进入到premotheus根目录下，执行命令：sudo .\u002FPrometheus 启动服务（启动prometheus需要\u002Fprometheus\u002Fdata权限），可以看到下图所示信息即表示启动成功；\n\n![](https:\u002F\u002Foscimg.oschina.net\u002Foscnet\u002Fup-9b5df8fabb029d03b455cdb433ab94ff595.png)\n\n另外后台启动服务使用命令：nohup .\u002Fprometheus \u003E prometheus.log 2\u003E&1 & 启动之后，浏览器输入[http:\u002F\u002F192.168.xx.xx:9090](http:\u002F\u002F192.168.xx.xx:9090) ，如下如所示：\n\n![](https:\u002F\u002Fimgconvert.csdnimg.cn\u002FaHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjUyNDQtZGEwMWYwYzYtMjQwYi00Njk3LWE4NDYtOGEyOTcxYWEyOGY5LnBuZw#align=left&display=inline&height=281&originHeight=468&originWidth=1240&status=done&width=745)\n\n### 在阿里云的ESC部署的时候发现的问题及解决办法：\n\n1.  按照上面的操作进行启动的时候报错，报错信息如下：\n\u003E level=error ts=2019-07-23T02:03:30.555Z caller=main.go:731 err=“opening storage failed: lock DB directory: resource temporarily unavailable”\n\n解决办法：删除解压目录下的 lock 文件\n执行：\n```bash\nrm -f \\[软件的本地解压目录\\]\u002Fprometheus\u002Fdata\u002Flock\n```\n\n1.  解决上面的问题后，启动服务发现还有报错，报错信息如下：\n\n\u003E level=error ts=2019-07-23T02:30:49.107Z caller=main.go:731 err=“error starting web server: listen tcp 0.0.0.0:9090: bind: address already in use”\n\n解决办法：查找占用9090端口的应用的PID，然后强制关闭\n执行：\n```bash\nsudo netstat -antup\n```\n查找到占用9090端口的应用的PID\n执行：\n```bash\nkill -9 \\[具体的pid\\]\n```\n\n## Prometheus配置介绍：\n\nPrometheus配置只有一个prometheus.yml文件，其内容如下图所示：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_Y1bb.jpg)\n\n读配置文件即其中的注释可以知道默认的配置有四个，global全局配置，alerting预警，rule\\_files规则文件，scrape\\_configs下载配置；\n\n在scrage\\_configs下看到默认配置了prometheus自己的监控配置，job\\_name是一个配置标识， static_config下有一个targets，这个配置监控服务的地址+端口号，promehteus会通过这个配置的url和默认的路径”\u002Fmetrics”，去对应的服务上pull监控的各种数据到prometheus中进行存储。\n\n## Prometheus数据存储配置：\n\n数据存储：prometheus采用自定义的存储格式将样本数据保存在本地磁盘当中，默认数据存储在prometheus根目录下的\u002Fdata文件夹中，如图所示：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_1htH.jpg)\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_QKTN.jpg)\n\n存储说明：Prometheus 按照两个小时为一个时间窗口，将两小时内产生的数据存储在一个块（Block）中。每个块都是一个单独的目录，里面含该时间窗口内的所有样本数据（chunks），元数据文件（meta.json）以及索引文件（index）。其中索引文件会将指标名称和标签索引到样板数据的时间序列中。此期间如果通过 API 删除时间序列，删除记录会保存在单独的逻辑文件 tombstone 当中。\n\n当前样本数据所在的块会被直接保存在内存中，不会持久化到磁盘中。为了确保 Prometheus 发生崩溃或重启时能够恢复数据，Prometheus 启动时会通过预写日志（write-ahead-log(WAL)）重新记录，从而恢复数据。预写日志文件保存在 wal 目录中，每个文件大小为 128MB。\n\nwal 文件包括还没有被压缩的原始数据，所以比常规的块文件大得多。一般情况下，Prometheus 会保留三个 wal 文件，但如果有些高负载服务器需要保存两个小时以上的原始数据，wal 文件的数量就会大于 3 个。\n\nPrometheus保存块数据的目录结构如下所示：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_knNW.jpg)\n\nPrometheus 的本地存储无法持久化数据，无法灵活扩展。为了保持简单性，定义两个标准接口（远程写remote\\_write，远程读remote\\_read），让用户可以基于这两个接口对接将数据保存到任意第三方的存储服务中，这种方式在 Promthues 中称为 Remote Storage。\n\n### Prometheus远程存储配置：\n\nPrometheus远程存储的方式有很多种，但是部分只支持写，并不支持读，Elasticsearch就是其中一个，但是我们可以通过中间工具可以实现将数据存储到Elasticsearch和从Elasticsearch中读取数据。在prometheus官网是这样介绍远程读写的：\n\n![2A481C6A-77FC-4c73-9935-E714C2148514.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_05aq.jpg)\n\nprometheus远程读写数据到Elasticsearch，需要一个对应的adapter来实现，Prometheus-es-adapter 就是实现这个功能的。\n\n#### Prometheus远程读写到Elasticsearch：\n\nPrometheus-es-adapter在github上可以拉取源码：[https:\u002F\u002Fgithub.com\u002Fpwillie\u002Fprometheus-es-adapter.git](https:\u002F\u002Fgithub.com\u002Fpwillie\u002Fprometheus-es-adapter.git)， 这个adapter是Go语言开发的，所有编译运行需要Go语言环境。Go语言环境搭建这里不再描述，只说明编译和运行的步骤。\n这里特殊说明一点，go的仓库在国外，可能有些依赖下载不下来，需要配置GOPRAXY环境变量，说明如下：\n\n![50465B35-A121-4c2b-874C-0A3F4DB4AE3B.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_XY3K.jpg)\n\n修改配置文件，添加go module和goproxy的配置：\n\n![90CFF1CD-BC2B-45a1-95A0-57F0975CB9C5.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_SPdp.jpg)\n\n在Go语言环境配置好之后，因为验证时没有在root用户下操作，所以配置的GOPATH为\u002Fhome\u002Fxxx\u002Fgo，如果是在root用户下操作，安装Go环境之后，默认的GOPATH是\u002Froot\u002Fgo，cd到GOPATH目录下，如果没有src目录则在这个目录下创建一个src文件夹，然后将prometheus-es-adapter 克隆\u002F下载到\u002Fsrc下，也就是\u002Fhome\u002Fxxx\u002Fgo\u002Fsrc\u002F，或者\u002Froot\u002Fgo\u002Fsrc下，cd到prometheus-es-adapter下，修改\u002Fcmd\u002Fadapter\u002Fmain.go文件，默认配置的es信息如下图所示：\n\n![E8837991-5BF0-4d85-8686-06641430B370.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_nIS0.jpg)\n\n然后执行make build命令进行编译，编译完成之后，在当前目录下会生成一个prometheus-es-adapter的可执行文件，这个文件在当前目录下的\u002Frelease\u002Flinux\u002Famd64\u002F文件夹，启动这个可执行文件。\n\n如果是docker启动服务则需要修改docker-compose.yml文件，配置elasticsearch路径、版本等信息，示例如下所示，其中蓝色框中的是自己注释掉的，这个暂且不需要，红色框的是要修改的：\n\n![EE5B7B55-B9AD-40d6-99CF-E4459165F237.png](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_d8NQ.jpg)\n\n远程读\u002F写的配置很简单，在prometheus.yml中添加remote_write的配置项即可，这里演示配置远程写到Elasticsearch，示例如下：\n\n```yaml\n#远程写\nremote_write:\n  - url: http:\u002F\u002F192.168.xx.xx:8000\u002Fwrite\n#远程读\nremote_read:\n  - url: http:\u002F\u002F192.168.xx.xx:8000\u002Fread\n```\n\n配置完成后，使用kill -HUP pid 就可以热启动，然后访问：http:\u002F\u002F192.168.xx.xx:8000\u002Fread\n\n## Prometheus监控配置：\n\n### Node_exporter服务器监控：\n\n在Prometheus的架构设计中，Prometheus Server并不直接服务监控特定的目标，其主要任务负责数据的收集，存储并且对外提供数据查询支持。因此为了能够能够监控到某些东西，如主机的CPU使用率，我们需要使用到Exporter。Prometheus周期性的从Exporter暴露的HTTP服务地址（通常是\u002Fmetrics）拉取监控样本数据。\n\n为了能够采集到主机的运行指标如CPU, 内存，磁盘等信息。我们可以使用Node Exporter。Node Exporter同样采用Golang编写，并且不存在任何的第三方依赖，只需要下载，解压即可运行。\n\n1.  下载node_exporter可以从[https:\u002F\u002Fprometheus.io\u002Fdownload\u002F](https:\u002F\u002Fprometheus.io\u002Fdownload\u002F) 获取最新的node exporter版本的二进制包。在prometheus官网提供很多exporter，下载下图红框中的文件，放到要安装的目录下，例如：\u002Fusr\u002Flocal\u002Fsrc目录下；\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_632w.jpg)\n\n2.  解压缩文件，使用tar -zxvf node_exporter-0.18.1.linux-amd64.tar.gz命令，解压文件，包含一个可执行文件，下图红色框中的文件：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_Bw5n.jpg)\n\n3.  进入到node\\_exporter根目录，输入命令：.\u002Fnode\\_exporter，启动服务，可以看到下图所示信息即表示启动成功。\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_zVbO.jpg)\n\n    另外可以后台启动服务使用命令：nohup .\u002Fnode\\_exporter \u003E node\\_exporter.log 2\u003E&1 &，启动成功后，访问[http:\u002F\u002F192.168.xx.xx:9100](http:\u002F\u002F192.168.xx.xx:9100)可以看到:\n\n    ![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_Kulf.jpg)\n\n    点击mertrics可以看到服务监控信息：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_jdtG.jpg)\n\n#### Node_exporter配置到Prometheus:\n\nnode\\_exporter的端口是9100，打开prometheus的配置文件prometheus.yml，在scrape\\_configs下面添加如下内容，注意这个要跟默认的job_name: 'prometheus’同级配置；\n\n```yaml\n# A scrape configuration containing exactly one endpoint to scrape:\nscrape_configs:\n\t#node_exporter\n  - job_name: 'node_exporter'\n    static_configs:\n      - targets: ['localhost:9100']\n```\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_fanR.jpg)\n\n配置好之后，需要重启prometheus服务，重启完成，再次访问[http:\u002F\u002F192.168.xx.xx:9090](http:\u002F\u002F192.168.xx.xx:9090)\n\n点击菜单栏status下的targets可以看到，node\\_exporter已经出现，并显示状态为UP；因为只部署了一个node\\_exporter所以看到的是node_exporter（1\u002F1 up）;\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_6Jo7.jpg)\n\n点击Endpoint下的url（因为所有的服务都在同一机器上，所以这里配置的是localhost）可以看到服务器的监控信息，也就是点击[http:\u002F\u002F192.168.xx.xx:9100](http:\u002F\u002F192.168.xx.xx:9100) 下的metrics同样的页面和内容。\n\n### Mysqld_exporter数据库监控：\n\nMysqld\\_exporter和Node\\_exporter类似，也是官网提供的监控插件，在官网可以下载到。\n\n1.  通过浏览器访问prometheus官网[https:\u002F\u002Fprometheus.io\u002Fdownload\u002F](https:\u002F\u002Fprometheus.io\u002Fdownload\u002F) 获取最新的mysqld_exporter版本的二进制包。下载下图红框中的文件，放到要安装的目录下，例如：\u002Fusr\u002Flocal\u002Fsrc目录下；\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_kVFY.jpg)\n\n2.  解压缩文件，使用tar -zxvf mysqld\\_exporter-0.12.0.linux-amd64.tar.gz命令，解压文件，包含一个可执行文件，下图红色框中的文件（其中mysqld\\_exporter.log是后台启动指定创建的日志文件，本身不包含此文件）：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_Sfar.jpg)\n\n3.  启动可执行文件，使用命令：.\u002Fmysqld_exporter 看到下图所示信息：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_YERr.jpg)\n\n注意红色框中的信息提示当前用户目录root下没有.my.cnf文件，mysqld_exporter监控数据库信息，需要数据库相关的配置，包括url、端口号、用户名和密码，如果这个配置需要配置在当前用户目录下的.my.cnf文件中；\n\n命令cd到用户目录下，当前用户是root 就cd \u002Fhome\u002Froot，然后使用命令：vi .my.cnf这个如果有会打开，如果没有这个文件，保存时会创建。使用ls -la 命令可查看.my.cnf文件是否存在，打开此文件，配置数据库相关信息：\n```sql\n[client]host=192.168.xx.xx\nport=3306\nuser=root\npassword=root\n```\n1.  编辑好之后进行保存，然后重新启动mysqld_exporter服务：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_jCqQ.jpg)\n\n此时可以看到错误信息中出现了数据库相关信息，但是拒绝连接，这个是因为数据库没有启动，去后台启动数据库服务后即可，正常连接后如下图所示：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_Umwu.jpg)\n\n访问[http:\u002F\u002F192.168.xx.xx:9104](http:\u002F\u002F192.168.xx.xx:9104) 查看相关信息：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_Lw8B.jpg)\n\n#### Mysqld_exporter配置到Prometheus：\n\n配置好mysqld\\_exporter之后，在prometheus的配置文件prometheus.yml中加入mysqld\\_exporter的配置，配置信息如下所示：\n```yaml\n# A scrape configuration containing exactly one endpoint to scrape:\nscrape_configs:\n  #mysqld_exporter\n  - job_name: 'mysqld_exporter'\n    static_configs:\n      - targets: ['localhost:9104']\n```\n\n然后重启prometheus服务，访问[http:\u002F\u002F192.168.xx.xx:9090](http:\u002F\u002F192.168.xx.xx:9090)\n点击菜单栏status下的targets可以看到有关mysqld_exporter的信息，并且状态是UP。\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_025T.jpg)\n\n点击连接，可以看到数据库监控信息，如图所示：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_oQVw.jpg)\n\n### Java服务监控：\n\n1.  在服务中加入maven依赖：\n\n```xml\n\u003C!-- actuator --\u003E\n\u003Cdependency\u003E\n   \u003CgroupId\u003Eorg.springframework.boot\u003C\u002FgroupId\u003E\n   \u003CartifactId\u003Espring-boot-starter-actuator\u003C\u002FartifactId\u003E\n\u003C\u002Fdependency\u003E\n\u003C!-- prometheus--\u003E\n\u003Cdependency\u003E\n   \u003CgroupId\u003Eio.micrometer\u003C\u002FgroupId\u003E\n   \u003CartifactId\u003Emicrometer-registry-prometheus\u003C\u002FartifactId\u003E\n\u003C\u002Fdependency\u003E\n```\n\n1.  在配置文件中配置相关信息：\n\n```yaml\n##=====actuator=====##\nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: health,info,env,metrics,Prometheus\n```\n\n这里include也可以配置成*，表示所有，配置好之后，启动服务，访问[http:\u002F\u002F192.168.xx.xx:8762\u002Factuator](http:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fhealth) 可看到相关监控信息：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_F9OJ.jpg)\n\n#### Java服务配置到Prometheus：\n\n服务启动后打开prometheus配置文件prometheus.yml，在配置文件中加入服务监控的相关配置，这里需要注意，和前面的配置相比，多了一个metrics_path的配置项，这里配置的是\u002Factuator\u002Fpromehteus, 配置信息如下所示：\n\n```yaml\n# A scrape configuration containing exactly one endpoint to scrape:\nscrape_configs:\n  #spring-boot 这里命名为spring-boot\n  - job_name: 'spring-boot'\n    metrics_path: '\u002Factuator\u002Fprometheus'\n    static_configs:\n\t\t- targets: ['192.168.xx.xx:8762']\n```\n\n##### metrics_path说明：\n\nprometheus处理监控信息的格式是固定的如下图所示：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_6qkU.jpg)\n\nprometheus默认的监控接口是\u002Fmetrics，访问[http:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fmetrics](http:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fmetrics) 看到如下信息：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_Luq7.jpg)\n\n上图中的数据格式prometheus是无法处理的，所以不能在prometheus配置中使用默认的接口，访问[http:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fprometheus](http:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fprometheus) \n可以看到：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_QkOI.jpg)\n\n这个是prometheus可以处理的，所以要配置metrics_path为\u002Factuator\u002Fprometheus的接口。配置完成后，访问[http:\u002F\u002F192.168.xx.xx:9090](http:\u002F\u002F192.168.xx.xx:9090) 点击菜单栏status下的targets可以看到有关spring\\_boot的信息，并且状态是UP，如果没有配置metrics\\_path，服务状态则是DOWN。\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_lbHT.jpg)\n\n## Prometheus告警配置:\n\nPrometheus 告警配置参考prometheus.yml配置文档中的描述可以知道，告警规则可以是外部的YAML文件。在Prometheus中一条告警规则主要由以下几部分组成：\n\n-   告警名称：用户需要为告警规则命名，当然对于命名而言，需要能够直接表达出该告警的主要内容；\n-   告警规则：告警规则实际上主要由PromQL进行定义，其实际意义是当表达式（PromQL）查询结果持续多长时间（During）后出发告警；\n\n在Prometheus中，还可以通过Group（告警组）对一组相关的告警进行统一定义。当然这些定义都是通过YAML文件来统一管理的。\n\n### Prometheus告警规则：\n\nPrometheus告警规则是基于PromQL表达式定义的，示例如下：\n```yaml\ngroups:\n- name: node_alert\n  rules:\n\n  # Alert for any instance that is unreachable for \u003E 10 seconds.\n  - alert: Instance Down\n    expr: up == 0\n    for: 10s\n    annotations:\n      summary: \"Instance {\n   { $labels.instance }} down\"\n      description: \"{\n   { $labels.instance }} of job {\n   { $labels.job }} has been down.\"\n```\n\n在告警规则文件中，我们可以将一组相关的规则设置定义在一个group下。在每一个group中我们可以定义多个告警规则(rule)。通过 labels.name 变量可以访问当前告警实例中指定标签的值。$value则可以获取当前PromQL表达式计算的样本值。一条告警规则主要由以下几部分组成：\n\n-   alert：告警规则的名称。\n-   expr：基于PromQL表达式告警触发条件，用于计算是否有时间序列满足该条件。\n-   for：评估等待时间，可选参数。用于表示只有当触发条件持续一段时间后才发送告警。在等待期间新产生告警的状态为pending。\n-   labels：自定义标签，允许用户指定要附加到告警上的一组附加标签。\n-   annotations：用于指定一组附加信息，比如用于描述告警详细信息的文字等，annotations的内容在告警产生时会一同作为参数发送到Alertmanager。\n\n按照PromQl语法配置一个告警规则，定义alert\\_rules.yml文件，将示例中的语句复制到alert\\_rules.yml文件中，保存，然后在prometheus的配置文件中，规则配置项添加alert\\_rules.yml的文件路径配置,完成之后使用命令：.\u002Fpromtool check rules .\u002F alert\\_rules.yml 检查规则是否正确，简称正确，一切完成后重启prometheus，访问[http:\u002F\u002F192.168.xx.xx:9090\u002Frules](http:\u002F\u002F192.168.xx.xx:9090\u002Frules) 可以看到配置的告警信息：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_ui8S.jpg)\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_PHJ4.jpg)\n\n当告警规则触发时，alerts的state会变成PENDING，如果后告警条件持续满足配置的时间，告警状态为FIRING\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_oJFg.jpg)\n\n### Alertmanager配置到Prometheus:\n\nPrometheus可以配置告警规则，并触发告警配置，但是只能在页面看到状态的变化，无法发送告警通知，alertmanager结合prometheus可以做到更多。\n\n1.  通过浏览器访问prometheus官网[https:\u002F\u002Fprometheus.io\u002Fdownload\u002F](https:\u002F\u002Fprometheus.io\u002Fdownload\u002F) 获取最新的alertmanager。下载下图红框中的文件，放到要安装的目录下，例如：\u002Fusr\u002Flocal\u002Fsrc目录下；\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_n8sZ.jpg)\n\n2.  执行解压缩命令，解压下载的alertmanager-0.18.0.linux-amd64.tar.gz文件，里面包含alertmanager的可执行文件alertmanager，和配置文件alertmanager.yml\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_1MMn.jpg)\n\n3.  启动alertmanager服务，默认端口为9093，访问[http:\u002F\u002F192.168.xx.xx:9093](http:\u002F\u002F192.168.xx.xx:9093) 可以看到相关的信息，点击status查看配置信息：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_fSOF.jpg)\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_UBV4.jpg)\n\n1.  打开alertmanager.yml文件，下载邮件通知模板，添加邮件配置信息，内容示例如下所示：\n\n```yaml\nglobal:\n  resolve_timeout: 5m\n  smtp_smarthost: 'smtp.qq.com:587'\n  smtp_from: 'https://www.leafage.top/posts/detail/29029xxx2@qq.com'\n  smtp_auth_username: 'https://www.leafage.top/posts/detail/29029xxx2@qq.com'\n  smtp_auth_password: 'sxxasd' #这里需要得是客户端授权登录密码，非账号登录密码\nroute:\n  group_by: ['alertname']\n  group_wait: 10s\n  group_interval: 10s\n  repeat_interval: 1h\n  receiver: team-X-mails\nreceivers:\n  - name: 'team-X-mails'\n    email_configs:\n    - to: 'https://www.leafage.top/posts/detail/liwenqiang@tseveryday.com'\ninhibit_rules:\n  - source_match:\n      severity: 'critical'\n    target_match:\n      severity: 'warning'\n    equal: ['alertname', 'dev', 'instance']\ntemplates:\n  - 'https://www.leafage.top/posts/detail/default.tmpl'\n```\n\n模板下载：\n\n```bash\nwget https:\u002F\u002Fraw.githubusercontent.com\u002Fprometheus\u002Falertmanager\u002Fmaster\u002Ftemplate\u002Fdefault.tmpl\n```\n\n1.  配置完成后重启服务，刷新[http:\u002F\u002F192.168.xx.xx:9093\u002Fstatus](http:\u002F\u002F192.168.xx.xx:9093\u002Fstatus) 可以看到配置信息已经更新：\n![](https:\u002F\u002Fimgconvert.csdnimg.cn\u002FaHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjc4NzAtMmYwN2Q0MTItOWVhNi00ODBlLTk4NDYtMDExMmQ5YTJhZTJmLnBuZw#align=left&display=inline&height=1063&originHeight=926&originWidth=724&status=done&width=831)\n\n当告警规则触发后，alertmanager会收到来自prometheus的告警信息，并且会发送告警通知（这里配置的是邮件通知，所以会）：\n![](https:\u002F\u002Fimgconvert.csdnimg.cn\u002FaHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjc5MjEtYjY5M2VlMmYtZDVjZC00MDZiLWFkMzAtNDE2YWI0ZWVmNDc3LnBuZw#align=left&display=inline&height=407&originHeight=590&originWidth=1204&status=done&width=831)\n\n## Grafana安装：\n\n虽然prometheus可以进行一些数据的查看，但是没有只能看到一堆的数据，分析起来复杂，且不直观，grafana是一个可视化工具，可以根据需要安装各种功能分析和展示插件来直观的展示数据信息；\n\n1.  安装grafana的方式很多，参考：[https:\u002F\u002Fgrafana.com\u002Fdocs\u002Finstallation\u002Frpm\u002F](https:\u002F\u002Fgrafana.com\u002Fdocs\u002Finstallation\u002Frpm\u002F) 为了方便直接使用 yum 安装:\n\n```shell\nsudo yum install [https:\u002F\u002Fdl.grafana.com\u002Foss\u002Frelease\u002Fgrafana-5.4.2-1.x86_64.rpm](https:\u002F\u002Fdl.grafana.com\u002Foss\u002Frelease\u002Fgrafana-5.4.2-1.x86_64.rpm)\n````\n\n2.  安装完成后执行：sudo service grafana-server start启动grafana服务，也可以通过systemctl start grafana-server启动（在使用此命令之前先执行一次systemctl daemon-reload），启动之后查看状态：systemctl status grafana-server；\n3.  Grafana默认端口号为3000，启动后访问[http:\u002F\u002F192.168.xx.xx:3000](http:\u002F\u002F192.168.xx.xx:3000) ，可看到下图画面，默认的账号密码是admin\u002Fadmin；\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_H3WT.jpg)\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_LgNt.jpg)\n\n## Grafana 配置数据源：\n\n1.  进入首页，点击add data source选项，进入数据源配置页面：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_ICTc.jpg)\n\n2.  选择prometheus作为数据源配置，点击prometheus后进入数据源配置页面，如下图所示：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_EiIA.jpg)\n\n3.  在红色框中配置相关的信息，这里grafana和prometheus在同一台机器上，所以这里配置[http:\u002F\u002Flocalhost:9090](http:\u002F\u002Flocalhost:9090) ，填写完成后，点击save and test，然后点击绿色框中的dashbords选项，选择prometheus 2.0 stats点击后面的import。\n\n ![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_iZmQ.jpg)\n\n4.  Import之后，在首页中，选择配置的prometheus 2.0 stats，就可以看到数据展示。\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_W1Ru.jpg)\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_MmNV.jpg)\n\n## Grafana dashboards添加：\n\n点击左侧栏中的+图标下的import，在页面中输入grafana labs的dashboards下的插件id（node\\_exporter：1860， mysqld\\_exporter: 6239， jvm: 4701\u002F9568），会自动跳转至配置页，选择数据源为prometheus，然后点击import。\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_t3AE.jpg)\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_Qfwi.jpg)\n\n操作完成，服务运行一段时间之后可以看到相关的数据统计：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102110_QGoA.jpg)\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102110_LSow.jpg)\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102110_hxGX.jpg)\n\n注意红色框中，容器名称时没有的，这里需要说明得是，使用4701这个dashboards时，需要在spring boot配置文件中增加一些配置，两种配置二选一即可：\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102110_bcue.jpg)",catalog:c},previous:{code:"21286KZA",modifyTime:"2021-04-06T17:48:35.448",title:"Leafage 网站的前生今世",subtitle:"Leafage 是【叶子】的意思，取名Leafage意为像一片叶子一样经历春、夏、秋、冬，完成一个循环",cover:"https:\u002F\u002Fcdn.leafage.top\u002Ftea-time-3240766_640.jpg",tags:[u,"网站","博客","top","总结"],category:c,likes:h,comment:a,viewed:353},next:{code:"2133Y9Q4",modifyTime:"2021-03-02T18:08:41.729",title:"Leafage 诞生记（一、创建基于nuxt.js的项目）",subtitle:"这一篇开始，来记录 Leafage 的诞生记录。 首先需要知道一些主要的目标是什么： 个人分享网站； 容易被检索到； 开发容易，",cover:"https:\u002F\u002Fcdn.leafage.top\u002Fseed-3944361_640.jpg",tags:[u,"nuxt-1.js"/*tpa=https://www.leafage.top/posts/detail/nuxt.js*/,"创建","yarn","npm"],category:c,likes:a,comment:a,viewed:234},topDatas:[{code:v,modifyTime:w,title:x,subtitle:y,cover:z,tags:[A,B,C,D,E,F],category:b,likes:G,comment:a,viewed:H},{code:I,modifyTime:J,title:K,subtitle:L,cover:M,tags:[i,j,k,d,N],category:b,likes:O,comment:a,viewed:P},{code:Q,modifyTime:R,title:S,subtitle:T,cover:U,tags:[d,V,W,X,Y],category:b,likes:Z,comment:a,viewed:_}],rendered:"\u003Ch1\u003Eprometheus服务监控\u003C\u002Fh1\u003E\n\u003Cp\u003E注：文档仅记录在linux下进行的一系列操作；\u003Cbr \u002F\u003E\n安装前准备：\u003C\u002Fp\u003E\n\u003Col\u003E\n\u003Cli\u003E安装wget，用于下载文件，命令：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003Eyum install wget -y\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Col start=\"2\"\u003E\n\u003Cli\u003E安装lrzsz，用于上传文件资料，命令：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003Eyum install lrzsz -y\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Col start=\"3\"\u003E\n\u003Cli\u003E如果要跨机器访问需要开启端口号，在root用户下使用命令（0000表示要开启的端口号）：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003Efirewall-cmd --zone=public --add-port=0000\u002Ftcp --permanent\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E重启防火墙：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003Efirewall-cmd --reload\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Ch2\u003EPrometheus介绍：\u003C\u002Fh2\u003E\n\u003Cp\u003EPrometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Google的Brog系统演变而来），从2012年开始由前Google工程师在Soundcloud以开源软件的形式进行研发，并且于2015年早期对外发布早期版本。2016年5月继Kubernetes之后成为第二个正式加入CNCF基金会的项目，同年6月正式发布1.0版本。2017年底发布了基于全新存储层的2.0版本，能更好地与容器平台、云平台配合。\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102102_nlEP.jpg\" alt=\"12212.png.gif\"/*tpa=https://www.leafage.top/posts/detail/12212.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003EPrometheus核心部分只有一个单独的二进制文件，不存在任何的第三方依赖(数据库，缓存等等)。唯一需要的就是本地磁盘，因此不会有潜在级联故障的风险。\u003C\u002Fp\u003E\n\u003Cp\u003EPrometheus基于Pull模型的架构方式，可以在任何地方（本地电脑，开发环境，测试环境）搭建我们的监控系统。对于一些复杂的情况，还可以使用Prometheus服务发现(Service Discovery)的能力动态管理监控目标。\u003Cbr \u002F\u003E\n所有采集的监控数据均以指标(metric)的形式保存在内置的时间序列数据库当中(TSDB)。所有的样本除了基本的指标名称以外，还包含一组用于描述该样本特征的标签。\u003C\u002Fp\u003E\n\u003Cp\u003E每一条时间序列由指标名称(Metrics Name)以及一组标签(Labels)唯一标识。每条时间序列按照时间的先后顺序存储一系列的样本值。\u003Cbr \u002F\u003E\n表示维度的标签可能来源于你的监控对象的状态，比如code=404或者content_path=\u002Fapi\u002Fpath。也可能来源于的你的环境定义，比如environment=produment。基于这些Labels我们可以方便地对监控数据进行聚合，过滤，裁剪。\u003C\u002Fp\u003E\n\u003Cp\u003EPrometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL也被应用于数据可视化(如Grafana)以及告警当中。\u003C\u002Fp\u003E\n\u003Cp\u003E通过PromQL可以轻松回答类似于以下问题：\u003C\u002Fp\u003E\n\u003Cul\u003E\n\u003Cli\u003E在过去一段时间中95%应用延迟时间的分布范围\u003C\u002Fli\u003E\n\u003Cli\u003E预测在4小时后，磁盘空间占用大致会是什么情况\u003C\u002Fli\u003E\n\u003Cli\u003ECPU占用率前5位的服务有哪些(过滤)\u003C\u002Fli\u003E\n\u003C\u002Ful\u003E\n\u003Cp\u003E对于监控系统而言，大量的监控任务必然导致有大量的数据产生。而Prometheus可以高效地处理这些数据，对于单一Prometheus Server实例而言它可以处理：\u003C\u002Fp\u003E\n\u003Cul\u003E\n\u003Cli\u003E数以百万的监控指标\u003C\u002Fli\u003E\n\u003Cli\u003E每秒处理数十万的数据点\u003C\u002Fli\u003E\n\u003C\u002Ful\u003E\n\u003Ch3\u003EPrometheus生态结构：\u003C\u002Fh3\u003E\n\u003Cp\u003EPrometheus 生态结构图如下所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102102_Ux0h.jpg\" alt=\"architecture.png.gif\"/*tpa=https://www.leafage.top/posts/detail/architecture.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003Eprometheus 获取服务数据的方式有两种：pull和push两种模式，默认支持pull模式，配置简单，操作容易，配合一系列的Exporter可以很容易获取metircs接口数据，push模式需要pushgateway的支持，且需要自己实现一些操作，包括数据添加、更新、删除操作的数据到prometheus的pushgateway中，官方对push模式这样说的：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102102_ChHg.jpg\" alt=\"11.png.gif\"/*tpa=https://www.leafage.top/posts/detail/11.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102102_fBC2.jpg\" alt=\"222.png.gif\"/*tpa=https://www.leafage.top/posts/detail/222.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E使用Pushgateway有几个陷阱：\u003C\u002Fp\u003E\n\u003Cul\u003E\n\u003Cli\u003E通过单个Pushgateway监控多个实例时，Pushgateway成为单点故障和潜在瓶颈。\u003C\u002Fli\u003E\n\u003Cli\u003E您通过up 指标（每次刮除时生成）丢失了Prometheus的自动实例运行状况监控。\u003C\u002Fli\u003E\n\u003Cli\u003EPushgateway永远不会忘记推送到它的系列，并将永远暴露给Prometheus，除非这些系列是通过Pushgateway的API手动删除的。\u003C\u002Fli\u003E\n\u003C\u002Ful\u003E\n\u003Ch3\u003EPrometheus对比Zabbix：\u003C\u002Fh3\u003E\n\u003Ctable\u003E\n\u003Cthead\u003E\n\u003Ctr\u003E\n\u003Cth\u003EZabbix\u003C\u002Fth\u003E\n\u003Cth\u003EPrometheus\u003C\u002Fth\u003E\n\u003C\u002Ftr\u003E\n\u003C\u002Fthead\u003E\n\u003Ctbody\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E后端用C开发，界面用PHP开发，定制化难度很高。\u003C\u002Ftd\u003E\n\u003Ctd\u003E后端用golang开发，前端是Grafana，JSON编辑即可解决定制化难度较低\u003C\u002Ftd\u003E\n\u003C\u002Ftr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E集群规模上限为 10000 个节点\u003C\u002Ftd\u003E\n\u003Ctd\u003E支持更大的集群规模，速度也更快\u003C\u002Ftd\u003E\n\u003C\u002Ftr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E更适合监控物理机环境\u003C\u002Ftd\u003E\n\u003Ctd\u003E更适合云环境的监控，对OpenStack，Kubernetes有更好的集成\u003C\u002Ftd\u003E\n\u003C\u002Ftr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E监控数据存储在关系型数据库内，如 MySQL，很难从现有数据中扩展维度\u003C\u002Ftd\u003E\n\u003Ctd\u003E监控数据存储在基于时间序列的数据库内，便于对已有数据进行新的聚合\u003C\u002Ftd\u003E\n\u003C\u002Ftr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E安装简单，zabbix-server 一个软件包中包括了所有的服务端功能\u003C\u002Ftd\u003E\n\u003Ctd\u003E安装相对复杂，监控、告警和界面都分属于不同的组件\u003C\u002Ftd\u003E\n\u003C\u002Ftr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E图形化界面比较成熟，界面上基本上能完成全部的配置操作\u003C\u002Ftd\u003E\n\u003Ctd\u003E界面相对较弱，很多配置需要修改配置文件\u003C\u002Ftd\u003E\n\u003C\u002Ftr\u003E\n\u003Ctr\u003E\n\u003Ctd\u003E发展时间更长，对于很多监控场景，都有现成的解决方案\u003C\u002Ftd\u003E\n\u003Ctd\u003E2015 年后开始快速发展，但发展时间较短，成熟度不及Zabbix\u003C\u002Ftd\u003E\n\u003C\u002Ftr\u003E\n\u003C\u002Ftbody\u003E\n\u003C\u002Ftable\u003E\n\u003Ch3\u003EPrometheus工作流程：\u003C\u002Fh3\u003E\n\u003Cp\u003E1、Prometheus Server 定期从配置好的 jobs 或者 exporters 中拉 metrics，或者接收来自 Push Gateway 发过来的 metrics，或者从其他的 Prometheus Server 中拉 metrics。\u003Cbr \u002F\u003E\n2、Prometheus Server 在本地存储收集到的 metrics，并运行已定义好的预警规则，记录新的时间序列或者向 Alertmanager 推送警报。\u003Cbr \u002F\u003E\n3、Alertmanager 根据配置文件，对接收到的警报进行处理，发出告警。\u003Cbr \u002F\u003E\n4、在图形界面（Grafana）中，采集数据，将其可视化。\u003C\u002Fp\u003E\n\u003Cp\u003EPrometheus客户端库主要提供四种主要的 metric 类型：\u003C\u002Fp\u003E\n\u003Cul\u003E\n\u003Cli\u003ECounter(计数器)：\u003Cbr \u002F\u003E\n- 说明：Counter是一个累积度量，它表示一个单调递增的 Metrics，其值只能在重启时递增或重置为零；\u003Cbr \u002F\u003E\n- 场景：可以使用Counter来表示http的请求数、已完成的任务数或错误数、下单数。\u003C\u002Fli\u003E\n\u003Cli\u003EGauge(测量仪)：\u003Cbr \u002F\u003E\n- 说明：当前值的一次快照(snapshot)测量，可增可减。\u003Cbr \u002F\u003E\n- 场景：磁盘使用率，当前同时在线用户数。\u003C\u002Fli\u003E\n\u003Cli\u003EHistogram(直方图)：\u003Cbr \u002F\u003E\n- 说明：通过区间统计样本分布。\u003Cbr \u002F\u003E\n- 场景：请求延迟时间的统计。例如统计 0200ms、200ms400ms、400ms~800ms 区间的请求数有多。\u003C\u002Fli\u003E\n\u003Cli\u003ESummary(汇总)：\u003Cbr \u002F\u003E\n- 说明：根据样本统计出百分位。\u003Cbr \u002F\u003E\n- 场景：请求延迟时间的统计。例如统计 95%的请求延迟 &lt; xxx ms ，99%的请求延迟 &lt; xxx ms。\u003C\u002Fli\u003E\n\u003C\u002Ful\u003E\n\u003Ch2\u003EPrometheus安装：\u003C\u002Fh2\u003E\n\u003Col\u003E\n\u003Cli\u003E下载prometheus文件，在Linux系统中，使用cd命令进入目标目录下，例如：\u002Fusr\u002Flocal\u002Fsrc\u002Fprometheus；下载链接为：\u003Ca href=\"https:\u002F\u002Fprometheus.io\u002Fdownload\u002F\"\u003Ehttps:\u002F\u002Fprometheus.io\u002Fdownload\u002F\u003C\u002Fa\u003E\u003Cbr \u002F\u003E\n如图所示，下载红色框中的文件：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Foscimg.oschina.net\u002Foscnet\u002Fup-1292a13defbb076b2e7f61f833fbd51d932.png\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"2\"\u003E\n\u003Cli\u003E解压下载文件，使用tar -zxvf prometheus-*.tar.gz命令进行解压缩。解压后如下图所示，红色框中的为执行文件：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Foscimg.oschina.net\u002Foscnet\u002Fup-9e6897cae263fbb7808a6a307558eecc66f.png\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"3\"\u003E\n\u003Cli\u003E进入到premotheus根目录下，执行命令：sudo .\u002FPrometheus 启动服务（启动prometheus需要\u002Fprometheus\u002Fdata权限），可以看到下图所示信息即表示启动成功；\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Foscimg.oschina.net\u002Foscnet\u002Fup-9b5df8fabb029d03b455cdb433ab94ff595.png\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E另外后台启动服务使用命令：nohup .\u002Fprometheus &gt; prometheus.log 2&gt;&amp;1 &amp; 启动之后，浏览器输入\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9090\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9090\u003C\u002Fa\u003E ，如下如所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fimgconvert.csdnimg.cn\u002FaHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjUyNDQtZGEwMWYwYzYtMjQwYi00Njk3LWE4NDYtOGEyOTcxYWEyOGY5LnBuZw#align=left&amp;display=inline&amp;height=281&amp;originHeight=468&amp;originWidth=1240&amp;status=done&amp;width=745\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch3\u003E在阿里云的ESC部署的时候发现的问题及解决办法：\u003C\u002Fh3\u003E\n\u003Col\u003E\n\u003Cli\u003E按照上面的操作进行启动的时候报错，报错信息如下：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cblockquote\u003E\n\u003Cp\u003Elevel=error ts=2019-07-23T02:03:30.555Z caller=main.go:731 err=“opening storage failed: lock DB directory: resource temporarily unavailable”\u003C\u002Fp\u003E\n\u003C\u002Fblockquote\u003E\n\u003Cp\u003E解决办法：删除解压目录下的 lock 文件\u003Cbr \u002F\u003E\n执行：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003Erm -f \\[软件的本地解压目录\\]\u002Fprometheus\u002Fdata\u002Flock\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Col\u003E\n\u003Cli\u003E解决上面的问题后，启动服务发现还有报错，报错信息如下：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cblockquote\u003E\n\u003Cp\u003Elevel=error ts=2019-07-23T02:30:49.107Z caller=main.go:731 err=“error starting web server: listen tcp 0.0.0.0:9090: bind: address already in use”\u003C\u002Fp\u003E\n\u003C\u002Fblockquote\u003E\n\u003Cp\u003E解决办法：查找占用9090端口的应用的PID，然后强制关闭\u003Cbr \u002F\u003E\n执行：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003Esudo netstat -antup\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E查找到占用9090端口的应用的PID\u003Cbr \u002F\u003E\n执行：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-built_in\"\u003Ekill\u003C\u002Fspan\u003E -9 \\[具体的pid\\]\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Ch2\u003EPrometheus配置介绍：\u003C\u002Fh2\u003E\n\u003Cp\u003EPrometheus配置只有一个prometheus.yml文件，其内容如下图所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_Y1bb.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E读配置文件即其中的注释可以知道默认的配置有四个，global全局配置，alerting预警，rule_files规则文件，scrape_configs下载配置；\u003C\u002Fp\u003E\n\u003Cp\u003E在scrage_configs下看到默认配置了prometheus自己的监控配置，job_name是一个配置标识， static_config下有一个targets，这个配置监控服务的地址+端口号，promehteus会通过这个配置的url和默认的路径”\u002Fmetrics”，去对应的服务上pull监控的各种数据到prometheus中进行存储。\u003C\u002Fp\u003E\n\u003Ch2\u003EPrometheus数据存储配置：\u003C\u002Fh2\u003E\n\u003Cp\u003E数据存储：prometheus采用自定义的存储格式将样本数据保存在本地磁盘当中，默认数据存储在prometheus根目录下的\u002Fdata文件夹中，如图所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_1htH.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_QKTN.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E存储说明：Prometheus 按照两个小时为一个时间窗口，将两小时内产生的数据存储在一个块（Block）中。每个块都是一个单独的目录，里面含该时间窗口内的所有样本数据（chunks），元数据文件（meta.json）以及索引文件（index）。其中索引文件会将指标名称和标签索引到样板数据的时间序列中。此期间如果通过 API 删除时间序列，删除记录会保存在单独的逻辑文件 tombstone 当中。\u003C\u002Fp\u003E\n\u003Cp\u003E当前样本数据所在的块会被直接保存在内存中，不会持久化到磁盘中。为了确保 Prometheus 发生崩溃或重启时能够恢复数据，Prometheus 启动时会通过预写日志（write-ahead-log(WAL)）重新记录，从而恢复数据。预写日志文件保存在 wal 目录中，每个文件大小为 128MB。\u003C\u002Fp\u003E\n\u003Cp\u003Ewal 文件包括还没有被压缩的原始数据，所以比常规的块文件大得多。一般情况下，Prometheus 会保留三个 wal 文件，但如果有些高负载服务器需要保存两个小时以上的原始数据，wal 文件的数量就会大于 3 个。\u003C\u002Fp\u003E\n\u003Cp\u003EPrometheus保存块数据的目录结构如下所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_knNW.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003EPrometheus 的本地存储无法持久化数据，无法灵活扩展。为了保持简单性，定义两个标准接口（远程写remote_write，远程读remote_read），让用户可以基于这两个接口对接将数据保存到任意第三方的存储服务中，这种方式在 Promthues 中称为 Remote Storage。\u003C\u002Fp\u003E\n\u003Ch3\u003EPrometheus远程存储配置：\u003C\u002Fh3\u003E\n\u003Cp\u003EPrometheus远程存储的方式有很多种，但是部分只支持写，并不支持读，Elasticsearch就是其中一个，但是我们可以通过中间工具可以实现将数据存储到Elasticsearch和从Elasticsearch中读取数据。在prometheus官网是这样介绍远程读写的：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_05aq.jpg\" alt=\"2A481C6A-77FC-4c73-9935-E714C2148514.png.gif\"/*tpa=https://www.leafage.top/posts/detail/2A481C6A-77FC-4c73-9935-E714C2148514.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003Eprometheus远程读写数据到Elasticsearch，需要一个对应的adapter来实现，Prometheus-es-adapter 就是实现这个功能的。\u003C\u002Fp\u003E\n\u003Ch4\u003EPrometheus远程读写到Elasticsearch：\u003C\u002Fh4\u003E\n\u003Cp\u003EPrometheus-es-adapter在github上可以拉取源码：\u003Ca href=\"https:\u002F\u002Fgithub.com\u002Fpwillie\u002Fprometheus-es-adapter.git\"\u003Ehttps:\u002F\u002Fgithub.com\u002Fpwillie\u002Fprometheus-es-adapter.git\u003C\u002Fa\u003E， 这个adapter是Go语言开发的，所有编译运行需要Go语言环境。Go语言环境搭建这里不再描述，只说明编译和运行的步骤。\u003Cbr \u002F\u003E\n这里特殊说明一点，go的仓库在国外，可能有些依赖下载不下来，需要配置GOPRAXY环境变量，说明如下：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102103_XY3K.jpg\" alt=\"50465B35-A121-4c2b-874C-0A3F4DB4AE3B.png.gif\"/*tpa=https://www.leafage.top/posts/detail/50465B35-A121-4c2b-874C-0A3F4DB4AE3B.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E修改配置文件，添加go module和goproxy的配置：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_SPdp.jpg\" alt=\"90CFF1CD-BC2B-45a1-95A0-57F0975CB9C5.png.gif\"/*tpa=https://www.leafage.top/posts/detail/90CFF1CD-BC2B-45a1-95A0-57F0975CB9C5.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E在Go语言环境配置好之后，因为验证时没有在root用户下操作，所以配置的GOPATH为\u002Fhome\u002Fxxx\u002Fgo，如果是在root用户下操作，安装Go环境之后，默认的GOPATH是\u002Froot\u002Fgo，cd到GOPATH目录下，如果没有src目录则在这个目录下创建一个src文件夹，然后将prometheus-es-adapter 克隆\u002F下载到\u002Fsrc下，也就是\u002Fhome\u002Fxxx\u002Fgo\u002Fsrc\u002F，或者\u002Froot\u002Fgo\u002Fsrc下，cd到prometheus-es-adapter下，修改\u002Fcmd\u002Fadapter\u002Fmain.go文件，默认配置的es信息如下图所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_nIS0.jpg\" alt=\"E8837991-5BF0-4d85-8686-06641430B370.png.gif\"/*tpa=https://www.leafage.top/posts/detail/E8837991-5BF0-4d85-8686-06641430B370.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E然后执行make build命令进行编译，编译完成之后，在当前目录下会生成一个prometheus-es-adapter的可执行文件，这个文件在当前目录下的\u002Frelease\u002Flinux\u002Famd64\u002F文件夹，启动这个可执行文件。\u003C\u002Fp\u003E\n\u003Cp\u003E如果是docker启动服务则需要修改docker-compose.yml文件，配置elasticsearch路径、版本等信息，示例如下所示，其中蓝色框中的是自己注释掉的，这个暂且不需要，红色框的是要修改的：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_d8NQ.jpg\" alt=\"EE5B7B55-B9AD-40d6-99CF-E4459165F237.png.gif\"/*tpa=https://www.leafage.top/posts/detail/EE5B7B55-B9AD-40d6-99CF-E4459165F237.png*/ \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E远程读\u002F写的配置很简单，在prometheus.yml中添加remote_write的配置项即可，这里演示配置远程写到Elasticsearch，示例如下：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-comment\"\u003E#远程写\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Eremote_write:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Eurl:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003Ehttp:\u002F\u002F192.168.xx.xx:8000\u002Fwrite\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-comment\"\u003E#远程读\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Eremote_read:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Eurl:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003Ehttp:\u002F\u002F192.168.xx.xx:8000\u002Fread\u003C\u002Fspan\u003E\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E配置完成后，使用kill -HUP pid 就可以热启动，然后访问：\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:8000\u002Fread\"\u003Ehttp:\u002F\u002F192.168.xx.xx:8000\u002Fread\u003C\u002Fa\u003E\u003C\u002Fp\u003E\n\u003Ch2\u003EPrometheus监控配置：\u003C\u002Fh2\u003E\n\u003Ch3\u003ENode_exporter服务器监控：\u003C\u002Fh3\u003E\n\u003Cp\u003E在Prometheus的架构设计中，Prometheus Server并不直接服务监控特定的目标，其主要任务负责数据的收集，存储并且对外提供数据查询支持。因此为了能够能够监控到某些东西，如主机的CPU使用率，我们需要使用到Exporter。Prometheus周期性的从Exporter暴露的HTTP服务地址（通常是\u002Fmetrics）拉取监控样本数据。\u003C\u002Fp\u003E\n\u003Cp\u003E为了能够采集到主机的运行指标如CPU, 内存，磁盘等信息。我们可以使用Node Exporter。Node Exporter同样采用Golang编写，并且不存在任何的第三方依赖，只需要下载，解压即可运行。\u003C\u002Fp\u003E\n\u003Col\u003E\n\u003Cli\u003E下载node_exporter可以从\u003Ca href=\"https:\u002F\u002Fprometheus.io\u002Fdownload\u002F\"\u003Ehttps:\u002F\u002Fprometheus.io\u002Fdownload\u002F\u003C\u002Fa\u003E 获取最新的node exporter版本的二进制包。在prometheus官网提供很多exporter，下载下图红框中的文件，放到要安装的目录下，例如：\u002Fusr\u002Flocal\u002Fsrc目录下；\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_632w.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"2\"\u003E\n\u003Cli\u003E解压缩文件，使用tar -zxvf node_exporter-0.18.1.linux-amd64.tar.gz命令，解压文件，包含一个可执行文件，下图红色框中的文件：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_Bw5n.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"3\"\u003E\n\u003Cli\u003E进入到node_exporter根目录，输入命令：.\u002Fnode_exporter，启动服务，可以看到下图所示信息即表示启动成功。\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_zVbO.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cpre\u003E\u003Ccode\u003E另外可以后台启动服务使用命令：nohup .\u002Fnode\\_exporter &gt; node\\_exporter.log 2&gt;&amp;1 &amp;，启动成功后，访问[http:\u002F\u002F192.168.xx.xx:9100](http:\u002F\u002F192.168.xx.xx:9100)可以看到:\n\n![](https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102104_Kulf.jpg)\n\n点击mertrics可以看到服务监控信息：\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_jdtG.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch4\u003ENode_exporter配置到Prometheus:\u003C\u002Fh4\u003E\n\u003Cp\u003Enode_exporter的端口是9100，打开prometheus的配置文件prometheus.yml，在scrape_configs下面添加如下内容，注意这个要跟默认的job_name: 'prometheus’同级配置；\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-comment\"\u003E# A scrape configuration containing exactly one endpoint to scrape:\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Escrape_configs:\u003C\u002Fspan\u003E\n\t\u003Cspan class=\"hljs-comment\"\u003E#node_exporter\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Ejob_name:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;node_exporter&#x27;\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Estatic_configs:\u003C\u002Fspan\u003E\n      \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Etargets:\u003C\u002Fspan\u003E [\u003Cspan class=\"hljs-string\"\u003E&#x27;localhost:9100&#x27;\u003C\u002Fspan\u003E]\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_fanR.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E配置好之后，需要重启prometheus服务，重启完成，再次访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9090\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9090\u003C\u002Fa\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E点击菜单栏status下的targets可以看到，node_exporter已经出现，并显示状态为UP；因为只部署了一个node_exporter所以看到的是node_exporter（1\u002F1 up）;\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_6Jo7.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E点击Endpoint下的url（因为所有的服务都在同一机器上，所以这里配置的是localhost）可以看到服务器的监控信息，也就是点击\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9100\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9100\u003C\u002Fa\u003E 下的metrics同样的页面和内容。\u003C\u002Fp\u003E\n\u003Ch3\u003EMysqld_exporter数据库监控：\u003C\u002Fh3\u003E\n\u003Cp\u003EMysqld_exporter和Node_exporter类似，也是官网提供的监控插件，在官网可以下载到。\u003C\u002Fp\u003E\n\u003Col\u003E\n\u003Cli\u003E通过浏览器访问prometheus官网\u003Ca href=\"https:\u002F\u002Fprometheus.io\u002Fdownload\u002F\"\u003Ehttps:\u002F\u002Fprometheus.io\u002Fdownload\u002F\u003C\u002Fa\u003E 获取最新的mysqld_exporter版本的二进制包。下载下图红框中的文件，放到要安装的目录下，例如：\u002Fusr\u002Flocal\u002Fsrc目录下；\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_kVFY.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"2\"\u003E\n\u003Cli\u003E解压缩文件，使用tar -zxvf mysqld_exporter-0.12.0.linux-amd64.tar.gz命令，解压文件，包含一个可执行文件，下图红色框中的文件（其中mysqld_exporter.log是后台启动指定创建的日志文件，本身不包含此文件）：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_Sfar.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"3\"\u003E\n\u003Cli\u003E启动可执行文件，使用命令：.\u002Fmysqld_exporter 看到下图所示信息：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_YERr.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E注意红色框中的信息提示当前用户目录root下没有.my.cnf文件，mysqld_exporter监控数据库信息，需要数据库相关的配置，包括url、端口号、用户名和密码，如果这个配置需要配置在当前用户目录下的.my.cnf文件中；\u003C\u002Fp\u003E\n\u003Cp\u003E命令cd到用户目录下，当前用户是root 就cd \u002Fhome\u002Froot，然后使用命令：vi .my.cnf这个如果有会打开，如果没有这个文件，保存时会创建。使用ls -la 命令可查看.my.cnf文件是否存在，打开此文件，配置数据库相关信息：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E[client]host=192.168.xx.xx\nport=3306\nuser=root\npassword=root\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Col\u003E\n\u003Cli\u003E编辑好之后进行保存，然后重新启动mysqld_exporter服务：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102105_jCqQ.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E此时可以看到错误信息中出现了数据库相关信息，但是拒绝连接，这个是因为数据库没有启动，去后台启动数据库服务后即可，正常连接后如下图所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_Umwu.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9104\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9104\u003C\u002Fa\u003E 查看相关信息：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_Lw8B.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch4\u003EMysqld_exporter配置到Prometheus：\u003C\u002Fh4\u003E\n\u003Cp\u003E配置好mysqld_exporter之后，在prometheus的配置文件prometheus.yml中加入mysqld_exporter的配置，配置信息如下所示：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-comment\"\u003E# A scrape configuration containing exactly one endpoint to scrape:\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Escrape_configs:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-comment\"\u003E#mysqld_exporter\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Ejob_name:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;mysqld_exporter&#x27;\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Estatic_configs:\u003C\u002Fspan\u003E\n      \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Etargets:\u003C\u002Fspan\u003E [\u003Cspan class=\"hljs-string\"\u003E&#x27;localhost:9104&#x27;\u003C\u002Fspan\u003E]\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E然后重启prometheus服务，访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9090\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9090\u003C\u002Fa\u003E\u003Cbr \u002F\u003E\n点击菜单栏status下的targets可以看到有关mysqld_exporter的信息，并且状态是UP。\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_025T.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E点击连接，可以看到数据库监控信息，如图所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_oQVw.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch3\u003EJava服务监控：\u003C\u002Fh3\u003E\n\u003Col\u003E\n\u003Cli\u003E在服务中加入maven依赖：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-comment\"\u003E&lt;!-- actuator --&gt;\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-tag\"\u003E&lt;\u003Cspan class=\"hljs-name\"\u003Edependency\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003E\n   \u003Cspan class=\"hljs-tag\"\u003E&lt;\u003Cspan class=\"hljs-name\"\u003EgroupId\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003Eorg.springframework.boot\u003Cspan class=\"hljs-tag\"\u003E&lt;\u002F\u003Cspan class=\"hljs-name\"\u003EgroupId\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003E\n   \u003Cspan class=\"hljs-tag\"\u003E&lt;\u003Cspan class=\"hljs-name\"\u003EartifactId\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003Espring-boot-starter-actuator\u003Cspan class=\"hljs-tag\"\u003E&lt;\u002F\u003Cspan class=\"hljs-name\"\u003EartifactId\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-tag\"\u003E&lt;\u002F\u003Cspan class=\"hljs-name\"\u003Edependency\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-comment\"\u003E&lt;!-- prometheus--&gt;\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-tag\"\u003E&lt;\u003Cspan class=\"hljs-name\"\u003Edependency\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003E\n   \u003Cspan class=\"hljs-tag\"\u003E&lt;\u003Cspan class=\"hljs-name\"\u003EgroupId\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003Eio.micrometer\u003Cspan class=\"hljs-tag\"\u003E&lt;\u002F\u003Cspan class=\"hljs-name\"\u003EgroupId\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003E\n   \u003Cspan class=\"hljs-tag\"\u003E&lt;\u003Cspan class=\"hljs-name\"\u003EartifactId\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003Emicrometer-registry-prometheus\u003Cspan class=\"hljs-tag\"\u003E&lt;\u002F\u003Cspan class=\"hljs-name\"\u003EartifactId\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-tag\"\u003E&lt;\u002F\u003Cspan class=\"hljs-name\"\u003Edependency\u003C\u002Fspan\u003E&gt;\u003C\u002Fspan\u003E\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Col\u003E\n\u003Cli\u003E在配置文件中配置相关信息：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-comment\"\u003E##=====actuator=====##\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Emanagement:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Eendpoints:\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Eweb:\u003C\u002Fspan\u003E\n      \u003Cspan class=\"hljs-attr\"\u003Eexposure:\u003C\u002Fspan\u003E\n        \u003Cspan class=\"hljs-attr\"\u003Einclude:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003Ehealth,info,env,metrics,Prometheus\u003C\u002Fspan\u003E\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E这里include也可以配置成*，表示所有，配置好之后，启动服务，访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fhealth\"\u003Ehttp:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u003C\u002Fa\u003E 可看到相关监控信息：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_F9OJ.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch4\u003EJava服务配置到Prometheus：\u003C\u002Fh4\u003E\n\u003Cp\u003E服务启动后打开prometheus配置文件prometheus.yml，在配置文件中加入服务监控的相关配置，这里需要注意，和前面的配置相比，多了一个metrics_path的配置项，这里配置的是\u002Factuator\u002Fpromehteus, 配置信息如下所示：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-comment\"\u003E# A scrape configuration containing exactly one endpoint to scrape:\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Escrape_configs:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-comment\"\u003E#spring-boot 这里命名为spring-boot\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Ejob_name:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;spring-boot&#x27;\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Emetrics_path:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;\u002Factuator\u002Fprometheus&#x27;\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Estatic_configs:\u003C\u002Fspan\u003E\n\t\t\u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Etargets:\u003C\u002Fspan\u003E [\u003Cspan class=\"hljs-string\"\u003E&#x27;192.168.xx.xx:8762&#x27;\u003C\u002Fspan\u003E]\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Ch5\u003Emetrics_path说明：\u003C\u002Fh5\u003E\n\u003Cp\u003Eprometheus处理监控信息的格式是固定的如下图所示：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_6qkU.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003Eprometheus默认的监控接口是\u002Fmetrics，访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fmetrics\"\u003Ehttp:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fmetrics\u003C\u002Fa\u003E 看到如下信息：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102106_Luq7.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E上图中的数据格式prometheus是无法处理的，所以不能在prometheus配置中使用默认的接口，访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fprometheus\"\u003Ehttp:\u002F\u002F192.168.xx.xx:8762\u002Factuator\u002Fprometheus\u003C\u002Fa\u003E\u003Cbr \u002F\u003E\n可以看到：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_QkOI.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E这个是prometheus可以处理的，所以要配置metrics_path为\u002Factuator\u002Fprometheus的接口。配置完成后，访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9090\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9090\u003C\u002Fa\u003E 点击菜单栏status下的targets可以看到有关spring_boot的信息，并且状态是UP，如果没有配置metrics_path，服务状态则是DOWN。\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_lbHT.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch2\u003EPrometheus告警配置:\u003C\u002Fh2\u003E\n\u003Cp\u003EPrometheus 告警配置参考prometheus.yml配置文档中的描述可以知道，告警规则可以是外部的YAML文件。在Prometheus中一条告警规则主要由以下几部分组成：\u003C\u002Fp\u003E\n\u003Cul\u003E\n\u003Cli\u003E告警名称：用户需要为告警规则命名，当然对于命名而言，需要能够直接表达出该告警的主要内容；\u003C\u002Fli\u003E\n\u003Cli\u003E告警规则：告警规则实际上主要由PromQL进行定义，其实际意义是当表达式（PromQL）查询结果持续多长时间（During）后出发告警；\u003C\u002Fli\u003E\n\u003C\u002Ful\u003E\n\u003Cp\u003E在Prometheus中，还可以通过Group（告警组）对一组相关的告警进行统一定义。当然这些定义都是通过YAML文件来统一管理的。\u003C\u002Fp\u003E\n\u003Ch3\u003EPrometheus告警规则：\u003C\u002Fh3\u003E\n\u003Cp\u003EPrometheus告警规则是基于PromQL表达式定义的，示例如下：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-attr\"\u003Egroups:\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Ename:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003Enode_alert\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Erules:\u003C\u002Fspan\u003E\n\n  \u003Cspan class=\"hljs-comment\"\u003E# Alert for any instance that is unreachable for &gt; 10 seconds.\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Ealert:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003EInstance\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003EDown\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Eexpr:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003Eup\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E==\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-number\"\u003E0\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Efor:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E10s\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Eannotations:\u003C\u002Fspan\u003E\n      \u003Cspan class=\"hljs-attr\"\u003Esummary:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&quot;Instance {\n   { $labels.instance }} down&quot;\u003C\u002Fspan\u003E\n      \u003Cspan class=\"hljs-attr\"\u003Edescription:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&quot;{\n   { $labels.instance }} of job {\n   { $labels.job }} has been down.&quot;\u003C\u002Fspan\u003E\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E在告警规则文件中，我们可以将一组相关的规则设置定义在一个group下。在每一个group中我们可以定义多个告警规则(rule)。通过 \u003Ca href=\"http:\u002F\u002Flabels.name\"\u003Elabels.name\u003C\u002Fa\u003E 变量可以访问当前告警实例中指定标签的值。$value则可以获取当前PromQL表达式计算的样本值。一条告警规则主要由以下几部分组成：\u003C\u002Fp\u003E\n\u003Cul\u003E\n\u003Cli\u003Ealert：告警规则的名称。\u003C\u002Fli\u003E\n\u003Cli\u003Eexpr：基于PromQL表达式告警触发条件，用于计算是否有时间序列满足该条件。\u003C\u002Fli\u003E\n\u003Cli\u003Efor：评估等待时间，可选参数。用于表示只有当触发条件持续一段时间后才发送告警。在等待期间新产生告警的状态为pending。\u003C\u002Fli\u003E\n\u003Cli\u003Elabels：自定义标签，允许用户指定要附加到告警上的一组附加标签。\u003C\u002Fli\u003E\n\u003Cli\u003Eannotations：用于指定一组附加信息，比如用于描述告警详细信息的文字等，annotations的内容在告警产生时会一同作为参数发送到Alertmanager。\u003C\u002Fli\u003E\n\u003C\u002Ful\u003E\n\u003Cp\u003E按照PromQl语法配置一个告警规则，定义alert_rules.yml文件，将示例中的语句复制到alert_rules.yml文件中，保存，然后在prometheus的配置文件中，规则配置项添加alert_rules.yml的文件路径配置,完成之后使用命令：.\u002Fpromtool check rules .\u002F alert_rules.yml 检查规则是否正确，简称正确，一切完成后重启prometheus，访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9090\u002Frules\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9090\u002Frules\u003C\u002Fa\u003E 可以看到配置的告警信息：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_ui8S.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_PHJ4.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E当告警规则触发时，alerts的state会变成PENDING，如果后告警条件持续满足配置的时间，告警状态为FIRING\u003Cbr \u002F\u003E\n\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_oJFg.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch3\u003EAlertmanager配置到Prometheus:\u003C\u002Fh3\u003E\n\u003Cp\u003EPrometheus可以配置告警规则，并触发告警配置，但是只能在页面看到状态的变化，无法发送告警通知，alertmanager结合prometheus可以做到更多。\u003C\u002Fp\u003E\n\u003Col\u003E\n\u003Cli\u003E\n\u003Cp\u003E通过浏览器访问prometheus官网\u003Ca href=\"https:\u002F\u002Fprometheus.io\u002Fdownload\u002F\"\u003Ehttps:\u002F\u002Fprometheus.io\u002Fdownload\u002F\u003C\u002Fa\u003E 获取最新的alertmanager。下载下图红框中的文件，放到要安装的目录下，例如：\u002Fusr\u002Flocal\u002Fsrc目录下；\u003Cbr \u002F\u003E\n\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_n8sZ.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003C\u002Fli\u003E\n\u003Cli\u003E\n\u003Cp\u003E执行解压缩命令，解压下载的alertmanager-0.18.0.linux-amd64.tar.gz文件，里面包含alertmanager的可执行文件alertmanager，和配置文件alertmanager.yml\u003C\u002Fp\u003E\n\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_1MMn.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"3\"\u003E\n\u003Cli\u003E启动alertmanager服务，默认端口为9093，访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9093\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9093\u003C\u002Fa\u003E 可以看到相关的信息，点击status查看配置信息：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102107_fSOF.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_UBV4.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col\u003E\n\u003Cli\u003E打开alertmanager.yml文件，下载邮件通知模板，添加邮件配置信息，内容示例如下所示：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003E\u003Cspan class=\"hljs-attr\"\u003Eglobal:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Eresolve_timeout:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E5m\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Esmtp_smarthost:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;smtp.qq.com:587&#x27;\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Esmtp_from:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;29029xxx2@qq.com&#x27;\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Esmtp_auth_username:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;29029xxx2@qq.com&#x27;\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Esmtp_auth_password:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;sxxasd&#x27;\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-comment\"\u003E#这里需要得是客户端授权登录密码，非账号登录密码\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Eroute:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Egroup_by:\u003C\u002Fspan\u003E [\u003Cspan class=\"hljs-string\"\u003E&#x27;alertname&#x27;\u003C\u002Fspan\u003E]\n  \u003Cspan class=\"hljs-attr\"\u003Egroup_wait:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E10s\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Egroup_interval:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E10s\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Erepeat_interval:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E1h\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-attr\"\u003Ereceiver:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003Eteam-X-mails\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Ereceivers:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Ename:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;team-X-mails&#x27;\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Eemail_configs:\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Eto:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;liwenqiang@tseveryday.com&#x27;\u003C\u002Fspan\u003E\n\u003Cspan class=\"hljs-attr\"\u003Einhibit_rules:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-attr\"\u003Esource_match:\u003C\u002Fspan\u003E\n      \u003Cspan class=\"hljs-attr\"\u003Eseverity:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;critical&#x27;\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Etarget_match:\u003C\u002Fspan\u003E\n      \u003Cspan class=\"hljs-attr\"\u003Eseverity:\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;warning&#x27;\u003C\u002Fspan\u003E\n    \u003Cspan class=\"hljs-attr\"\u003Eequal:\u003C\u002Fspan\u003E [\u003Cspan class=\"hljs-string\"\u003E&#x27;alertname&#x27;\u003C\u002Fspan\u003E, \u003Cspan class=\"hljs-string\"\u003E&#x27;dev&#x27;\u003C\u002Fspan\u003E, \u003Cspan class=\"hljs-string\"\u003E&#x27;instance&#x27;\u003C\u002Fspan\u003E]\n\u003Cspan class=\"hljs-attr\"\u003Etemplates:\u003C\u002Fspan\u003E\n  \u003Cspan class=\"hljs-bullet\"\u003E-\u003C\u002Fspan\u003E \u003Cspan class=\"hljs-string\"\u003E&#x27;default.tmpl&#x27;\u003C\u002Fspan\u003E\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Cp\u003E模板下载：\u003C\u002Fp\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003Ewget https:\u002F\u002Fraw.githubusercontent.com\u002Fprometheus\u002Falertmanager\u002Fmaster\u002Ftemplate\u002Fdefault.tmpl\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Col\u003E\n\u003Cli\u003E配置完成后重启服务，刷新\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:9093\u002Fstatus\"\u003Ehttp:\u002F\u002F192.168.xx.xx:9093\u002Fstatus\u003C\u002Fa\u003E 可以看到配置信息已经更新：\u003Cbr \u002F\u003E\n\u003Cimg src=\"https:\u002F\u002Fimgconvert.csdnimg.cn\u002FaHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjc4NzAtMmYwN2Q0MTItOWVhNi00ODBlLTk4NDYtMDExMmQ5YTJhZTJmLnBuZw#align=left&amp;display=inline&amp;height=1063&amp;originHeight=926&amp;originWidth=724&amp;status=done&amp;width=831\" alt=\"\" \u002F\u003E\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E当告警规则触发后，alertmanager会收到来自prometheus的告警信息，并且会发送告警通知（这里配置的是邮件通知，所以会）：\u003Cbr \u002F\u003E\n\u003Cimg src=\"https:\u002F\u002Fimgconvert.csdnimg.cn\u002FaHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlLzAvMjAxOS9wbmcvMTgyNTQwLzE1NjMyNDgwNjc5MjEtYjY5M2VlMmYtZDVjZC00MDZiLWFkMzAtNDE2YWI0ZWVmNDc3LnBuZw#align=left&amp;display=inline&amp;height=407&amp;originHeight=590&amp;originWidth=1204&amp;status=done&amp;width=831\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch2\u003EGrafana安装：\u003C\u002Fh2\u003E\n\u003Cp\u003E虽然prometheus可以进行一些数据的查看，但是没有只能看到一堆的数据，分析起来复杂，且不直观，grafana是一个可视化工具，可以根据需要安装各种功能分析和展示插件来直观的展示数据信息；\u003C\u002Fp\u003E\n\u003Col\u003E\n\u003Cli\u003E安装grafana的方式很多，参考：\u003Ca href=\"https:\u002F\u002Fgrafana.com\u002Fdocs\u002Finstallation\u002Frpm\u002F\"\u003Ehttps:\u002F\u002Fgrafana.com\u002Fdocs\u002Finstallation\u002Frpm\u002F\u003C\u002Fa\u003E 为了方便直接使用 yum 安装:\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cpre class=\"hljs\"\u003E\u003Ccode\u003Esudo yum install [https:\u002F\u002Fdl.grafana.com\u002Foss\u002Frelease\u002Fgrafana-5.4.2-1.x86_64.rpm](https:\u002F\u002Fdl.grafana.com\u002Foss\u002Frelease\u002Fgrafana-5.4.2-1.x86_64.rpm)\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\n\u003Col start=\"2\"\u003E\n\u003Cli\u003E安装完成后执行：sudo service grafana-server start启动grafana服务，也可以通过systemctl start grafana-server启动（在使用此命令之前先执行一次systemctl daemon-reload），启动之后查看状态：systemctl status grafana-server；\u003C\u002Fli\u003E\n\u003Cli\u003EGrafana默认端口号为3000，启动后访问\u003Ca href=\"http:\u002F\u002F192.168.xx.xx:3000\"\u003Ehttp:\u002F\u002F192.168.xx.xx:3000\u003C\u002Fa\u003E ，可看到下图画面，默认的账号密码是admin\u002Fadmin；\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_H3WT.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_LgNt.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch2\u003EGrafana 配置数据源：\u003C\u002Fh2\u003E\n\u003Col\u003E\n\u003Cli\u003E进入首页，点击add data source选项，进入数据源配置页面：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_ICTc.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"2\"\u003E\n\u003Cli\u003E选择prometheus作为数据源配置，点击prometheus后进入数据源配置页面，如下图所示：\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102108_EiIA.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"3\"\u003E\n\u003Cli\u003E在红色框中配置相关的信息，这里grafana和prometheus在同一台机器上，所以这里配置\u003Ca href=\"http:\u002F\u002Flocalhost:9090\"\u003Ehttp:\u002F\u002Flocalhost:9090\u003C\u002Fa\u003E ，填写完成后，点击save and test，然后点击绿色框中的dashbords选项，选择prometheus 2.0 stats点击后面的import。\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_iZmQ.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Col start=\"4\"\u003E\n\u003Cli\u003EImport之后，在首页中，选择配置的prometheus 2.0 stats，就可以看到数据展示。\u003C\u002Fli\u003E\n\u003C\u002Fol\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_W1Ru.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_MmNV.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Ch2\u003EGrafana dashboards添加：\u003C\u002Fh2\u003E\n\u003Cp\u003E点击左侧栏中的+图标下的import，在页面中输入grafana labs的dashboards下的插件id（node_exporter：1860， mysqld_exporter: 6239， jvm: 4701\u002F9568），会自动跳转至配置页，选择数据源为prometheus，然后点击import。\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_t3AE.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102109_Qfwi.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E操作完成，服务运行一段时间之后可以看到相关的数据统计：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102110_QGoA.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102110_LSow.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102110_hxGX.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n\u003Cp\u003E注意红色框中，容器名称时没有的，这里需要说明得是，使用4701这个dashboards时，需要在spring boot配置文件中增加一些配置，两种配置二选一即可：\u003C\u002Fp\u003E\n\u003Cp\u003E\u003Cimg src=\"https:\u002F\u002Fstatic.oschina.net\u002Fuploads\u002Fimg\u002F202101\u002F03102110_bcue.jpg\" alt=\"\" \u002F\u003E\u003C\u002Fp\u003E\n"}],fetch:{"SideBar:0":{datas:[{code:"20829TXGD",modifyTime:"2021-04-28T21:18:44.491",title:"spring security 学习和踩坑总结（表单）",subtitle:"本篇将介绍如何进行自定义的一些配置来实现自定义的登录，包括从数据库查用户信息等",cover:"https:\u002F\u002Fcdn.leafage.top\u002Fsecurity-265130_640.jpg",tags:[i,j,d,k],category:b,likes:a,comment:a,viewed:371},{code:v,modifyTime:w,title:x,subtitle:y,cover:z,tags:[A,B,C,D,E,F],category:b,likes:G,comment:a,viewed:H},{code:I,modifyTime:J,title:K,subtitle:L,cover:M,tags:[i,j,k,d,N],category:b,likes:O,comment:a,viewed:P},{code:Q,modifyTime:R,title:S,subtitle:T,cover:U,tags:[d,V,W,X,Y],category:b,likes:Z,comment:a,viewed:_},{code:e,modifyTime:l,title:f,subtitle:g,cover:m,tags:[o,p,q,r,s],category:b,likes:t,comment:a,viewed:428}],categories:[{code:"20C3ID6W",modifyTime:"2020-12-03T15:06:50",alias:b,count:14,description:c},{code:"20C329QX",modifyTime:"2020-12-03T15:08:01",alias:"Lifestyle",count:h,description:c},{code:"2128O0TW",modifyTime:"2021-02-08T15:14:56.769",alias:"Travel",count:a,description:c},{code:"21317DTNP",modifyTime:"2021-03-17T08:44:31.446",alias:"Experience",count:h,description:c},{code:"21412YAAR",modifyTime:"2021-04-12T12:47:14.065",alias:"Photograph",count:a,description:"摄影"}]}},error:c,state:{code:e,title:f,keywords:n,description:g},serverRendered:true,routePath:"\u002Fposts\u002Fdetail\u002F2129YYQ4",config:{_app:{basePath:"\u002F",assetsPath:"\u002F_nuxt\u002F",cdnURL:c}}}}(0,"Technology",null,"java","2129YYQ4","prometheus和grafana服务监控系统","Prometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL",1,"spring","security","form","2021-04-20T14:46:54.746","https:\u002F\u002Fcdn.leafage.top\u002Fwoman-1919143_640.jpg",Array(5),"prometheus","grafana","监控","运维","微服务",6,"leafage","20815YW6T","2021-04-10T11:45:57.04","Mybatis批量操作sql写法","使用mybatis时，如何自定义实现批量操作数据，SQL如何编写，其中需要注意的点有哪些","https:\u002F\u002Fcdn.leafage.top\u002Fdata-4404730_640.jpg","mybatis","sql","batch","批量","insert","update",10,634,"208291JMJ","2021-04-10T11:32:35.069","spring security 学习和踩坑总结（入门）","spring security 是个很强大的框架，但是网上没有一个完整的对于它的一个分析，或者使用的说明，本文将一步步的对其进行使用和分析做出说明","https:\u002F\u002Fcdn.leafage.top\u002Fsecurity-869216_640.jpg","登录",2,500,"20824ZB0N","2021-02-02T16:28:43.759","一步步带你实现redis分布式锁","在开发过程中，那面遇到一些场景，需要实现锁，现在大都是分布式方案，那么分布式下如何实现锁","https:\u002F\u002Fcdn.leafage.top\u002Fpassword-2781614_640.jpg","redis","分布式","锁","缓存",7,460));</script><script src="2dcea8e.js" tppabs="https://www.leafage.top/_nuxt/2dcea8e.js" defer></script><script src="6c4e3a2.js" tppabs="https://www.leafage.top/_nuxt/6c4e3a2.js" defer></script><script src="1318273.js" tppabs="https://www.leafage.top/_nuxt/1318273.js" defer></script><script src="6a18bf6.js" tppabs="https://www.leafage.top/_nuxt/6a18bf6.js" defer></script><script src="b1b6c93.js" tppabs="https://www.leafage.top/_nuxt/b1b6c93.js" defer></script><script src="5f999ff.js" tppabs="https://www.leafage.top/_nuxt/5f999ff.js" defer></script>
+  </body>
+</html>
