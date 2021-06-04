@@ -1,0 +1,20 @@
+@font-face {
+	font-family: 'SiYuanBold';
+	src: url('5b133e8063dec13ed3ac4f24.gif')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b133e8063dec13ed3ac4f24.gif*/;
+	src: url('5b133e8063dec13ed3ac4f24.gif-#iefix')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b133e8063dec13ed3ac4f24.gif?#iefix*/ format('embedded-opentype'), url('5b133e8063dec13ed3ac4f24.png')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b133e8063dec13ed3ac4f24.png*/ format('woff2'), url('5b133e8063dec13ed3ac4f24.bmp')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b133e8063dec13ed3ac4f24.bmp*/ format('woff'), url('5b133e8063dec13ed3ac4f24.jpg')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b133e8063dec13ed3ac4f24.jpg*/ format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+.youziku-c5a8f46018ec4cdfa827ba6989ffa10e {
+	font-family: 'SiYuanBold' !important
+}
+@font-face {
+	font-family: 'Source-Han-Normal';
+	src: url('5b15f9d063dec11bf6efbe47.gif')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b15f9d063dec11bf6efbe47.gif*/;
+	src: url('5b15f9d063dec11bf6efbe47.gif-#iefix')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b15f9d063dec11bf6efbe47.gif?#iefix*/ format('embedded-opentype'), url('5b15f9d063dec11bf6efbe47.png')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b15f9d063dec11bf6efbe47.png*/ format('woff2'), url('5b15f9d063dec11bf6efbe47.bmp')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b15f9d063dec11bf6efbe47.bmp*/ format('woff'), url('5b15f9d063dec11bf6efbe47.jpg')/*tpa=http://demoall.admin868.com/demo1002/skin/images/5b15f9d063dec11bf6efbe47.jpg*/ format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+.youziku-48c15647d6414b1d865b2ee9b7d53df4 {
+	font-family: 'Source-Han-Normal' !important
+}
