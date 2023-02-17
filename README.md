@@ -1,6 +1,6 @@
 # primeyoung.github.io
-<font color="green">[***中文***](https://www.baidu.com)</font>
+[***中文***](https://www.baidu.com)
 ### 目录
-1. 主要作用
-2. 修改办法
-3. 反馈渠道
+1. [主要作用](#)
+2. [修改办法](#)
+3. [反馈渠道](#)
