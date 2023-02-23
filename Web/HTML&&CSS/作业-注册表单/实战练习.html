@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <h1 id="title">入学申请表</h1>
+    <p id="description">请认真填写以下信息，关系到您是否可以进入笔试环节</p>
+    <form method="post" id="survey-form" action='https://register-demo.freecodecamp.org'>
+        <fieldset>
+            <label id="name-label">请输入你的名字: <input id="name" name="name" type="text" placeholder="张三"
+                    required /></label>
+            <label for="last-name">请输入你的小名: <input id="last-name" name="last-name" type="text" required /></label>
+            <label id="email-label">请输入你的邮箱: <input id="email" name="email" type="email" placeholder="xxx@yy.com"
+                    required /></label>
+            <label for="new-password">创建你的密码: <input id="new-password" name="new-password" type="password"
+                    pattern="[a-z0-5]{8,}" required /></label>
+        </fieldset>
+        <fieldset>
+            <label for="personal-account"><input id="personal-account" type="radio" name="account-type" value="geren"
+                    class="inline" /> 个人报名</label>
+            <label for="business-account"><input id="business-account" type="radio" name="account-type" value="gongsi"
+                    class="inline" /> 公司报名</label>
+            <label for="terms-and-conditions">
+                <input id="checkbox1" type="checkbox" required name="terms" class="inline" value="xieyi" />
+                我同意 <a href="https://www.freecodecamp.org/news/terms-of-service/">协议内容</a>
+                <br>
+                <input id="checkbox2" type="checkbox" required name="conditions" class="inline" value="yinsi" />
+                我同意 <a href="https://www.freecodecamp.org/news/terms-of-service/">隐私使用</a>
+            </label>
+        </fieldset>
+        <fieldset>
+            <label for="profile-picture">上传个人图片: <input id="profile-picture" type="file" name="file" /></label>
+            <label id="number-label">输入你的年龄 : <input id="number" type="number" name="age" min="13" max="120"
+                    placeholder="18" /></label>
+            <label for="referrer">你是从哪里了解到我们学校的?
+                <select id="dropdown" name="dropdown">
+                    <option value="">(选择一项)</option>
+                    <option value="1">学校官网</option>
+                    <option value="2">亲戚朋友</option>
+                    <option value="3">招生宣传</option>
+                    <option value="4">其他</option>
+                </select>
+            </label>
+            <label for="bio">留言:
+                <textarea id="bio" name="bio" rows="3" cols="30" placeholder="I like coding on the beach..."></textarea>
+            </label>
+        </fieldset>
+        <input type="submit" value="Submit" id="submit" />
+    </form>
+</body>
+
+</html>

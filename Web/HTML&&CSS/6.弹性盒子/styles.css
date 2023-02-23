@@ -1,0 +1,86 @@
+/*
+box-sizing 属性允许您以特定的方式定义匹配某个区域的特定元素
+值如下：
+content-box	这是由 CSS2.1 规定的宽度高度行为。宽度和高度分别应用到元素的内容框。在宽度和高度之外绘制元素的内边距和边框。
+border-box	为元素设定的宽度和高度决定了元素的边框盒。就是说，为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度。
+inherit	    规定应从父元素继承
+box-sizing  属性的值。
+
+
+*/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f5f6f7;
+}
+
+/* 
+text-transform 规定大小写
+值如下：
+none	      默认。定义带有小写字母和大写字母的标准的文本。
+capitalize	文本中的每个单词以大写字母开头。
+uppercase	  定义仅有大写字母。
+lowercase	  定义无大写字母，仅有小写字母。
+inherit	    规定应该从父元素继承 text-transform 属性的值。
+*/
+.header {
+  text-align: center;
+  text-transform: uppercase;
+  padding: 32px;
+  background-color: #0a0a23;
+  color: #fff;
+  border-bottom: 4px solid #fdb347;
+}
+
+/*
+display: flex 弹性布局
+
+justify-content  （水平）对齐弹性容器的项目
+
+gap 设置网格行与列之间的间隙
+
+flex-direction 弹性方向
+
+flex-wrap 属性规定弹性项目是否应换行
+
+flex-flow 是flex-direction和flex-wrap的结合
+*/
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 10px;
+}
+
+/*
+object-fit 规定应如何调整 <img> 或 <video> 的大小来适应其容器
+值如下：
+fill	          默认值。调整替换内容的大小来填充元素的内容框。如有必要，对象将被拉伸或挤压。
+contain	        缩放被替换的内容以保持其宽高比，同时适合元素的内容框。
+cover	          调整被替换内容的大小，以在填充元素的整个内容框时保持其长宽比。该对象将被裁剪。
+none	          替换的内容不会调整大小。
+scale-down	    内容的尺寸与 none 或 contain 中的一个相同，取决于它们两个之间谁得到的对象尺寸会更小一些。
+initial	        将此属性设置为其默认值。
+inherit	        从其父元素继承此属性。
+*/
+.gallery img {
+  width: 100%;
+  max-width: 350px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.gallery::after {
+  content: "";
+  width: 350px;
+}
