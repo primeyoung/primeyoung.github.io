@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>杨哥的软件指南</title>
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="./js/hm.js"></script>
+
+
+<style>
+    body{background-color: #222222}
+</style>
+<script src="confetti.js"></script>
+
+<style>
+/*开始导航页样式表*/
+
+
+/*内容居中*/
+    body h1 {
+	text-align:center;
+}
+/*盒子样式*/
+.selector {
+	position:absolute;
+	left:50%;
+	top:50%;
+	width:200px;
+	height:200px;
+	margin-top:-100px;
+	margin-left:-100px;
+}
+/*按钮*/
+    .selector,.selector button {
+	font-family:'Oswald',sans-serif;
+	font-weight:300;
+}
+.selector button {
+	position:relative;
+	width:100%;
+	height:100%;
+	padding:10px;
+	background:#428bca;
+	border-radius:50%;
+	border:0;
+	color:white;
+	font-size:20px;
+	cursor:pointer;
+	box-shadow:0 3px 3px rgba(0,0,0,0.1);
+	transition:all .1s;
+}
+.selector button:hover {
+	background:#3071a9;
+}
+.selector button:focus {
+	outline:none;
+}
+/*按钮结束*/
+        /*菜单*/
+        .selector ul {
+	position:absolute;
+	list-style:none;
+	padding:0;
+	margin:0;
+	top:-20px;
+	right:-20px;
+	bottom:-20px;
+	left:-20px;
+}
+.selector li {
+	position:absolute;
+	width:0;
+	height:100%;
+	margin:0 50%;
+	-webkit-transform:rotate(-360deg);
+	transition:all 0.8s ease-in-out;
+}
+.selector li input {
+	display:none;
+}
+.selector li input + label {
+	position:absolute;
+	left:50%;
+	bottom:100%;
+	width:0;
+	height:0;
+	line-height:1px;
+	margin-left:0;
+	background:#fff;
+	border-radius:50%;
+	text-align:center;
+	font-size:1px;
+	overflow:hidden;
+	cursor:pointer;
+	box-shadow:none;
+	transition:all 0.8s ease-in-out,color 0.1s,background 0.1s;
+}
+.selector li input + label:hover {
+	background:#f0f0f0;
+}
+.selector li input:checked + label {
+	background:#6495ED;
+	color:white;
+}
+.selector li input:checked + label:hover {
+	background:#b0c4de;
+}
+.selector.open li input + label {
+	width:80px;
+	height:80px;
+	line-height:80px;
+	margin-left:-40px;
+	box-shadow:0 3px 3px rgba(0,0,0,0.1);
+	font-size:14px;
+}
+.selector.open li input + label a {
+	text-decoration:none;
+	color:#000;
+}
+/*菜单结束*/
+</style>
+</head>
+<body>
+    <canvas id="canvas" width="1920" height="950"></canvas><style>canvas {display: block;position: relative;zindex: 1;pointer-events: none;position: fixed;top: 0;}</style>
+    <script src="jquery.min.js"></script>
+<h1 style="color:#6495ED">小熊的藏宝库</h1>
+<div class="selector">
+    <ul>
+        <li>
+            <input id="c1" type="checkbox">
+            <label for="c1"><a href="./xt.html" target="_blank" >系统</a></label>
+            
+        </li>
+        <li>
+            <input id="c2" type="checkbox">
+            <label for="c2"><a href="###">文件</a></label>
+        </li>
+        <li>
+            <input id="c3" type="checkbox">
+            <label for="c3"><a href="###">网络</a></label>
+        </li>
+        <li>
+            <input id="c4" type="checkbox">
+            <label for="c4"><a href="###">影音</a></label>
+        </li>
+        <li>
+            <input id="c5" type="checkbox">
+            <label for="c5"><a href="###">图像</a></label>
+        </li>
+        <li>
+            <input id="c6" type="checkbox">
+            <label for="c6"><a href="###">设计</a></label>
+        </li>
+        <li>
+            <input id="c7" type="checkbox">
+            <label for="c7"><a href="###">壁纸</a></label>
+        </li>
+        <li>
+            <input id="c8" type="checkbox">
+            <label for="c8"><a href="###">工具</a></label>
+        </li>
+    </ul>
+    <button onclick="myfun()" id="dd100">关闭宝库</button>
+    <script>
+        function myfun(){
+            
+            console.log(document.getElementById("dd100").innerHTML);
+            if(document.getElementById("dd100").innerHTML==="打开宝库"){
+                document.getElementById("dd100").innerHTML="关闭宝库";
+            }
+            else{
+                document.getElementById("dd100").innerHTML="打开宝库";
+            }
+        }
+    </script>
+</div>
+
+<script>
+var nbOptions = 8;
+var angleStart = -360;
+
+// jquery rotate animation
+function rotate(li, d) {
+    $({
+        d: angleStart
+    }).animate({
+        d: d
+    }, {
+        step: function(now) {
+            $(li)
+                .css({
+                    transform: 'rotate(' + now + 'deg)'
+                })
+                .find('label')
+                .css({
+                    transform: 'rotate(' + (-now) + 'deg)'
+                });
+        },
+        duration: 0
+    });
+}
+
+// show / hide the options
+function toggleOptions(s) {
+    $(s).toggleClass('open');
+    var li = $(s).find('li');
+    var deg = $(s).hasClass('half') ? 180 / (li.length - 1) : 360 / li.length;
+    for (var i = 0; i < li.length; i++) {
+        var d = $(s).hasClass('half') ? (i * deg) - 90 : i * deg;
+        $(s).hasClass('open') ? rotate(li[i], d) : rotate(li[i], angleStart);
+    }
+}
+
+$('.selector button').click(function(e) {
+    toggleOptions($(this).parent());
+});
+
+setTimeout(function() {
+    toggleOptions('.selector');
+}, 100); //@ sourceURL=pen.js
+</script>
+
+</body>
+</html>
